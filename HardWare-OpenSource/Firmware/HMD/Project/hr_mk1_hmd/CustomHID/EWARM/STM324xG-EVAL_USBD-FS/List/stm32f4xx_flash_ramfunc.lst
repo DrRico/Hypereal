@@ -1,0 +1,230 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:35
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash_ramfunc.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash_ramfunc.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_flash_ramfunc.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_flash_ramfunc.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash_ramfunc.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_flash_ramfunc.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   FLASH RAMFUNC module driver.
+      8            *          This file provides a FLASH firmware functions which should be 
+      9            *          executed from internal SRAM
+     10            *            + Stop/Start the flash interface while System Run
+     11            *            + Enable/Disable the flash sleep while System Run
+     12            *  
+     13           @verbatim    
+     14           ==============================================================================
+     15                              ##### APIs executed from Internal RAM #####
+     16            ==============================================================================
+     17            [..]
+     18              *** ARM Compiler ***
+     19              --------------------
+     20              [..] RAM functions are defined using the toolchain options. 
+     21                   Functions that are be executed in RAM should reside in a separate
+     22                   source module. Using the 'Options for File' dialog you can simply change
+     23                   the 'Code / Const' area of a module to a memory space in physical RAM.
+     24                   Available memory areas are declared in the 'Target' tab of the 
+     25                   Options for Target' dialog.
+     26          
+     27              *** ICCARM Compiler ***
+     28              -----------------------
+     29              [..] RAM functions are defined using a specific toolchain keyword "__ramfunc".
+     30          
+     31              *** GNU Compiler ***
+     32              --------------------
+     33              [..] RAM functions are defined using a specific toolchain attribute
+     34                   "__attribute__((section(".RamFunc")))".
+     35            
+     36            @endverbatim
+     37            ******************************************************************************
+     38            * @attention
+     39            *
+     40            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     41            *
+     42            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     43            * You may not use this file except in compliance with the License.
+     44            * You may obtain a copy of the License at:
+     45            *
+     46            *        http://www.st.com/software_license_agreement_liberty_v2
+     47            *
+     48            * Unless required by applicable law or agreed to in writing, software 
+     49            * distributed under the License is distributed on an "AS IS" BASIS, 
+     50            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     51            * See the License for the specific language governing permissions and
+     52            * limitations under the License.
+     53            *
+     54            ******************************************************************************
+     55            */
+     56          
+     57          /* Includes ------------------------------------------------------------------*/
+     58          #include "stm32f4xx_flash_ramfunc.h"
+     59          
+     60          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     61            * @{
+     62            */
+     63          
+     64          /** @defgroup FLASH RAMFUNC 
+     65            * @brief FLASH RAMFUNC driver modules
+     66            * @{
+     67            */ 
+     68          
+     69          /* Private typedef -----------------------------------------------------------*/
+     70          /* Private define ------------------------------------------------------------*/
+     71          /* Private macro -------------------------------------------------------------*/
+     72          /* Private variables ---------------------------------------------------------*/
+     73          /* Private function prototypes -----------------------------------------------*/
+     74          /* Private functions ---------------------------------------------------------*/
+     75          
+     76          /** @defgroup FLASH_RAMFUNC_Private_Functions
+     77            * @{
+     78            */
+     79          
+     80          /** @defgroup FLASH_RAMFUNC_Group1 Peripheral features functions executed from internal RAM 
+     81            *  @brief Peripheral Extended features functions 
+     82            *
+     83          @verbatim   
+     84          
+     85           ===============================================================================
+     86                                ##### ramfunc functions #####
+     87           ===============================================================================
+     88              [..]
+     89              This subsection provides a set of functions that should be executed from RAM 
+     90              transfers.
+     91              
+     92          @endverbatim
+     93            * @{
+     94            */
+     95          
+     96          /**
+     97            * @brief Start/Stop the flash interface while System Run
+     98            * @note  This mode is only available for STM32F411xx devices. 
+     99            * @note  This mode could n't be set while executing with the flash itself. 
+    100            *        It should be done with specific routine executed from RAM.     
+    101            * @param  NewState: new state of the Smart Card mode.
+    102            *          This parameter can be: ENABLE or DISABLE.  
+    103            * @retval None
+    104            */
+    105          __RAM_FUNC FLASH_FlashInterfaceCmd(FunctionalState NewState)
+    106          {
+    107            if (NewState != DISABLE)
+    108            {
+    109              /* Start the flash interface while System Run */
+    110              CLEAR_BIT(PWR->CR, PWR_CR_FISSR);
+    111            }
+    112            else
+    113            {
+    114              /* Stop the flash interface while System Run */  
+    115              SET_BIT(PWR->CR, PWR_CR_FISSR);
+    116            }
+    117          }
+    118          
+    119          /**
+    120            * @brief Enable/Disable the flash sleep while System Run
+    121            * @note  This mode is only available for STM32F411xx devices. 
+    122            * @note  This mode could n't be set while executing with the flash itself. 
+    123            *        It should be done with specific routine executed from RAM.     
+    124            * @param  NewState: new state of the Smart Card mode.
+    125            *          This parameter can be: ENABLE or DISABLE.  
+    126            * @retval None
+    127            */
+    128          __RAM_FUNC FLASH_FlashSleepModeCmd(FunctionalState NewState)
+    129          {
+    130            if (NewState != DISABLE)
+    131            {
+    132              /* Enable the flash sleep while System Run */
+    133              SET_BIT(PWR->CR, PWR_CR_FMSSR);
+    134            }
+    135            else
+    136            {
+    137              /* Disable the flash sleep while System Run */
+    138              CLEAR_BIT(PWR->CR, PWR_CR_FMSSR);
+    139            }
+    140          }
+    141          
+    142          /**
+    143            * @}
+    144            */
+    145          
+    146          /**
+    147            * @}
+    148            */
+    149          
+    150          /**
+    151            * @}
+    152            */
+    153          
+    154          /**
+    155            * @}
+    156            */
+    157          
+    158          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   FLASH_FlashInterfaceCmd
+       0   FLASH_FlashSleepModeCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+      20  FLASH_FlashInterfaceCmd
+      20  FLASH_FlashSleepModeCmd
+
+ 
+ 44 bytes in section .textrw
+ 
+ 44 bytes of CODE memory
+
+Errors: none
+Warnings: none

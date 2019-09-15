@@ -1,0 +1,349 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:37
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_iwdg.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_iwdg.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_iwdg.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Independent watchdog (IWDG) peripheral:           
+      9            *           + Prescaler and Counter configuration
+     10            *           + IWDG activation
+     11            *           + Flag management
+     12            *
+     13              @verbatim    
+     14           ===============================================================================
+     15                                    ##### IWDG features #####
+     16           ===============================================================================
+     17              [..]  
+     18                The IWDG can be started by either software or hardware (configurable
+     19                through option byte).
+     20                        
+     21                The IWDG is clocked by its own dedicated low-speed clock (LSI) and
+     22                thus stays active even if the main clock fails.
+     23                Once the IWDG is started, the LSI is forced ON and cannot be disabled
+     24                (LSI cannot be disabled too), and the counter starts counting down from 
+     25                the reset value of 0xFFF. When it reaches the end of count value (0x000)
+     26                a system reset is generated.
+     27                The IWDG counter should be reloaded at regular intervals to prevent
+     28                an MCU reset.
+     29                                       
+     30                The IWDG is implemented in the VDD voltage domain that is still functional
+     31                in STOP and STANDBY mode (IWDG reset can wake-up from STANDBY).          
+     32                        
+     33                IWDGRST flag in RCC_CSR register can be used to inform when a IWDG
+     34                reset occurs.
+     35                        
+     36                Min-max timeout value @32KHz (LSI): ~125us / ~32.7s
+     37                The IWDG timeout may vary due to LSI frequency dispersion. STM32F4xx
+     38                devices provide the capability to measure the LSI frequency (LSI clock
+     39                connected internally to TIM5 CH4 input capture). The measured value
+     40                can be used to have an IWDG timeout with an acceptable accuracy. 
+     41                For more information, please refer to the STM32F4xx Reference manual
+     42                      
+     43                               ##### How to use this driver #####
+     44           ===============================================================================
+     45              [..]
+     46                (#) Enable write access to IWDG_PR and IWDG_RLR registers using
+     47                    IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable) function
+     48                           
+     49                (#) Configure the IWDG prescaler using IWDG_SetPrescaler() function
+     50                        
+     51                (#) Configure the IWDG counter value using IWDG_SetReload() function.
+     52                    This value will be loaded in the IWDG counter each time the counter
+     53                    is reloaded, then the IWDG will start counting down from this value.
+     54                        
+     55                (#) Start the IWDG using IWDG_Enable() function, when the IWDG is used
+     56                    in software mode (no need to enable the LSI, it will be enabled
+     57                    by hardware)
+     58                         
+     59                (#) Then the application program must reload the IWDG counter at regular
+     60                    intervals during normal operation to prevent an MCU reset, using
+     61                    IWDG_ReloadCounter() function.      
+     62                      
+     63              @endverbatim    
+     64            ******************************************************************************
+     65            * @attention
+     66            *
+     67            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     68            *
+     69            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     70            * You may not use this file except in compliance with the License.
+     71            * You may obtain a copy of the License at:
+     72            *
+     73            *        http://www.st.com/software_license_agreement_liberty_v2
+     74            *
+     75            * Unless required by applicable law or agreed to in writing, software 
+     76            * distributed under the License is distributed on an "AS IS" BASIS, 
+     77            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     78            * See the License for the specific language governing permissions and
+     79            * limitations under the License.
+     80            *
+     81            ******************************************************************************
+     82            */
+     83          
+     84          /* Includes ------------------------------------------------------------------*/
+     85          #include "stm32f4xx_iwdg.h"
+     86          
+     87          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     88            * @{
+     89            */
+     90          
+     91          /** @defgroup IWDG 
+     92            * @brief IWDG driver modules
+     93            * @{
+     94            */ 
+     95          
+     96          /* Private typedef -----------------------------------------------------------*/
+     97          /* Private define ------------------------------------------------------------*/
+     98          
+     99          /* KR register bit mask */
+    100          #define KR_KEY_RELOAD    ((uint16_t)0xAAAA)
+    101          #define KR_KEY_ENABLE    ((uint16_t)0xCCCC)
+    102          
+    103          /* Private macro -------------------------------------------------------------*/
+    104          /* Private variables ---------------------------------------------------------*/
+    105          /* Private function prototypes -----------------------------------------------*/
+    106          /* Private functions ---------------------------------------------------------*/
+    107          
+    108          /** @defgroup IWDG_Private_Functions
+    109            * @{
+    110            */
+    111          
+    112          /** @defgroup IWDG_Group1 Prescaler and Counter configuration functions
+    113           *  @brief   Prescaler and Counter configuration functions
+    114           *
+    115          @verbatim   
+    116           ===============================================================================
+    117                        ##### Prescaler and Counter configuration functions #####
+    118           ===============================================================================  
+    119          
+    120          @endverbatim
+    121            * @{
+    122            */
+    123          
+    124          /**
+    125            * @brief  Enables or disables write access to IWDG_PR and IWDG_RLR registers.
+    126            * @param  IWDG_WriteAccess: new state of write access to IWDG_PR and IWDG_RLR registers.
+    127            *          This parameter can be one of the following values:
+    128            *            @arg IWDG_WriteAccess_Enable: Enable write access to IWDG_PR and IWDG_RLR registers
+    129            *            @arg IWDG_WriteAccess_Disable: Disable write access to IWDG_PR and IWDG_RLR registers
+    130            * @retval None
+    131            */
+    132          void IWDG_WriteAccessCmd(uint16_t IWDG_WriteAccess)
+    133          {
+    134            /* Check the parameters */
+    135            assert_param(IS_IWDG_WRITE_ACCESS(IWDG_WriteAccess));
+    136            IWDG->KR = IWDG_WriteAccess;
+    137          }
+    138          
+    139          /**
+    140            * @brief  Sets IWDG Prescaler value.
+    141            * @param  IWDG_Prescaler: specifies the IWDG Prescaler value.
+    142            *          This parameter can be one of the following values:
+    143            *            @arg IWDG_Prescaler_4: IWDG prescaler set to 4
+    144            *            @arg IWDG_Prescaler_8: IWDG prescaler set to 8
+    145            *            @arg IWDG_Prescaler_16: IWDG prescaler set to 16
+    146            *            @arg IWDG_Prescaler_32: IWDG prescaler set to 32
+    147            *            @arg IWDG_Prescaler_64: IWDG prescaler set to 64
+    148            *            @arg IWDG_Prescaler_128: IWDG prescaler set to 128
+    149            *            @arg IWDG_Prescaler_256: IWDG prescaler set to 256
+    150            * @retval None
+    151            */
+    152          void IWDG_SetPrescaler(uint8_t IWDG_Prescaler)
+    153          {
+    154            /* Check the parameters */
+    155            assert_param(IS_IWDG_PRESCALER(IWDG_Prescaler));
+    156            IWDG->PR = IWDG_Prescaler;
+    157          }
+    158          
+    159          /**
+    160            * @brief  Sets IWDG Reload value.
+    161            * @param  Reload: specifies the IWDG Reload value.
+    162            *          This parameter must be a number between 0 and 0x0FFF.
+    163            * @retval None
+    164            */
+    165          void IWDG_SetReload(uint16_t Reload)
+    166          {
+    167            /* Check the parameters */
+    168            assert_param(IS_IWDG_RELOAD(Reload));
+    169            IWDG->RLR = Reload;
+    170          }
+    171          
+    172          /**
+    173            * @brief  Reloads IWDG counter with value defined in the reload register
+    174            *         (write access to IWDG_PR and IWDG_RLR registers disabled).
+    175            * @param  None
+    176            * @retval None
+    177            */
+    178          void IWDG_ReloadCounter(void)
+    179          {
+    180            IWDG->KR = KR_KEY_RELOAD;
+    181          }
+    182          
+    183          /**
+    184            * @}
+    185            */
+    186          
+    187          /** @defgroup IWDG_Group2 IWDG activation function
+    188           *  @brief   IWDG activation function 
+    189           *
+    190          @verbatim   
+    191           ===============================================================================
+    192                              ##### IWDG activation function #####
+    193           ===============================================================================  
+    194          
+    195          @endverbatim
+    196            * @{
+    197            */
+    198          
+    199          /**
+    200            * @brief  Enables IWDG (write access to IWDG_PR and IWDG_RLR registers disabled).
+    201            * @param  None
+    202            * @retval None
+    203            */
+    204          void IWDG_Enable(void)
+    205          {
+    206            IWDG->KR = KR_KEY_ENABLE;
+    207          }
+    208          
+    209          /**
+    210            * @}
+    211            */
+    212          
+    213          /** @defgroup IWDG_Group3 Flag management function 
+    214           *  @brief  Flag management function  
+    215           *
+    216          @verbatim   
+    217           ===============================================================================
+    218                              ##### Flag management function #####
+    219           ===============================================================================  
+    220          
+    221          @endverbatim
+    222            * @{
+    223            */
+    224          
+    225          /**
+    226            * @brief  Checks whether the specified IWDG flag is set or not.
+    227            * @param  IWDG_FLAG: specifies the flag to check.
+    228            *          This parameter can be one of the following values:
+    229            *            @arg IWDG_FLAG_PVU: Prescaler Value Update on going
+    230            *            @arg IWDG_FLAG_RVU: Reload Value Update on going
+    231            * @retval The new state of IWDG_FLAG (SET or RESET).
+    232            */
+    233          FlagStatus IWDG_GetFlagStatus(uint16_t IWDG_FLAG)
+    234          {
+    235            FlagStatus bitstatus = RESET;
+    236            /* Check the parameters */
+    237            assert_param(IS_IWDG_FLAG(IWDG_FLAG));
+    238            if ((IWDG->SR & IWDG_FLAG) != (uint32_t)RESET)
+    239            {
+    240              bitstatus = SET;
+    241            }
+    242            else
+    243            {
+    244              bitstatus = RESET;
+    245            }
+    246            /* Return the flag status */
+    247            return bitstatus;
+    248          }
+    249          
+    250          /**
+    251            * @}
+    252            */
+    253          
+    254          /**
+    255            * @}
+    256            */
+    257          
+    258          /**
+    259            * @}
+    260            */
+    261          
+    262          /**
+    263            * @}
+    264            */
+    265          
+    266          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   IWDG_Enable
+       0   IWDG_GetFlagStatus
+       0   IWDG_ReloadCounter
+       0   IWDG_SetPrescaler
+       0   IWDG_SetReload
+       0   IWDG_WriteAccessCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_2
+       4  ??DataTable5_3
+      10  IWDG_Enable
+      16  IWDG_GetFlagStatus
+      10  IWDG_ReloadCounter
+       6  IWDG_SetPrescaler
+       6  IWDG_SetReload
+       6  IWDG_WriteAccessCmd
+
+ 
+ 70 bytes in section .text
+ 
+ 70 bytes of CODE memory
+
+Errors: none
+Warnings: none

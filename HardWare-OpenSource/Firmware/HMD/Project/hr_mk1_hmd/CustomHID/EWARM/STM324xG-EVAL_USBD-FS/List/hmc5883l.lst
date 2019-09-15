@@ -1,0 +1,544 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:47:58
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\hmc5883l.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\hmc5883l.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\hmc5883l.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\hmc5883l.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\hmc5883l.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    hmc5883l.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides firmware functions to manage the following 
+     30            *          functionalities of the I2C peripheral:
+     31            *            + I2C Interface configuration
+     32            *            + configure hmc5883l
+     33            *            + measure Magnetic 
+     34            ******************************************************************************
+     35            */ 
+     36          
+     37          /* Includes ------------------------------------------------------------------*/
+     38          #include  "hmc5883l.h"
+     39              
+     40          /* Private variables ---------------------------------------------------------*/
+     41          static uint8_t ptr_reset_flag = 0;
+     42          
+     43          uint32_t HMC5883_Timeout = 0xffffffff;
+     44          uint8_t  HMC5883_RX_BUF[I2Cx_Rx_len];
+     45          uint8_t  HMC5883_TX_BUF[I2Cx_Tx_len];
+     46          uint8_t  hmc5883_buf[I2Cx_Rx_len];
+     47          
+     48          uint8_t hmc5883_busy = 0;
+     49          uint8_t hmc5883_flush_flag = 0;
+     50          
+     51          uint8_t hmc5883_flush_request = 0;
+     52          uint8_t hmc5883_ptr_flush_request = 0;
+     53          
+     54          /* Private function prototypes -----------------------------------------------*/
+     55          
+     56          /**
+     57            * @brief  Configure Delay(us).
+     58            * @param  None
+     59            * @retval None
+     60            */
+     61          void delay_us(unsigned int t)
+     62          {
+     63              unsigned int i;
+     64              
+     65              while(t--)
+     66              {
+     67                for (i=0;i<5;i++)
+     68                  asm("nop");
+     69              }  
+     70          }
+     71          
+     72          /**
+     73            * @brief  Generate Start
+     74            * @param  None
+     75            * @retval None
+     76            */
+     77          uint8_t I2C_Start()
+     78          {
+     79              I2C_GenerateSTART(HMC5883_I2Cx, ENABLE);
+     80              while (!I2C_CheckEvent(HMC5883_I2Cx, I2C_EVENT_MASTER_MODE_SELECT));
+     81              
+     82              return 0;
+     83          }
+     84          
+     85          /**
+     86            * @brief  Generate Stop
+     87            * @param  None
+     88            * @retval None
+     89            */
+     90          void I2C_Stop()
+     91          {
+     92              I2C_GenerateSTOP(HMC5883_I2Cx, ENABLE);              
+     93          }
+     94          
+     95          /**
+     96            * @brief  I2C write a byte
+     97            * @param  None
+     98            * @retval None
+     99            */
+    100          uint8_t Single_WriteI2C(uint8_t REG_Address,uint8_t REG_data)
+    101          {
+    102              HMC5883_TX_BUF[0] = REG_Address;
+    103              HMC5883_TX_BUF[1] = REG_data; 
+    104              
+    105              while (I2C_GetFlagStatus(HMC5883_I2Cx, I2C_FLAG_BUSY));
+    106            
+    107              /* Enable DMA TX Channel */
+    108              DMA_Cmd(I2C_DMA_STREAM_TX, ENABLE);
+    109            
+    110              I2C_Start();     
+    111            
+    112              I2C_Send7bitAddress(HMC5883_I2Cx,SlaveAddress, I2C_Direction_Transmitter); 
+    113              while (!I2C_CheckEvent(HMC5883_I2Cx, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));     
+    114          
+    115              return 0;
+    116          }
+    117          
+    118          /**
+    119            * @brief  set range of mag
+    120            * @param  None
+    121            * @retval None
+    122            */
+    123          uint8_t HMC5883L_Range_Set(void)
+    124          {   
+    125              Single_WriteI2C(0x00,0x14);
+    126              asm("nop");
+    127              Single_WriteI2C(0x01,0x60);  //range 2.5Ga
+    128              asm("nop");
+    129              Single_WriteI2C(0x02,0x01);  
+    130              asm("nop");
+    131              
+    132              return 0;
+    133                  
+    134          }
+    135          
+    136          /**
+    137            * @brief  Configure Delay(us).
+    138            * @param  None
+    139            * @retval None
+    140            */
+    141          uint8_t Multiple_Read_HMC5883L(void)
+    142          {   
+    143              while (I2C_GetFlagStatus(HMC5883_I2Cx, I2C_FLAG_BUSY));    
+    144            
+    145              /* Enable DMA RX Channel */
+    146              DMA_Cmd(I2C_DMA_STREAM_RX, ENABLE); 
+    147              /* Enable I2C ACK */
+    148              I2C_AcknowledgeConfig(HMC5883_I2Cx, ENABLE);
+    149                
+    150              I2C_Start();
+    151              //EV5
+    152              I2C_Send7bitAddress(HMC5883_I2Cx,SlaveAddress+1, I2C_Direction_Receiver);
+    153              while (!I2C_CheckEvent(HMC5883_I2Cx, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+    154              
+    155              return 0;
+    156          }
+    157          
+    158          /**
+    159            * @brief  Set wireless callback flag of hmc5883 receive
+    160            * @param  None
+    161            * @retval None
+    162            */
+    163          void wp_callback_hmc5883()
+    164          {
+    165              hmc5883_flush_request = 1;
+    166          }
+    167          
+    168          /**
+    169            * @brief  Set wireless callback flag of hmc5883 transfer
+    170            * @param  None
+    171            * @retval None
+    172            */
+    173          void wp_callback_hmc5883_ptr_flush()
+    174          {		
+    175              hmc5883_ptr_flush_request = 1;	
+    176          }
+    177          
+    178          /**
+    179            * @brief  The board sends a byte and expects to receive 6 bytes back. 
+    180            * @param  None
+    181            * @retval None
+    182            */
+    183          void hmc5883_poll()
+    184          {
+    185              if (hmc5883_flush_request == 1)
+    186              {
+    187                  if (ptr_reset_flag)
+    188                  {		
+    189                      hmc5883_busy = 1;
+    190                      Multiple_Read_HMC5883L();
+    191                      ptr_reset_flag = 0;			
+    192                      hmc5883_flush_request = 0;
+    193                  }
+    194              }
+    195          
+    196              if (hmc5883_ptr_flush_request == 1)
+    197              {
+    198                      hmc5883_busy = 1;
+    199                      Single_WriteI2C(0x02,0x01);
+    200                      ptr_reset_flag = 1;				
+    201                      hmc5883_ptr_flush_request = 0;
+    202              }
+    203          }
+    204          
+    205          /**
+    206            * @brief  Configure the DMA Peripheral used to handle communication via I2C.
+    207            * @param  None
+    208            * @retval None
+    209            */
+    210          static void HMC5883_DMA_Config(uint8_t Direction, uint8_t* buffer)
+    211          {
+    212              DMA_InitTypeDef     DMA_InitStructure;
+    213              NVIC_InitTypeDef    NVIC_InitStructure;
+    214          
+    215              /* Enable DMA1 clock */
+    216              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+    217          
+    218              /* Initialize the DMA_Channel member */
+    219              DMA_InitStructure.DMA_Channel = I2C_DMA_CHANNEL;
+    220          
+    221              /* Initialize the DMA_PeripheralBaseAddr member */
+    222              DMA_InitStructure.DMA_PeripheralBaseAddr = I2C_DR_Address;
+    223          
+    224              /* Initialize the DMA_Memory0BaseAddr member */
+    225              DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)buffer;
+    226          
+    227              /* Initialize the DMA_PeripheralInc member */
+    228              DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    229          
+    230              /* Initialize the DMA_MemoryInc member */
+    231              DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    232          
+    233              /* Initialize the DMA_PeripheralDataSize member */
+    234              DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+    235          
+    236              /* Initialize the DMA_MemoryDataSize member */
+    237              DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+    238          
+    239              /* Initialize the DMA_Mode member */
+    240              DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+    241          
+    242              /* Initialize the DMA_Priority member */
+    243              DMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
+    244          
+    245              /* Initialize the DMA_FIFOMode member */
+    246              DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    247          
+    248              /* Initialize the DMA_FIFOThreshold member */
+    249              DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    250          
+    251              /* Initialize the DMA_MemoryBurst member */
+    252              DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+    253          
+    254              /* Initialize the DMA_PeripheralBurst member */
+    255              DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+    256          
+    257              /* If using DMA for Reception */
+    258              if (Direction == I2C_DIRECTION_RX)
+    259              {    
+    260                /* Initialize the DMA_DIR member */
+    261                DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+    262                
+    263                /* Initialize the DMA_BufferSize member */
+    264                DMA_InitStructure.DMA_BufferSize = I2Cx_Rx_len;
+    265                
+    266                DMA_DeInit(I2C_DMA_STREAM_RX);
+    267                
+    268                /* Initialize the DMA stream */
+    269                DMA_Init(I2C_DMA_STREAM_RX, &DMA_InitStructure);
+    270                
+    271                 /* Configure and enable I2C DMA TX Stream interrupt */
+    272                NVIC_InitStructure.NVIC_IRQChannel = I2C_DMA_TX_IRQn;
+    273                NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    274                NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    275                NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    276                NVIC_Init(&NVIC_InitStructure);      
+    277                DMA_ITConfig(I2C_DMA_STREAM_RX, DMA_IT_TC, ENABLE); 
+    278              }
+    279              /* If using DMA for Transmission */
+    280              else if (Direction == I2C_DIRECTION_TX)
+    281              { 
+    282                /* Initialize the DMA_DIR member */
+    283                DMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;
+    284                
+    285                /* Initialize the DMA_BufferSize member */
+    286                DMA_InitStructure.DMA_BufferSize = I2Cx_Tx_len;
+    287                
+    288                DMA_DeInit(I2C_DMA_STREAM_TX);
+    289                
+    290                /* Initialize the DMA stream */
+    291                DMA_Init(I2C_DMA_STREAM_TX, &DMA_InitStructure);
+    292                
+    293                /* Configure and enable I2C DMA RX Stream interrupt */
+    294                NVIC_InitStructure.NVIC_IRQChannel = I2C_DMA_RX_IRQn;
+    295                NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    296                NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    297                NVIC_Init(&NVIC_InitStructure);  
+    298                DMA_ITConfig(I2C_DMA_STREAM_TX, DMA_IT_TC, ENABLE);
+    299              }
+    300          }
+    301          
+    302          /**
+    303            * @brief  Configure the I2C2 peripheral for hmc5883 
+    304            * @param  None
+    305            * @retval None
+    306            */
+    307          void HMC5883L_init()
+    308          {
+    309             	I2C_InitTypeDef I2C_InitStructure;
+    310          	GPIO_InitTypeDef GPIO_InitStructure;
+    311          
+    312                  /*!< I2C_SCL_GPIO_CLK and I2C_SDA_GPIO_CLK Periph clock enable */
+    313                  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+    314                  
+    315                  /*!< I2C Periph clock enable */
+    316                  RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
+    317                 
+    318                  /*!< GPIO configuration */
+    319                  /* Connect PXx to I2C_SCL*/
+    320                  GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_I2C2);
+    321                  /* Connect PXx to I2C_SDA*/
+    322                  GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_I2C2);  
+    323          
+    324          	/* Configure IO connected to IIC */
+    325          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+    326          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    327          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    328                  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+    329                  GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+    330          	GPIO_Init(GPIOB, &GPIO_InitStructure);
+    331           
+    332                  /* Configure DMA Peripheral */
+    333                  HMC5883_DMA_Config(I2C_DIRECTION_TX, (uint8_t*)HMC5883_TX_BUF);       
+    334                  HMC5883_DMA_Config(I2C_DIRECTION_RX, (uint8_t*)HMC5883_RX_BUF);        
+    335                  
+    336                  /* Configure the I2C peripheral */
+    337                  I2C_DeInit(HMC5883_I2Cx);
+    338          	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+    339          	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+    340          	I2C_InitStructure.I2C_OwnAddress1 = Ownaddr;
+    341          	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+    342          	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+    343          	I2C_InitStructure.I2C_ClockSpeed = hmc5883l_speed;
+    344          
+    345          	I2C_Cmd(HMC5883_I2Cx, ENABLE);
+    346                  
+    347          	I2C_Init(HMC5883_I2Cx, &I2C_InitStructure);
+    348                  
+    349          	I2C_AcknowledgeConfig(HMC5883_I2Cx, ENABLE);
+    350                  
+    351                  I2C_DMACmd(HMC5883_I2Cx,ENABLE);
+    352                  
+    353                  /* set hmc range */
+    354                  HMC5883L_Range_Set();
+    355                       
+    356          }
+    357          
+    358          /**
+    359            * @brief  Reconfigure the I2C.
+    360            * @param  None
+    361            * @retval None
+    362            */
+    363          uint8_t HMC5883_TimeoutUserCallback(void)
+    364          {
+    365            I2C_InitTypeDef I2C_InitStructure;
+    366            
+    367            /* IOE_I2C peripheral configuration */
+    368            I2C_DeInit(HMC5883_I2Cx);
+    369            
+    370            
+    371            I2C_GenerateSTOP(HMC5883_I2Cx, ENABLE);
+    372            I2C_SoftwareResetCmd(HMC5883_I2Cx, ENABLE);
+    373            I2C_SoftwareResetCmd(HMC5883_I2Cx, DISABLE);
+    374          
+    375            /* Configure the I2C peripheral */
+    376            I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+    377            I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+    378            I2C_InitStructure.I2C_OwnAddress1 = Ownaddr;
+    379            I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+    380            I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+    381            I2C_InitStructure.I2C_ClockSpeed = hmc5883l_speed;
+    382            
+    383            /* Enable the I2C peripheral */
+    384            I2C_Cmd(HMC5883_I2Cx, ENABLE);  
+    385            I2C_Init(HMC5883_I2Cx, &I2C_InitStructure);
+    386            
+    387            return 1;
+    388          }
+    389          
+    390          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   HMC5883L_Range_Set
+         8   -> Single_WriteI2C
+      32   HMC5883L_init
+        32   -> GPIO_Init
+        32   -> GPIO_PinAFConfig
+        32   -> HMC5883L_Range_Set
+        32   -> HMC5883_DMA_Config
+        32   -> I2C_AcknowledgeConfig
+        32   -> I2C_Cmd
+        32   -> I2C_DMACmd
+        32   -> I2C_DeInit
+        32   -> I2C_Init
+        32   -> RCC_AHB1PeriphClockCmd
+        32   -> RCC_APB1PeriphClockCmd
+      80   HMC5883_DMA_Config
+        80   -> DMA_DeInit
+        80   -> DMA_ITConfig
+        80   -> DMA_Init
+        80   -> NVIC_Init
+        80   -> RCC_AHB1PeriphClockCmd
+      24   HMC5883_TimeoutUserCallback
+        24   -> I2C_Cmd
+        24   -> I2C_DeInit
+        24   -> I2C_GenerateSTOP
+        24   -> I2C_Init
+        24   -> I2C_SoftwareResetCmd
+       8   I2C_Start
+         8   -> I2C_CheckEvent
+         8   -> I2C_GenerateSTART
+       0   I2C_Stop
+         0   -> I2C_GenerateSTOP
+       8   Multiple_Read_HMC5883L
+         8   -> DMA_Cmd
+         8   -> I2C_AcknowledgeConfig
+         8   -> I2C_CheckEvent
+         8   -> I2C_GetFlagStatus
+         8   -> I2C_Send7bitAddress
+         8   -> I2C_Start
+       8   Single_WriteI2C
+         8   -> DMA_Cmd
+         8   -> I2C_CheckEvent
+         8   -> I2C_GetFlagStatus
+         8   -> I2C_Send7bitAddress
+         8   -> I2C_Start
+       0   delay_us
+       8   hmc5883_poll
+         8   -> Multiple_Read_HMC5883L
+         8   -> Single_WriteI2C
+       0   wp_callback_hmc5883
+       0   wp_callback_hmc5883_ptr_flush
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable9
+       4  ??DataTable9_1
+       4  ??DataTable9_2
+       4  ??DataTable9_3
+       4  ??DataTable9_4
+       4  ??DataTable9_5
+       4  ??DataTable9_6
+       4  ??DataTable9_7
+       4  ??DataTable9_8
+       4  ??DataTable9_9
+       8  ?Subroutine0
+      10  ?Subroutine1
+      12  ?Subroutine2
+      36  HMC5883L_Range_Set
+     184  HMC5883L_init
+     172  HMC5883_DMA_Config
+      12  HMC5883_TX_BUF
+          HMC5883_RX_BUF
+       4  HMC5883_Timeout
+      94  HMC5883_TimeoutUserCallback
+      28  I2C_Start
+       8  I2C_Stop
+      58  Multiple_Read_HMC5883L
+      56  Single_WriteI2C
+      18  delay_us
+       8  hmc5883_buf
+       1  hmc5883_flush_flag
+      54  hmc5883_poll
+       4  ptr_reset_flag
+          hmc5883_busy
+          hmc5883_flush_request
+          hmc5883_ptr_flush_request
+       8  wp_callback_hmc5883
+       8  wp_callback_hmc5883_ptr_flush
+
+ 
+  25 bytes in section .bss
+   4 bytes in section .data
+ 794 bytes in section .text
+ 
+ 794 bytes of CODE memory
+  29 bytes of DATA memory
+
+Errors: none
+Warnings: none

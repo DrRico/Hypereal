@@ -1,0 +1,400 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_exti.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_exti.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_exti.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_exti.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_exti.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_exti.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the EXTI peripheral:
+      9            *           + Initialization and Configuration
+     10            *           + Interrupts and flags management
+     11            *
+     12          @verbatim  
+     13          
+     14           ===============================================================================
+     15                                        ##### EXTI features #####
+     16           ===============================================================================
+     17          
+     18           [..] External interrupt/event lines are mapped as following:
+     19             (#) All available GPIO pins are connected to the 16 external 
+     20                 interrupt/event lines from EXTI0 to EXTI15.
+     21             (#) EXTI line 16 is connected to the PVD Output
+     22             (#) EXTI line 17 is connected to the RTC Alarm event
+     23             (#) EXTI line 18 is connected to the USB OTG FS Wakeup from suspend event
+     24             (#) EXTI line 19 is connected to the Ethernet Wakeup event
+     25             (#) EXTI line 20 is connected to the USB OTG HS (configured in FS) Wakeup event 
+     26             (#) EXTI line 21 is connected to the RTC Tamper and Time Stamp events
+     27             (#) EXTI line 22 is connected to the RTC Wakeup event
+     28             (#) EXTI line 23 is connected to the LPTIM Wakeup event 
+     29          
+     30                                 ##### How to use this driver #####
+     31           ===============================================================================
+     32           
+     33           [..] In order to use an I/O pin as an external interrupt source, follow steps 
+     34                below:
+     35             (#) Configure the I/O in input mode using GPIO_Init()
+     36             (#) Select the input source pin for the EXTI line using SYSCFG_EXTILineConfig()
+     37             (#) Select the mode(interrupt, event) and configure the trigger 
+     38                 selection (Rising, falling or both) using EXTI_Init()
+     39             (#) Configure NVIC IRQ channel mapped to the EXTI line using NVIC_Init()
+     40          
+     41           [..]     
+     42             (@) SYSCFG APB clock must be enabled to get write access to SYSCFG_EXTICRx
+     43                 registers using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+     44          
+     45          @endverbatim
+     46            *
+     47            ******************************************************************************
+     48            * @attention
+     49            *
+     50            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     51            *
+     52            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     53            * You may not use this file except in compliance with the License.
+     54            * You may obtain a copy of the License at:
+     55            *
+     56            *        http://www.st.com/software_license_agreement_liberty_v2
+     57            *
+     58            * Unless required by applicable law or agreed to in writing, software 
+     59            * distributed under the License is distributed on an "AS IS" BASIS, 
+     60            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     61            * See the License for the specific language governing permissions and
+     62            * limitations under the License.
+     63            *
+     64            ******************************************************************************
+     65            */
+     66          
+     67          /* Includes ------------------------------------------------------------------*/
+     68          #include "stm32f4xx_exti.h"
+     69          
+     70          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     71            * @{
+     72            */
+     73          
+     74          /** @defgroup EXTI 
+     75            * @brief EXTI driver modules
+     76            * @{
+     77            */
+     78          
+     79          /* Private typedef -----------------------------------------------------------*/
+     80          /* Private define ------------------------------------------------------------*/
+     81          
+     82          #define EXTI_LINENONE    ((uint32_t)0x00000)  /* No interrupt selected */
+     83          
+     84          /* Private macro -------------------------------------------------------------*/
+     85          /* Private variables ---------------------------------------------------------*/
+     86          /* Private function prototypes -----------------------------------------------*/
+     87          /* Private functions ---------------------------------------------------------*/
+     88          
+     89          /** @defgroup EXTI_Private_Functions
+     90            * @{
+     91            */
+     92          
+     93          /** @defgroup EXTI_Group1 Initialization and Configuration functions
+     94           *  @brief   Initialization and Configuration functions 
+     95           *
+     96          @verbatim   
+     97           ===============================================================================
+     98                       ##### Initialization and Configuration functions #####
+     99           ===============================================================================
+    100          
+    101          @endverbatim
+    102            * @{
+    103            */
+    104          
+    105          /**
+    106            * @brief  Deinitializes the EXTI peripheral registers to their default reset values.
+    107            * @param  None
+    108            * @retval None
+    109            */
+    110          void EXTI_DeInit(void)
+    111          {
+    112            EXTI->IMR = 0x00000000;
+    113            EXTI->EMR = 0x00000000;
+    114            EXTI->RTSR = 0x00000000;
+    115            EXTI->FTSR = 0x00000000;
+    116            EXTI->PR = 0x007FFFFF;
+    117          }
+    118          
+    119          /**
+    120            * @brief  Initializes the EXTI peripheral according to the specified
+    121            *         parameters in the EXTI_InitStruct.
+    122            * @param  EXTI_InitStruct: pointer to a EXTI_InitTypeDef structure
+    123            *         that contains the configuration information for the EXTI peripheral.
+    124            * @retval None
+    125            */
+    126          void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct)
+    127          {
+    128            uint32_t tmp = 0;
+    129          
+    130            /* Check the parameters */
+    131            assert_param(IS_EXTI_MODE(EXTI_InitStruct->EXTI_Mode));
+    132            assert_param(IS_EXTI_TRIGGER(EXTI_InitStruct->EXTI_Trigger));
+    133            assert_param(IS_EXTI_LINE(EXTI_InitStruct->EXTI_Line));  
+    134            assert_param(IS_FUNCTIONAL_STATE(EXTI_InitStruct->EXTI_LineCmd));
+    135          
+    136            tmp = (uint32_t)EXTI_BASE;
+    137               
+    138            if (EXTI_InitStruct->EXTI_LineCmd != DISABLE)
+    139            {
+    140              /* Clear EXTI line configuration */
+    141              EXTI->IMR &= ~EXTI_InitStruct->EXTI_Line;
+    142              EXTI->EMR &= ~EXTI_InitStruct->EXTI_Line;
+    143              
+    144              tmp += EXTI_InitStruct->EXTI_Mode;
+    145          
+    146              *(__IO uint32_t *) tmp |= EXTI_InitStruct->EXTI_Line;
+    147          
+    148              /* Clear Rising Falling edge configuration */
+    149              EXTI->RTSR &= ~EXTI_InitStruct->EXTI_Line;
+    150              EXTI->FTSR &= ~EXTI_InitStruct->EXTI_Line;
+    151              
+    152              /* Select the trigger for the selected external interrupts */
+    153              if (EXTI_InitStruct->EXTI_Trigger == EXTI_Trigger_Rising_Falling)
+    154              {
+    155                /* Rising Falling edge */
+    156                EXTI->RTSR |= EXTI_InitStruct->EXTI_Line;
+    157                EXTI->FTSR |= EXTI_InitStruct->EXTI_Line;
+    158              }
+    159              else
+    160              {
+    161                tmp = (uint32_t)EXTI_BASE;
+    162                tmp += EXTI_InitStruct->EXTI_Trigger;
+    163          
+    164                *(__IO uint32_t *) tmp |= EXTI_InitStruct->EXTI_Line;
+    165              }
+    166            }
+    167            else
+    168            {
+    169              tmp += EXTI_InitStruct->EXTI_Mode;
+    170          
+    171              /* Disable the selected external lines */
+    172              *(__IO uint32_t *) tmp &= ~EXTI_InitStruct->EXTI_Line;
+    173            }
+    174          }
+    175          
+    176          /**
+    177            * @brief  Fills each EXTI_InitStruct member with its reset value.
+    178            * @param  EXTI_InitStruct: pointer to a EXTI_InitTypeDef structure which will
+    179            *         be initialized.
+    180            * @retval None
+    181            */
+    182          void EXTI_StructInit(EXTI_InitTypeDef* EXTI_InitStruct)
+    183          {
+    184            EXTI_InitStruct->EXTI_Line = EXTI_LINENONE;
+    185            EXTI_InitStruct->EXTI_Mode = EXTI_Mode_Interrupt;
+    186            EXTI_InitStruct->EXTI_Trigger = EXTI_Trigger_Falling;
+    187            EXTI_InitStruct->EXTI_LineCmd = DISABLE;
+    188          }
+    189          
+    190          /**
+    191            * @brief  Generates a Software interrupt on selected EXTI line.
+    192            * @param  EXTI_Line: specifies the EXTI line on which the software interrupt
+    193            *         will be generated.
+    194            *         This parameter can be any combination of EXTI_Linex where x can be (0..22)
+    195            * @retval None
+    196            */
+    197          void EXTI_GenerateSWInterrupt(uint32_t EXTI_Line)
+    198          {
+    199            /* Check the parameters */
+    200            assert_param(IS_EXTI_LINE(EXTI_Line));
+    201            
+    202            EXTI->SWIER |= EXTI_Line;
+    203          }
+    204          
+    205          /**
+    206            * @}
+    207            */
+    208          
+    209          /** @defgroup EXTI_Group2 Interrupts and flags management functions
+    210           *  @brief   Interrupts and flags management functions 
+    211           *
+    212          @verbatim   
+    213           ===============================================================================
+    214                       ##### Interrupts and flags management functions #####
+    215           ===============================================================================
+    216          
+    217          @endverbatim
+    218            * @{
+    219            */
+    220          
+    221          /**
+    222            * @brief  Checks whether the specified EXTI line flag is set or not.
+    223            * @param  EXTI_Line: specifies the EXTI line flag to check.
+    224            *          This parameter can be EXTI_Linex where x can be(0..22)
+    225            * @retval The new state of EXTI_Line (SET or RESET).
+    226            */
+    227          FlagStatus EXTI_GetFlagStatus(uint32_t EXTI_Line)
+    228          {
+    229            FlagStatus bitstatus = RESET;
+    230            /* Check the parameters */
+    231            assert_param(IS_GET_EXTI_LINE(EXTI_Line));
+    232            
+    233            if ((EXTI->PR & EXTI_Line) != (uint32_t)RESET)
+    234            {
+    235              bitstatus = SET;
+    236            }
+    237            else
+    238            {
+    239              bitstatus = RESET;
+    240            }
+    241            return bitstatus;
+    242          }
+    243          
+    244          /**
+    245            * @brief  Clears the EXTI's line pending flags.
+    246            * @param  EXTI_Line: specifies the EXTI lines flags to clear.
+    247            *          This parameter can be any combination of EXTI_Linex where x can be (0..22)
+    248            * @retval None
+    249            */
+    250          void EXTI_ClearFlag(uint32_t EXTI_Line)
+    251          {
+    252            /* Check the parameters */
+    253            assert_param(IS_EXTI_LINE(EXTI_Line));
+    254            
+    255            EXTI->PR = EXTI_Line;
+    256          }
+    257          
+    258          /**
+    259            * @brief  Checks whether the specified EXTI line is asserted or not.
+    260            * @param  EXTI_Line: specifies the EXTI line to check.
+    261            *          This parameter can be EXTI_Linex where x can be(0..22)
+    262            * @retval The new state of EXTI_Line (SET or RESET).
+    263            */
+    264          ITStatus EXTI_GetITStatus(uint32_t EXTI_Line)
+    265          {
+    266            FlagStatus bitstatus = RESET;
+    267            /* Check the parameters */
+    268            assert_param(IS_GET_EXTI_LINE(EXTI_Line));
+    269            
+    270            if ((EXTI->PR & EXTI_Line) != (uint32_t)RESET)
+    271            {
+    272              bitstatus = SET;
+    273            }
+    274            else
+    275            {
+    276              bitstatus = RESET;
+    277            }
+    278            return bitstatus;
+    279            
+    280          }
+    281          
+    282          /**
+    283            * @brief  Clears the EXTI's line pending bits.
+    284            * @param  EXTI_Line: specifies the EXTI lines to clear.
+    285            *          This parameter can be any combination of EXTI_Linex where x can be (0..22)
+    286            * @retval None
+    287            */
+    288          void EXTI_ClearITPendingBit(uint32_t EXTI_Line)
+    289          {
+    290            /* Check the parameters */
+    291            assert_param(IS_EXTI_LINE(EXTI_Line));
+    292            
+    293            EXTI->PR = EXTI_Line;
+    294          }
+    295          
+    296          /**
+    297            * @}
+    298            */
+    299          
+    300          /**
+    301            * @}
+    302            */
+    303          
+    304          /**
+    305            * @}
+    306            */
+    307          
+    308          /**
+    309            * @}
+    310            */
+    311          
+    312          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   EXTI_ClearFlag
+       0   EXTI_ClearITPendingBit
+       0   EXTI_DeInit
+       0   EXTI_GenerateSWInterrupt
+       0   EXTI_GetFlagStatus
+       0   EXTI_GetITStatus
+      12   EXTI_Init
+       0   EXTI_StructInit
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_2
+       4  ??DataTable5_3
+       6  ?Subroutine0
+       2  EXTI_ClearFlag
+       2  EXTI_ClearITPendingBit
+      18  EXTI_DeInit
+      10  EXTI_GenerateSWInterrupt
+      16  EXTI_GetFlagStatus
+      16  EXTI_GetITStatus
+     102  EXTI_Init
+      16  EXTI_StructInit
+
+ 
+ 204 bytes in section .text
+ 
+ 204 bytes of CODE memory
+
+Errors: none
+Warnings: none

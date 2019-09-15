@@ -1,0 +1,546 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:44
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_trans.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_trans.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\usbd_trans.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\usbd_trans.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_trans.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    usbd_trans.c
+      4            * @author  Hypereal Team
+      5            * @version V1.2.0
+      6            * @date    19-September-2016
+      7            * @brief   This file provides firmware functions to USB transformation.
+      8            ******************************************************************************
+      9          
+     10            */ 
+     11          
+     12          /* Includes ------------------------------------------------------------------*/ 
+     13          #include  "usbd_trans.h"
+     14          
+     15          /* Private typedef -----------------------------------------------------------*/
+     16          /* Private define ------------------------------------------------------------*/
+     17          #define USB_MAX_LEN                 64
+     18          #define AGRE_MAX_LEN                512
+     19          /* Private macro -------------------------------------------------------------*/
+     20          extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
+     21          
+     22          /* Private variables ---------------------------------------------------------*/
+     23          uint8_t bulk_rx_flag = 0;
+     24          
+     25          uint16_t TX_length=0;                   //usb_trans length
+     26          uint16_t RX_length=0;                   //usb_receive length
+     27          
+     28          uint8_t  buf_temp[temp_rage][USB_MAX_LEN];//send buf stack
+     29          uint8_t  save_cnt=0;                     //stack receive location
+     30          uint8_t  send_cnt=0;                     //stack send location
+     31          uint16_t push_cnt=0;                    //stack overflow
+     32          
+     33          uint8_t  bulk_rx_buf[USB_MAX_LEN];
+     34          uint8_t  bulk_rx_count;
+     35          
+     36          uint8_t  PrevXferDone = 1;
+     37          
+     38          uint8_t  bulk_tx_packet[AGRE_MAX_LEN];     //tx_buf
+     39          uint8_t  bulk_rx_packet[AGRE_MAX_LEN];     //rx_buf     
+     40          uint8_t  bulk_rx_packet_len = 0;
+     41          
+     42          lighthouse_version_report_type lighthouse_version_report[2];
+     43          unsigned char cube_flush_flag[2] = {0,0};
+     44          
+     45          /* Private function prototypes -----------------------------------------------*/
+     46          /**
+     47            * @brief  Fight the transmit frame.
+     48            * @param  None
+     49            * @retval None
+     50            */
+     51          uint8_t TX_push(uint8_t *buf,uint16_t len,uint16_t type)//将发送数据送入发送堆栈
+     52          {
+     53                uint16_t i,j;
+     54                uint8_t  chksum=0,temp_cnt=0;
+     55                USB_DATA tx_push_buf;
+     56                
+     57                if(push_cnt >= temp_rage)
+     58                  return 1;
+     59                else
+     60                {
+     61                  temp_cnt = (len + 9 - 1) / 64 + 1;
+     62                  if((push_cnt + temp_cnt) >= temp_rage)
+     63                    return 1;
+     64                  else
+     65                  {
+     66                    memcpy(tx_push_buf.BODY,buf,len);
+     67                    tx_push_buf.START  = 0x2B;
+     68                    tx_push_buf.START1 = 0x2B;
+     69                    tx_push_buf.LEN    = len;
+     70                    tx_push_buf.TYPE   = type;
+     71                    
+     72                    chksum=0;
+     73                    for(i = 0;i < len;i++)
+     74                      chksum = chksum + *(tx_push_buf.BODY + i);
+     75                    *(tx_push_buf.BODY + len)=chksum;
+     76                    
+     77                    *(tx_push_buf.BODY + len + 1)=0xB2;
+     78                    *(tx_push_buf.BODY + len + 2)=0xB2;   
+     79                    
+     80                    for(i = 0;i < temp_cnt;i++)
+     81                    { 
+     82                      for(j = 0;j < USB_MAX_LEN;j++)
+     83                        buf_temp[save_cnt][j]=*(&tx_push_buf.START + i*USB_MAX_LEN + j);
+     84                      save_cnt++;
+     85                      if(save_cnt >= temp_rage -1)
+     86                        save_cnt=0;
+     87                      push_cnt++;
+     88                    }
+     89                    return 0;
+     90                  }        
+     91                }     
+     92          }
+     93          
+     94          /**
+     95            * @brief  push lighthouse version to USB stack
+     96            * @param  None
+     97            * @retval None
+     98            */
+     99          void lighthouse_version_report_flush()
+    100          {
+    101          	signed char comp_x = buf_4432[0]<<1;
+    102          	signed char comp_y = buf_4432[1]<<1;
+    103          
+    104          	if (comp_x<0) comp_x = -comp_x;
+    105          	if (comp_y<0) comp_y = -comp_y;
+    106          	
+    107          	uint8_t id = buf_4432[0] >> 7;
+    108          	lighthouse_version_report[id].lighthouse_id = id;
+    109          	lighthouse_version_report[id].version = ((buf_4432[5]>>4)) + (((uint16_t)(buf_4432[5] & 0x0f))<<8);
+    110          	lighthouse_version_report[id].error = 0;
+    111          	
+    112          	if (comp_x<120 && comp_y<120)
+    113          	{
+    114          		lighthouse_version_report[id].axis_sync = 1;
+    115          	}
+    116          	else
+    117          	{
+    118          		lighthouse_version_report[id].axis_sync = 0;
+    119          	}
+    120          	
+    121          	cube_flush_flag[id] = 1;
+    122          }
+    123          
+    124          /**
+    125            * @brief  push sync report to USB stack
+    126            * @param  None
+    127            * @retval None
+    128            */
+    129          void sync_report_routine()
+    130          {
+    131          	uint8_t send_buf[8];
+    132          	
+    133          	send_buf[0] = scan_num;
+    134          	send_buf[1] = scan_num>>8;
+    135          	TX_push(send_buf,2,6);
+    136          }
+    137          
+    138          /**
+    139            * @brief  read data about IMU offset.
+    140            * @param  None
+    141            * @retval None
+    142            */
+    143          uint8_t read_IMU(void)
+    144          {
+    145              uint8_t i;
+    146              
+    147              bulk_tx_packet[0]=0x03;
+    148                
+    149              for(i = 0;i < (sizeof(imu_calib_type) / 4);i++)
+    150              {
+    151                  ((uint32_t *)(void *)(bulk_tx_packet + 1))[i] = *(uint32_t *)(IMU_CALIB_DATA_ADDR + i*4);
+    152              }
+    153                    
+    154              TX_push(bulk_tx_packet,sizeof(imu_calib_type) + 1,4);
+    155              return 0;
+    156          }
+    157          
+    158          /**
+    159            * @brief  write data about IMU offset.
+    160            * @param  None
+    161            * @retval None
+    162            */
+    163          uint8_t write_IMU(uint8_t *buf)
+    164          {
+    165              uint32_t nv_cpy[64];
+    166              uint32_t *ptr = (uint32_t *)(buf+1);
+    167              
+    168              for (int i = 0;i<64;i++)
+    169              {
+    170                      nv_cpy[i] = *((uint32_t *)(NV_ADDR_BASE + 4*i));
+    171              }
+    172                      
+    173              for (int i = 0;i<(sizeof(imu_calib_type)/4);i++)
+    174              {
+    175                      nv_cpy[i+8] = ptr[i];
+    176              }
+    177          
+    178              FLASH_Unlock();
+    179              FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_OPERR|FLASH_FLAG_WRPERR|FLASH_FLAG_PGAERR|FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+    180              FLASH_EraseSector(FLASH_Sector_6,VoltageRange_3);
+    181              
+    182              for (int i=0;i<64;i++)
+    183              {
+    184                      FLASH_ProgramWord(NV_ADDR_BASE + 4*i,nv_cpy[i]);
+    185              }
+    186              
+    187              FLASH_Lock();
+    188              
+    189              imu_data_init();
+    190                      
+    191              return 0;
+    192          }
+    193          
+    194          /**
+    195            * @brief  read NV data from MCU.
+    196            * @param  None
+    197            * @retval None
+    198            */
+    199          uint8_t read_NV(void)
+    200          {
+    201            uint8_t i;
+    202            uint32_t *ptr = (uint32_t *)(bulk_tx_packet+1);
+    203          	
+    204              bulk_tx_packet[0]=0x05;
+    205          		
+    206              for(i=0;i<8;i++)
+    207                ptr[i]= *((uint32_t *)(NV_ADDR_BASE + 4*i));
+    208          		
+    209              TX_push(bulk_tx_packet,33,4);
+    210              return 0;
+    211          }
+    212          
+    213          /**
+    214            * @brief  write NV data from MCU.
+    215            * @param  None
+    216            * @retval None
+    217            */
+    218          uint8_t write_NV(uint8_t *buf)
+    219          {
+    220          	uint32_t nv_cpy[64];
+    221          	uint32_t *ptr = (uint32_t *)(buf+1);
+    222          	
+    223          	for (int i = 0;i<64;i++)
+    224          	{
+    225          		nv_cpy[i] = *((uint32_t *)(NV_ADDR_BASE + 4*i));
+    226          	}
+    227          		
+    228          	for (int i = 0;i<8;i++)
+    229          	{
+    230          		nv_cpy[i] = ptr[i];
+    231          	}
+    232          
+    233          	FLASH_Unlock();
+    234          	FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_OPERR|FLASH_FLAG_WRPERR|FLASH_FLAG_PGAERR|FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+    235          	FLASH_EraseSector(FLASH_Sector_6,VoltageRange_3);
+    236          	
+    237          	for (int i=0;i<64;i++)
+    238          	{
+    239                      FLASH_ProgramWord(NV_ADDR_BASE + 4*i,nv_cpy[i]);
+    240          	}
+    241          	
+    242          	FLASH_Lock();
+    243          		
+    244          	return 0;
+    245          }
+    246          
+    247          /**
+    248            * @brief  read version of firmware.
+    249            * @param  None
+    250            * @retval None
+    251            */
+    252          uint8_t read_softver(void)
+    253          {
+    254              bulk_tx_packet[0]=0x07;
+    255              
+    256              bulk_tx_packet[1]=MAIN_VERSION;
+    257              bulk_tx_packet[2]=SUB_VERSION;
+    258          
+    259              TX_push(bulk_tx_packet,3,4);
+    260              return 0;
+    261          }
+    262          
+    263          /**
+    264            * @brief  Fight the transmit frame.
+    265            * @param  None
+    266            * @retval None
+    267            */
+    268          uint8_t push_rx_packet(uint8_t *buf,uint8_t count)
+    269          {
+    270              uint8_t chksum;
+    271              uint8_t i;
+    272            
+    273              if (bulk_rx_packet_len == 0)
+    274              {
+    275                  if (!((buf[USB_START] == 0x2b)&& (buf[USB_START1] == 0x2b)))
+    276                  {
+    277                      asm("nop");
+    278                      return 0;
+    279                  }
+    280              }
+    281              
+    282              if (bulk_rx_packet_len + count > (AGRE_MAX_LEN-1))
+    283              {
+    284                  bulk_rx_packet_len = 0;
+    285                  return 0;
+    286              }
+    287              else
+    288              {
+    289                  memcpy(bulk_rx_packet+ bulk_rx_packet_len, buf, count);
+    290                  bulk_rx_packet_len  += count;
+    291              }
+    292              
+    293              if (bulk_rx_packet_len>9)
+    294              {		
+    295                    RX_length = bulk_rx_packet[USB_LEN]+bulk_rx_packet[USB_LEN1]*256;
+    296                    if (RX_length == bulk_rx_packet_len - 9)
+    297                    {
+    298                        if ((bulk_rx_packet[bulk_rx_packet_len-2] == 0xb2) && (bulk_rx_packet[bulk_rx_packet_len-1]==0xb2))
+    299                        {
+    300                              chksum=0;
+    301                              for(i=0;i<RX_length;i++)
+    302                                chksum=chksum+bulk_rx_packet[USB_BODY+i];               
+    303                              if(chksum == bulk_rx_packet[bulk_rx_packet_len-3])
+    304                              {
+    305                                    if((bulk_rx_packet[USB_TYPE]+bulk_rx_packet[USB_TYPE1]*256)==0x0003)
+    306                                    {
+    307                                          switch(bulk_rx_packet[USB_CMD])
+    308                                          {
+    309                                                                                                 
+    310                                                case 0x03:  read_IMU(); 
+    311                                                        break;
+    312                                                                                                        
+    313                                                case 0x04:   write_IMU(bulk_rx_packet+USB_BODY);
+    314                                                        break;
+    315                                                                                                        
+    316                                                case 0x05:  read_NV();
+    317                                                        break;
+    318                                                                                                 
+    319                                                case 0x06:  write_NV(bulk_rx_packet+USB_BODY);
+    320                                                        break;
+    321                                                                                                 
+    322                                                case 0x07:  read_softver();
+    323                                                        break;
+    324                                                default:
+    325                                                        break;             
+    326                                          }            
+    327                                    }
+    328                                    bulk_rx_packet_len = 0;
+    329                              }
+    330                              else
+    331                                bulk_rx_packet_len = 0;
+    332                        }
+    333                        else
+    334                          bulk_rx_packet_len = 0;
+    335                    }
+    336              }    
+    337              return 0;
+    338          }
+    339          
+    340          /**
+    341            * @brief  usb trans trans and receive.
+    342            * @param  None
+    343            * @retval None
+    344            */
+    345          void trans_poll(void)
+    346          {
+    347          
+    348             if (bulk_rx_flag)
+    349              {
+    350          			
+    351                push_rx_packet(bulk_rx_buf,bulk_rx_count);
+    352          
+    353                bulk_rx_flag=0;
+    354              
+    355              }
+    356          	 
+    357              if(push_cnt>0)
+    358              {
+    359                  if((PrevXferDone)  && (USB_OTG_dev.dev.device_status==USB_OTG_CONFIGURED))
+    360                  {
+    361                    if(USBD_CUSTOM_bulk_send  (&USB_OTG_dev, buf_temp[send_cnt], USB_MAX_LEN)==0)//是否发送成功
+    362                    {
+    363                      push_cnt--;
+    364                      send_cnt++;
+    365                      if(send_cnt>=(temp_rage-1))
+    366                        send_cnt=0;
+    367                    }
+    368                  PrevXferDone = 0;
+    369                  }
+    370              }
+    371          
+    372          }
+    373          
+    374          /**
+    375            * @brief  send lighthouse version report.
+    376            * @param  None
+    377            * @retval None
+    378            */
+    379          void LV_poll()
+    380          {
+    381          	if (systick_count_l % 5000 == 0 && systick_flag)
+    382          	{			
+    383                      if (cube_flush_flag[0])
+    384                      {
+    385                              TX_push((uint8_t *)(&lighthouse_version_report[0]),sizeof(lighthouse_version_report),5);
+    386                              cube_flush_flag[0] = 0;
+    387                      }
+    388                      if (cube_flush_flag[1])
+    389                      {
+    390                              TX_push((uint8_t *)(&lighthouse_version_report[1]),sizeof(lighthouse_version_report),5);
+    391                              cube_flush_flag[1] = 0;
+    392                      }
+    393                      
+    394                      systick_flag = 0;
+    395          	}
+    396          }
+    397          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   LV_poll
+        16   -> TX_push
+     544   TX_push
+       544   -> __aeabi_memcpy
+      12   lighthouse_version_report_flush
+      16   push_rx_packet
+        16   -> __aeabi_memcpy
+        16   -> read_IMU
+        16   -> read_NV
+        16   -> read_softver
+        16   -> write_IMU
+        16   -> write_NV
+       8   read_IMU
+         8   -> TX_push
+       8   read_NV
+         8   -> TX_push
+       8   read_softver
+         8   -> TX_push
+      16   sync_report_routine
+        16   -> TX_push
+       8   trans_poll
+         8   -> USBD_CUSTOM_bulk_send
+         8   -> push_rx_packet
+     272   write_IMU
+       272   -> FLASH_ClearFlag
+       272   -> FLASH_EraseSector
+       272   -> FLASH_Lock
+       272   -> FLASH_ProgramWord
+       272   -> FLASH_Unlock
+       272   -> imu_data_init
+     272   write_NV
+       272   -> FLASH_ClearFlag
+       272   -> FLASH_EraseSector
+       272   -> FLASH_Lock
+       272   -> FLASH_ProgramWord
+       272   -> FLASH_Unlock
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable8
+       4  ??DataTable8_1
+       4  ??DataTable8_10
+       4  ??DataTable8_11
+       4  ??DataTable8_2
+       4  ??DataTable8_3
+       4  ??DataTable8_4
+       4  ??DataTable8_5
+       4  ??DataTable8_6
+       4  ??DataTable8_7
+       4  ??DataTable8_8
+       4  ??DataTable8_9
+       8  ?Subroutine0
+       6  ?Subroutine1
+      26  ?Subroutine2
+      16  ?Subroutine3
+      12  ?Subroutine4
+      76  LV_poll
+       2  TX_length
+     188  TX_push
+   16384  buf_temp
+      72  bulk_rx_flag
+          save_cnt
+          send_cnt
+          bulk_rx_count
+          PrevXferDone
+          push_cnt
+          bulk_rx_buf
+     516  bulk_rx_packet
+          bulk_rx_packet_len
+          RX_length
+     512  bulk_tx_packet
+      18  lighthouse_version_report
+          cube_flush_flag
+      76  lighthouse_version_report_flush
+     222  push_rx_packet
+      26  read_IMU
+      24  read_NV
+      22  read_softver
+      30  sync_report_routine
+      86  trans_poll
+      66  write_IMU
+      56  write_NV
+
+ 
+ 17 432 bytes in section .bss
+     72 bytes in section .data
+    988 bytes in section .text
+ 
+    988 bytes of CODE memory
+ 17 504 bytes of DATA memory
+
+Errors: none
+Warnings: none

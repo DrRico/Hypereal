@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AD3F6DB8-DA1A-4C27-8CBB-FC7F4B836547}</ProjectGuid>
+    <RootNamespace>libusbdll</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <NMakeBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)" "debugmode=true"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)" "debugmode=true"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>TARGETTYPE=3;_X86_=1;i386=1;STD_CALL;CONDITION_HANDLING=1;NT_UP=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0501;WINVER=0x0501;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;NDEBUG;_DLL=1;MANIFEST_FILE="manifest_x86.xml";LOG_APPNAME="libusb0";NTDDI_VERSION=0x05010200;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>Z:\WinDDK\7600.16385.0\inc\api;Z:\WinDDK\7600.16385.0\incddk;Z:\WinDDK\7600.16385.0\inc\crt;..\src\driver;..\src;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <NMakeBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)" "debugmode=true"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)" "debugmode=true"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>TARGETTYPE=3;_X86_=1;i386=1;STD_CALL;CONDITION_HANDLING=1;NT_UP=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0501;WINVER=0x0501;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;NDEBUG;_DLL=1;MANIFEST_FILE="manifest_x86.xml";LOG_APPNAME="libusb0";NTDDI_VERSION=0x05010200;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>Z:\WinDDK\7600.16385.0\inc\api;Z:\WinDDK\7600.16385.0\incddk;Z:\WinDDK\7600.16385.0\inc\crt;..\src\driver;..\src;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <NMakeBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+ECHO $(CMDVAR_WINDDK_DIR)
+CMD /C make.cmd "arch=x86" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>TARGETTYPE=DRIVER;LOG_OUTPUT_TYPE=3;_X86_=1;i386=1;STD_CALL;CONDITION_HANDLING=1;NT_UP=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0501;WINVER=0x0501;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;NDEBUG;_DLL=1;MANIFEST_FILE="manifest_x86.xml";LOG_APPNAME="libusb0";NTDDI_VERSION=0x05010200;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>Z:\WinDDK\7600.16385.0\inc\api;Z:\WinDDK\7600.16385.0\incddk;Z:\WinDDK\7600.16385.0\inc\crt;..\src\driver;..\src;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <NMakeBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+CMD /C make.cmd "arch=x64" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>CD "$(ProjectDir)..\ddk_make"
+ECHO $(CMDVAR_WINDDK_DIR)
+CMD /C make.cmd "arch=x64" "app=driver" "noclean=true" "outdir=$(OutDir)" "DIR_INTERMEDIATE=$(IntDir)"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>TARGETTYPE=DRIVER;LOG_OUTPUT_TYPE=3;_X86_=1;i386=1;STD_CALL;CONDITION_HANDLING=1;NT_UP=1;NT_INST=0;WIN32=100;_NT1X_=100;WINNT=1;_WIN32_WINNT=0x0501;WINVER=0x0501;_WIN32_IE=0x0603;WIN32_LEAN_AND_MEAN=1;DEVL=1;__BUILDMACHINE__=WinDDK;FPO=0;NDEBUG;_DLL=1;MANIFEST_FILE="manifest_x86.xml";LOG_APPNAME="libusb0";NTDDI_VERSION=0x05010200;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>Z:\WinDDK\7600.16385.0\inc\api;Z:\WinDDK\7600.16385.0\incddk;Z:\WinDDK\7600.16385.0\inc\crt;..\src\driver;..\src;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\driver\abort_endpoint.c" />
+    <ClCompile Include="..\src\driver\claim_interface.c" />
+    <ClCompile Include="..\src\driver\clear_feature.c" />
+    <ClCompile Include="..\src\driver\dispatch.c" />
+    <ClCompile Include="..\src\driver\driver_registry.c" />
+    <ClCompile Include="..\src\driver\get_configuration.c" />
+    <ClCompile Include="..\src\driver\get_descriptor.c" />
+    <ClCompile Include="..\src\driver\get_interface.c" />
+    <ClCompile Include="..\src\driver\get_status.c" />
+    <ClCompile Include="..\src\driver\ioctl.c" />
+    <ClCompile Include="..\src\driver\libusb_driver.c" />
+    <ClCompile Include="..\src\driver\pnp.c" />
+    <ClCompile Include="..\src\driver\power.c" />
+    <ClCompile Include="..\src\driver\release_interface.c" />
+    <ClCompile Include="..\src\driver\reset_device.c" />
+    <ClCompile Include="..\src\driver\reset_endpoint.c" />
+    <ClCompile Include="..\src\driver\set_configuration.c" />
+    <ClCompile Include="..\src\driver\set_descriptor.c" />
+    <ClCompile Include="..\src\driver\set_feature.c" />
+    <ClCompile Include="..\src\driver\set_interface.c" />
+    <ClCompile Include="..\src\driver\transfer.c" />
+    <ClCompile Include="..\src\driver\vendor_request.c" />
+    <ClCompile Include="..\src\error.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\driver\driver_api.h" />
+    <ClInclude Include="..\src\driver\libusb_driver.h" />
+    <ClInclude Include="..\src\driver\lusb_defdi_guids.h" />
+    <ClInclude Include="..\src\error.h" />
+    <ClInclude Include="..\src\libusb-win32_version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ddk_make\make.cfg" />
+    <None Include="..\ddk_make\make_driver.bat" />
+    <None Include="..\ddk_make\sources_drv" />
+    <None Include="..\libusb0_drv.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

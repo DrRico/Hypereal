@@ -1,0 +1,294 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:47:58
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\imu_data.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\imu_data.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\imu_data.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\imu_data.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\imu_data.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    imu_data.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides firmware functions to calibrate data about accel and gyroscope.
+     30            ******************************************************************************
+     31          
+     32            ******************************************************************************
+     33            */ 
+     34          
+     35          /* Includes ------------------------------------------------------------------*/
+     36          #include "imu_data.h"
+     37          #include "calibrate.h"
+     38              
+     39          /* Private variables ---------------------------------------------------------*/
+     40          imu_report_type imu_report_buf;
+     41          imu_calib_type imu_calib_data;    
+     42          unsigned char system_status;
+     43          
+     44          
+     45          
+     46          /* Private function prototypes -----------------------------------------------*/
+     47          /**
+     48            * @brief  Reset IMU offset
+     49            * @param  None
+     50            * @retval None
+     51            */
+     52          void imu_data_init()
+     53          {
+     54          	
+     55              imu_report_buf.InterpupillaryDistance = 0;
+     56              imu_report_buf.ProximitySwitch = 0;
+     57              
+     58              imu_report_buf.MagneticField[0] = 0;
+     59              imu_report_buf.MagneticField[1] = 0;
+     60              imu_report_buf.MagneticField[2] = 0;
+     61          	
+     62              calibrate_init();
+     63          		
+     64              return;
+     65          }
+     66          
+     67          /**
+     68            * @brief  calibrate IMU data
+     69            * @param  None
+     70            * @retval None
+     71            */
+     72          void imu_rescale(imu_data *acc_gyro_data)
+     73          {
+     74          	float calc_tmp;
+     75          	for (int i = 0;i<3;i++)
+     76          	{
+     77          		calc_tmp = acc_gyro_data->acce[i] * IMU_ACCE_SCALE;
+     78          		if (calc_tmp > MAX_FLOAT) 
+     79                            calc_tmp = MAX_FLOAT;
+     80          		else if (calc_tmp < MIN_FLOAT) 
+     81                            calc_tmp = MIN_FLOAT;
+     82          		
+     83          		acc_gyro_data->acce[i] = (int16_t)calc_tmp;
+     84          	}
+     85          	for (int i = 0;i<3;i++)
+     86          	{
+     87          		calc_tmp = acc_gyro_data->gyro[i] * IMU_GYRO_SCALE;
+     88          		if (calc_tmp > MAX_FLOAT) 
+     89                            calc_tmp = MAX_FLOAT;
+     90          		else if (calc_tmp < MIN_FLOAT) 
+     91                            calc_tmp = MIN_FLOAT;
+     92          		
+     93          		acc_gyro_data->gyro[i] = (int16_t)calc_tmp;
+     94          	}
+     95          }
+     96          
+     97          /**
+     98            * @brief  Put measure data from max21100 to report_buf(put 2 times in 2ms)
+     99            * @param  None
+    100            * @retval None
+    101            */
+    102          void imu_data_process(uint8_t ping_pang)
+    103          {
+    104              int16_t change_tmp;	
+    105              
+    106              
+    107              if (ping_pang == IMU_FIRST)/* first time */
+    108              {
+    109                  imu_data *p_sample = &(imu_report_buf.Samples[0]);
+    110                  max21100_read_out((uint8_t *)(void *)(p_sample));
+    111                  max21100_read_register_n(0x36,2,(uint8_t *)(void *)(&(imu_report_buf.Temperature)));
+    112                  imu_report_buf.Timestamp = systick_count_l;
+    113                  
+    114                  change_tmp = p_sample->acce[0];
+    115                  p_sample->acce[0] = -p_sample->acce[1];
+    116                  p_sample->acce[1] = -change_tmp;
+    117                  p_sample->acce[2] = -p_sample->acce[2];
+    118                  
+    119                  change_tmp = p_sample->gyro[0];
+    120                  p_sample->gyro[0] = -p_sample->gyro[1];
+    121                  p_sample->gyro[1] = -change_tmp;
+    122                  p_sample->gyro[2] = -p_sample->gyro[2];
+    123          
+    124                  imu_rescale(p_sample);
+    125                  calibrate_apply(p_sample);
+    126                          
+    127                  /* todo magnetic field */
+    128                  if (hmc5883_flush_flag)
+    129                  {
+    130                      memcpy((uint8_t *)(void *)(&(imu_report_buf.MagneticField[0])),hmc5883_buf,6);
+    131                      hmc5883_flush_flag = 0;
+    132                      
+    133                      imu_report_buf.MagneticField[1] = -imu_report_buf.MagneticField[1];
+    134                      imu_report_buf.MagneticField[2] = -imu_report_buf.MagneticField[2];
+    135                  }
+    136              }
+    137              else/* second time */
+    138              {
+    139                  imu_data *p_sample = &(imu_report_buf.Samples[1]);
+    140                  max21100_read_out((uint8_t *)(void *)(p_sample));
+    141          
+    142                  change_tmp = p_sample->acce[0];
+    143                  p_sample->acce[0] = -p_sample->acce[1];
+    144                  p_sample->acce[1] = -change_tmp;
+    145                  p_sample->acce[2] = -p_sample->acce[2];
+    146          
+    147          
+    148                  change_tmp = p_sample->gyro[0];
+    149                  p_sample->gyro[0] = -p_sample->gyro[1];
+    150                  p_sample->gyro[1] = -change_tmp;
+    151                  p_sample->gyro[2] = -p_sample->gyro[2];
+    152                      
+    153                  imu_rescale(p_sample);    
+    154                  calibrate_apply(p_sample);
+    155              
+    156              }	
+    157              return;
+    158          }
+    159          
+    160          /**
+    161            * @brief  Put report_buf to send stack 
+    162            * @param  None
+    163            * @retval None
+    164            */
+    165          void imu_data_poll()
+    166          {
+    167              if (systick_2ms_first_flag)
+    168              {
+    169                  imu_data_process(IMU_FIRST);
+    170                  
+    171                  imu_report_buf.InterpupillaryDistance = InterpupillaryDistance;
+    172                  
+    173                  systick_2ms_first_flag = 0;
+    174              }
+    175              
+    176              if (systick_2ms_second_flag)
+    177              {
+    178                  imu_data_process(IMU_SECOND);				
+    179          
+    180                  TX_push((uint8_t *)(void *)(&imu_report_buf),sizeof(imu_report_buf),0);	
+    181          
+    182                  systick_2ms_second_flag = 0;
+    183              }
+    184          
+    185          }
+    186          
+    187          
+    188          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   imu_data_init
+         0   -> calibrate_init
+      16   imu_data_poll
+        16   -> TX_push
+        16   -> imu_data_process
+      16   imu_data_process
+        16   -> __aeabi_memcpy
+         0   -> calibrate_apply
+        16   -> calibrate_apply
+        16   -> imu_rescale
+        16   -> max21100_read_out
+        16   -> max21100_read_register_n
+      40   imu_rescale
+        40   -> __aeabi_d2f
+        40   -> __aeabi_dmul
+        40   -> __aeabi_f2iz
+        40   -> __aeabi_i2d
+        40 __aeabi_cfcmple
+        40 __aeabi_cfrcmple
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable3
+       4  ??DataTable3_1
+       4  ??DataTable3_10
+       4  ??DataTable3_2
+       4  ??DataTable3_3
+       4  ??DataTable3_4
+       4  ??DataTable3_5
+       4  ??DataTable3_6
+       4  ??DataTable3_7
+       4  ??DataTable3_8
+       4  ??DataTable3_9
+      48  imu_calib_data
+      20  imu_data_init
+      54  imu_data_poll
+     210  imu_data_process
+      40  imu_report_buf
+     144  imu_rescale
+       1  system_status
+
+ 
+  89 bytes in section .bss
+ 472 bytes in section .text
+ 
+ 472 bytes of CODE memory
+  89 bytes of DATA memory
+
+Errors: none
+Warnings: 2

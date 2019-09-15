@@ -1,0 +1,412 @@
+###############################################################################
+#
+# IAR ELF Linker V7.20.2.7424/W32 for ARM                 10/Feb/2017  19:52:20
+# Copyright 2007-2014 IAR Systems AB.
+#
+#    Output file  =  
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Exe\VirtualComport_Loopback.out
+#    Map file     =  
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\List\VirtualComport_Loopback.map
+#    Command line =  
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\bsp_init.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\main.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\misc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\SI4432.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\startup_stm32f10x_md.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32_it.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_adc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_bkp.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_can.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_cec.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_crc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_dac.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_dbgmcu.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_dma.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_exti.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_flash.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_fsmc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_gpio.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_i2c.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_iwdg.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_pwr.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_rcc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_rtc.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_sdio.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_spi.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_tim.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_usart.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\stm32f10x_wwdg.o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj\system_stm32f10x.o
+#        -o
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Exe\VirtualComport_Loopback.out
+#        --map
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\List\VirtualComport_Loopback.map
+#        --config
+#        D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\stm32f10x_flash.icf
+#        --semihosting --entry __iar_program_start --vfe
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A1":  place at 0x08000000 { ro section .intvec };
+"P1":  place in [from 0x08000000 to 0x0800ffff] { ro };
+"P2":  place in [from 0x20000000 to 0x20017fff] { rw, block CSTACK, block HEAP };
+
+  Section            Kind        Address    Size  Object
+  -------            ----        -------    ----  ------
+"A1":                                       0xec
+  .intvec            ro code  0x08000000    0xec  startup_stm32f10x_md.o [1]
+                            - 0x080000ec    0xec
+
+"P1":                                     0x1da4
+  .text              ro code  0x080000ec   0x76c  stm32f10x_tim.o [1]
+  .text              ro code  0x08000858    0x68  stm32f10x_rcc.o [1]
+  .text              ro code  0x080008c0   0x474  SI4432.o [1]
+  .text              ro code  0x08000d34    0x5e  stm32f10x_spi.o [1]
+  .text              ro code  0x08000d92    0x2e  copy_init3.o [5]
+  .text              ro code  0x08000dc0   0x114  stm32f10x_gpio.o [1]
+  .text              ro code  0x08000ed4   0x3c8  bsp_init.o [1]
+  .text              ro code  0x0800129c    0x7c  misc.o [1]
+  .text              ro code  0x08001318   0x25c  main.o [1]
+  .text              ro code  0x08001574    0x2e  I32ToFlt.o [4]
+  .text              ro code  0x080015a2    0x22  zero_init3.o [5]
+  .text              ro code  0x080015c4    0xfc  FltDiv.o [4]
+  .text              ro code  0x080016c0    0xe6  FltSub.o [4]
+  .text              ro code  0x080017a8    0x24  FltCmpLe.o [4]
+  .text              ro code  0x080017cc    0x24  FltCmpGe.o [4]
+  .text              ro code  0x080017f0    0xd8  FltMul.o [4]
+  .text              ro code  0x080018c8    0x84  FltAdd.o [4]
+  .text              ro code  0x0800194c    0x44  FltToS32.o [4]
+  .text              ro code  0x08001990   0x254  stm32_it.o [1]
+  .text              ro code  0x08001be4    0xfc  system_stm32f10x.o [1]
+  .text              ro code  0x08001ce0    0x28  data_init.o [5]
+  .iar.init_table    const    0x08001d08    0x24  - Linker created -
+  .text              ro code  0x08001d2c    0x1a  cmain.o [5]
+  .text              ro code  0x08001d46     0x4  low_level_init.o [3]
+  .text              ro code  0x08001d4a     0x4  exit.o [3]
+  .text              ro code  0x08001d50     0xa  cexit.o [5]
+  .text              ro code  0x08001d5c    0x14  exit.o [6]
+  .text              ro code  0x08001d70    0x10  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001d80     0xc  cstartup_M.o [5]
+  .rodata            const    0x08001d8c     0x4  bsp_init.o [1]
+  .text              ro code  0x08001d90     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001d94     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001d98     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001d9c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001da0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001da4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001da8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dac     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001db0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001db4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001db8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dbc     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dc0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dc4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dc8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dcc     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dd0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dd4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dd8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001ddc     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001de0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001de4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001de8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dec     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001df0     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001df4     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001df8     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001dfc     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e00     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e04     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e08     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e0c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e10     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e14     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e18     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e1c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e20     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e24     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e28     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e2c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e30     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e34     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e38     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e3c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e40     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e44     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e48     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e4c     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e50     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e54     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e58     0x4  startup_stm32f10x_md.o [1]
+  .text              ro code  0x08001e5c     0x4  startup_stm32f10x_md.o [1]
+  .rodata            const    0x08001e60     0x0  zero_init3.o [5]
+  .rodata            const    0x08001e60     0x0  copy_init3.o [5]
+  Initializer bytes  ro data  0x08001e60    0x30  <for P2 s0>
+                            - 0x08001e90  0x1da4
+
+"P2":                                     0x1168
+  P2 s0                       0x20000000    0x30  <Init block>
+    .data            inited   0x20000000    0x28  main.o [1]
+    .data            inited   0x20000028     0x8  bsp_init.o [1]
+  .bss               zero     0x20000030   0x828  stm32_it.o [1]
+  .bss               zero     0x20000858   0x100  main.o [1]
+  .bss               zero     0x20000958     0x8  main.o [1]
+  .bss               zero     0x20000960     0x2  SI4432.o [1]
+  CSTACK                      0x20000968   0x800  <Block>
+    CSTACK           uninit   0x20000968   0x800  <Block tail>
+                            - 0x20001168  0x1168
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x932:
+          0x20000030  0x932
+
+Copy (__iar_copy_init3)
+    1 source range, total size 0x30:
+          0x08001e60   0x30
+    1 destination range, total size 0x30:
+          0x20000000   0x30
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                  ro code  ro data  rw data
+    ------                  -------  -------  -------
+D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj: [1]
+    SI4432.o                  1 140                 2
+    bsp_init.o                  968       12        8
+    main.o                      604       40      304
+    misc.o                      124
+    startup_stm32f10x_md.o      460
+    stm32_it.o                  596             2 088
+    stm32f10x_gpio.o            276
+    stm32f10x_rcc.o             104
+    stm32f10x_spi.o              94
+    stm32f10x_tim.o           1 900
+    system_stm32f10x.o          252
+    -------------------------------------------------
+    Total:                    6 518       52    2 402
+
+command line: [2]
+    -------------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                        4
+    low_level_init.o              4
+    -------------------------------------------------
+    Total:                        8
+
+m7M_tl.a: [4]
+    FltAdd.o                    132
+    FltCmpGe.o                   36
+    FltCmpLe.o                   36
+    FltDiv.o                    252
+    FltMul.o                    216
+    FltSub.o                    230
+    FltToS32.o                   68
+    I32ToFlt.o                   46
+    -------------------------------------------------
+    Total:                    1 016
+
+rt7M_tl.a: [5]
+    cexit.o                      10
+    cmain.o                      26
+    copy_init3.o                 46
+    cstartup_M.o                 12
+    data_init.o                  40
+    zero_init3.o                 34
+    -------------------------------------------------
+    Total:                      168
+
+shb_l.a: [6]
+    exit.o                       20
+    -------------------------------------------------
+    Total:                       20
+
+    Gaps                          6
+    Linker created                        36    2 048
+-----------------------------------------------------
+    Grand Total:              7 736       88    4 450
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address   Size  Type      Object
+-----                      -------   ----  ----      ------
+?main                   0x08001d2d         Code  Gb  cmain.o [5]
+BusFault_Handler        0x08001bdb    0x2  Code  Gb  stm32_it.o [1]
+CSTACK$$Base            0x20000968          --   Gb  - Linker created -
+CSTACK$$Limit           0x20001168          --   Gb  - Linker created -
+DebugMon_Handler        0x08001be1    0x2  Code  Gb  stm32_it.o [1]
+GPIO_Init               0x08000dc1   0x9e  Code  Gb  stm32f10x_gpio.o [1]
+GPIO_LED                0x20000028    0x8  Data  Gb  bsp_init.o [1]
+GPIO_PinRemapConfig     0x08000e67   0x68  Code  Gb  stm32f10x_gpio.o [1]
+GPIO_ResetBits          0x08000e63    0x4  Code  Gb  stm32f10x_gpio.o [1]
+GPIO_SetBits            0x08000e5f    0x4  Code  Gb  stm32f10x_gpio.o [1]
+HardFault_Handler       0x08001bd7    0x2  Code  Gb  stm32_it.o [1]
+ItStatus1               0x20000960    0x1  Data  Gb  SI4432.o [1]
+ItStatus2               0x20000961    0x1  Data  Gb  SI4432.o [1]
+MemManage_Handler       0x08001bd9    0x2  Code  Gb  stm32_it.o [1]
+NMI_Handler             0x08001bd5    0x2  Code  Gb  stm32_it.o [1]
+NVIC_Init               0x080012a7   0x5c  Code  Gb  misc.o [1]
+NVIC_PriorityGroupConfig
+                        0x0800129d    0xa  Code  Gb  misc.o [1]
+NVIC_SetPriority        0x08000ed5   0x1a  Code  Lc  bsp_init.o [1]
+PIN_LED                 0x08001d8c    0x4  Data  Gb  bsp_init.o [1]
+PendSV_Handler          0x08001be3    0x2  Code  Gb  stm32_it.o [1]
+RCC_APB1PeriphClockCmd  0x0800086f   0x16  Code  Gb  stm32f10x_rcc.o [1]
+RCC_APB1PeriphResetCmd  0x0800089b   0x16  Code  Gb  stm32f10x_rcc.o [1]
+RCC_APB2PeriphClockCmd  0x08000859   0x16  Code  Gb  stm32f10x_rcc.o [1]
+RCC_APB2PeriphResetCmd  0x08000885   0x16  Code  Gb  stm32f10x_rcc.o [1]
+Region$$Table$$Base     0x08001d08          --   Gb  - Linker created -
+Region$$Table$$Limit    0x08001d2c          --   Gb  - Linker created -
+SCAN_PHASE_OFFSET       0x20000014    0x8  Data  Gb  main.o [1]
+SI4432_ReadReg          0x080008f7   0x2e  Code  Gb  SI4432.o [1]
+SI4432_WriteReg         0x08000925   0x30  Code  Gb  SI4432.o [1]
+SPI_Byte                0x080008cf   0x28  Code  Gb  SI4432.o [1]
+SPI_Cmd                 0x08000d6d   0x18  Code  Gb  stm32f10x_spi.o [1]
+SPI_I2S_GetFlagStatus   0x08000d85    0xe  Code  Gb  stm32f10x_spi.o [1]
+SPI_Init                0x08000d35   0x38  Code  Gb  stm32f10x_spi.o [1]
+SVC_Handler             0x08001bdf    0x2  Code  Gb  stm32_it.o [1]
+SetSysClock             0x08001c25    0x2  Code  Lc  system_stm32f10x.o [1]
+SetSysClockTo72         0x08001c27   0xa6  Code  Lc  system_stm32f10x.o [1]
+SysTick_Config          0x08000eef   0x28  Code  Lc  bsp_init.o [1]
+SysTick_Handler         0x08001b3f   0x68  Code  Gb  stm32_it.o [1]
+SystemInit              0x08001be5   0x40  Code  Gb  system_stm32f10x.o [1]
+TI1_Config              0x08000687   0x62  Code  Lc  stm32f10x_tim.o [1]
+TI2_Config              0x080006e9   0x66  Code  Lc  stm32f10x_tim.o [1]
+TI3_Config              0x0800074f   0x64  Code  Lc  stm32f10x_tim.o [1]
+TI4_Config              0x080007b3   0x66  Code  Lc  stm32f10x_tim.o [1]
+TIM2_IRQHandler         0x080019e5  0x11a  Code  Gb  stm32_it.o [1]
+TIM_ARRPreloadConfig    0x080005c7   0x18  Code  Gb  stm32f10x_tim.o [1]
+TIM_BDTRConfig          0x0800053f   0x20  Code  Gb  stm32f10x_tim.o [1]
+TIM_ClearFlag           0x08000663    0x6  Code  Gb  stm32f10x_tim.o [1]
+TIM_ClearITPendingBit   0x08000681    0x6  Code  Gb  stm32f10x_tim.o [1]
+TIM_Cmd                 0x08000573   0x18  Code  Gb  stm32f10x_tim.o [1]
+TIM_CtrlPWMOutputs      0x0800058b   0x1c  Code  Gb  stm32f10x_tim.o [1]
+TIM_DeInit              0x080000ed  0x202  Code  Gb  stm32f10x_tim.o [1]
+TIM_GetCapture1         0x08000657    0x4  Code  Gb  stm32f10x_tim.o [1]
+TIM_GetCapture2         0x0800065b    0x4  Code  Gb  stm32f10x_tim.o [1]
+TIM_GetCounter          0x0800065f    0x4  Code  Gb  stm32f10x_tim.o [1]
+TIM_GetITStatus         0x08000669   0x18  Code  Gb  stm32f10x_tim.o [1]
+TIM_ICInit              0x080004e7   0x58  Code  Gb  stm32f10x_tim.o [1]
+TIM_ITConfig            0x080005a7   0x14  Code  Gb  stm32f10x_tim.o [1]
+TIM_InternalClockConfig
+                        0x080005bb    0xc  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC1Init             0x0800037f   0x82  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC1PreloadConfig    0x080005df    0xe  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC2Init             0x08000401   0x74  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC2PreloadConfig    0x080005ed   0x10  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC3Init             0x08000475   0x72  Code  Gb  stm32f10x_tim.o [1]
+TIM_OC3PreloadConfig    0x080005fd    0xe  Code  Gb  stm32f10x_tim.o [1]
+TIM_OCStructInit        0x0800055f   0x14  Code  Gb  stm32f10x_tim.o [1]
+TIM_SetIC1Prescaler     0x0800060b   0x12  Code  Gb  stm32f10x_tim.o [1]
+TIM_SetIC2Prescaler     0x0800061d   0x14  Code  Gb  stm32f10x_tim.o [1]
+TIM_SetIC3Prescaler     0x08000631   0x12  Code  Gb  stm32f10x_tim.o [1]
+TIM_SetIC4Prescaler     0x08000643   0x14  Code  Gb  stm32f10x_tim.o [1]
+TIM_TimeBaseInit        0x080002ef   0x90  Code  Gb  stm32f10x_tim.o [1]
+UsageFault_Handler      0x08001bdd    0x2  Code  Gb  stm32_it.o [1]
+__aeabi_cfcmple         0x080017a9         Code  Gb  FltCmpLe.o [4]
+__aeabi_cfrcmple        0x080017cd         Code  Gb  FltCmpGe.o [4]
+__aeabi_f2iz            0x0800194d         Code  Gb  FltToS32.o [4]
+__aeabi_fadd            0x080018c9         Code  Gb  FltAdd.o [4]
+__aeabi_fdiv            0x080015c5         Code  Gb  FltDiv.o [4]
+__aeabi_fmul            0x080017f1         Code  Gb  FltMul.o [4]
+__aeabi_fsub            0x080016c1         Code  Gb  FltSub.o [4]
+__aeabi_i2f             0x08001575         Code  Gb  I32ToFlt.o [4]
+__as_entries_start      0xffffffff          --   Gb  command line/config [2]
+__as_table_start        0xffffffff          --   Gb  command line/config [2]
+__cmain                 0x08001d2d         Code  Gb  cmain.o [5]
+__exit                  0x08001d5d   0x14  Code  Gb  exit.o [6]
+__iar_copy_init3        0x08000d93   0x2e  Code  Gb  copy_init3.o [5]
+__iar_data_init3        0x08001ce1   0x28  Code  Gb  data_init.o [5]
+__iar_fadd              0x080018d9         Code  Gb  FltAdd.o [4]
+__iar_fsub              0x080016d1         Code  Gb  FltSub.o [4]
+__iar_fsubStart         0x080016e1         Code  Gb  FltSub.o [4]
+__iar_program_start     0x08001d81         Code  Gb  cstartup_M.o [5]
+__iar_ui2f              0x08001589         Code  Gb  I32ToFlt.o [4]
+__iar_zero_init3        0x080015a3   0x22  Code  Gb  zero_init3.o [5]
+__low_level_init        0x08001d47    0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x08000000         Data  Gb  startup_stm32f10x_md.o [1]
+_call_main              0x08001d39         Code  Gb  cmain.o [5]
+_exit                   0x08001d51         Code  Gb  cexit.o [5]
+_main                   0x08001d43         Code  Gb  cmain.o [5]
+capCount                0x20000038    0x4  Data  Lc  stm32_it.o [1]
+capLast                 0x20000040    0x8  Data  Gb  stm32_it.o [1]
+dPeriod                 0x20000048    0x8  Data  Gb  stm32_it.o [1]
+ddphase                 0x20000024    0x4  Data  Gb  main.o [1]
+delay                   0x08001319    0xe  Code  Gb  main.o [1]
+delay                   0x080008c1    0xe  Code  Lc  SI4432.o [1]
+dphase                  0x2000001c    0x8  Data  Lc  main.o [1]
+errorIntegral           0x20000004    0x8  Data  Gb  main.o [1]
+exit                    0x08001d4b    0x4  Code  Gb  exit.o [3]
+gpioIPUInit             0x08001225   0x14  Code  Gb  bsp_init.o [1]
+gpioInit                0x08001239   0x3c  Code  Gb  bsp_init.o [1]
+gpioInit                0x08000955   0x30  Code  Lc  SI4432.o [1]
+gpioOutputInit          0x080011ef   0x36  Code  Gb  bsp_init.o [1]
+l                       0x20000858    0x1  Data  Lc  main.o [1]
+main                    0x080014d9   0x52  Code  Gb  main.o [1]
+onMotorFeedback         0x08001991   0x54  Code  Lc  stm32_it.o [1]
+onPeriodUpdate          0x0800146f   0x20  Code  Gb  main.o [1]
+period                  0x20000050    0x8  Data  Gb  stm32_it.o [1]
+periodLock              0x20000000    0x2  Data  Gb  main.o [1]
+periodtemp              0x20000058  0x800  Data  Gb  stm32_it.o [1]
+phaseLockCount          0x20000002    0x2  Data  Gb  main.o [1]
+phaseOffset             0x2000003c    0x4  Data  Lc  stm32_it.o [1]
+pidUpdate               0x08001327  0x148  Code  Lc  main.o [1]
+pti                     0x20000032    0x2  Data  Gb  stm32_it.o [1]
+pwm                     0x2000000c    0x8  Data  Gb  main.o [1]
+sendBuffer              0x2000085c   0xfc  Data  Lc  main.o [1]
+sendSyncPackage         0x0800148f   0x4a  Code  Gb  main.o [1]
+si4432_bsp_init         0x08000985   0xaa  Code  Gb  SI4432.o [1]
+si4432_init             0x08000a2f  0x1d2  Code  Gb  SI4432.o [1]
+si4432_read             0x08000c91   0x86  Code  Gb  SI4432.o [1]
+si4432_send             0x08000c01   0x90  Code  Gb  SI4432.o [1]
+systickInit             0x08000f17   0x26  Code  Gb  bsp_init.o [1]
+tim1Init                0x08000f3d   0xfe  Code  Gb  bsp_init.o [1]
+tim2Init                0x0800103b  0x102  Code  Gb  bsp_init.o [1]
+tim2UpdateCount         0x20000030    0x1  Data  Gb  stm32_it.o [1]
+tim3Init                0x0800113d   0xb2  Code  Gb  bsp_init.o [1]
+turnOffCount            0x20000034    0x2  Data  Gb  stm32_it.o [1]
+updateLaser             0x08001aff   0x40  Code  Gb  stm32_it.o [1]
+wData                   0x20000958    0x8  Data  Gb  main.o [1]
+
+
+[1] = D:\Repo\opensource_hardware\opensource_hardware\Firmware\lighthouse\Projects\HR-MK1-CUBE-V2\EWARM\STM3210B-EVAL\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = m7M_tl.a
+[5] = rt7M_tl.a
+[6] = shb_l.a
+
+  7 736 bytes of readonly  code memory
+     88 bytes of readonly  data memory
+  4 450 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

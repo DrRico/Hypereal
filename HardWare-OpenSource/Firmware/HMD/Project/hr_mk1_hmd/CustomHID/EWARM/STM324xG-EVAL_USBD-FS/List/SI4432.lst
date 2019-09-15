@@ -1,0 +1,645 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:48:00
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\SI4432.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\SI4432.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\SI4432.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\SI4432.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\SI4432.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    SI4432.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides firmware functions to manage the following 
+     30            *          functionalities of the SPI1 peripheral:
+     31            *            + SPI1 peripheral configuration
+     32            *            + configure SI4432
+     33            *            + transfer by SI4432 module 
+     34            ******************************************************************************
+     35          
+     36            ******************************************************************************
+     37            */ 
+     38          
+     39          /* Includes ------------------------------------------------------------------*/
+     40          #include "si4432.h"
+     41          
+     42          /* Private define ------------------------------------------------------------*/
+     43          #define SPIX 	        SPI1
+     44          #define USE_1HZ         0
+     45          
+     46          /* Private macro -------------------------------------------------------------*/
+     47          #define SI4432_NIRQ 	(NRF_IRQ_GPIO->IDR & NRF_IRQ_PIN)
+     48          #define cs0()		GPIO_ResetBits(NRF_CSN_GPIO, NRF_CSN_PIN)
+     49          #define cs1()		GPIO_SetBits(NRF_CSN_GPIO, NRF_CSN_PIN)
+     50          
+     51          /* Private variables ---------------------------------------------------------*/
+     52          extern uint8_t measure_ch;
+     53          extern uint8_t measure_busy_flag;
+     54          extern uint16_t measure_fix;
+     55          extern uint8_t exti3_flag;
+     56          
+     57          uint8_t si4432_read_count = 0;
+     58          
+     59          uint8_t ItStatus1,ItStatus2;
+     60          uint8_t buf_4432[light_sync_num];
+     61          static uint8_t latchedRssi = 0;
+     62          
+     63          /* Private function prototypes -----------------------------------------------*/
+     64          /**
+     65            * @brief  Configure delay time for SPI1 .
+     66            * @param  None
+     67            * @retval None
+     68            */
+     69          void delay(uint32_t us){
+     70          	while(us--)asm("nop");
+     71          }
+     72          
+     73          /**
+     74            * @brief  send and receive a byte by SPI1 .
+     75            * @param  None
+     76            * @retval None
+     77            */
+     78          u8 SPI_Byte(u8 da)
+     79          {
+     80              while(SPI_I2S_GetFlagStatus(SPIX,SPI_I2S_FLAG_TXE)==RESET);
+     81                SPI_SendData(SPIX,da);
+     82              while(SPI_I2S_GetFlagStatus(SPIX,SPI_I2S_FLAG_RXNE)==RESET);
+     83                return SPI_ReceiveData(SPIX);
+     84          }
+     85          
+     86          /**
+     87            * @brief  read a byte from SI4432 .
+     88            * @param  None
+     89            * @retval None
+     90            */
+     91          u8  SI4432_ReadReg(u8  addr){
+     92          	u8 temp=0;
+     93          	cs0();
+     94                  
+     95          	SPI_Byte(addr);    
+     96                  
+     97          	temp=SPI_Byte(0Xff);
+     98                  
+     99          	cs1();
+    100                  
+    101          	return temp;
+    102          }
+    103          
+    104          /**
+    105            * @brief  write a byte from SI4432 .
+    106            * @param  None
+    107            * @retval None
+    108            */
+    109          void SI4432_WriteReg(u8 addr, u8 value)
+    110          {
+    111          	cs0();
+    112                  
+    113          	SPI_Byte(addr|0x80); 
+    114                  
+    115          	SPI_Byte(value); 
+    116                  
+    117          	cs1();
+    118          }
+    119          
+    120          
+    121          /**
+    122            * @brief  configure PA3 as SI4432 IRQ .
+    123            * @param  None
+    124            * @retval None
+    125            */
+    126          void si4432_irq_init()
+    127          {
+    128                GPIO_InitTypeDef  GPIO_InitStructure;
+    129                        
+    130                GPIO_InitStructure.GPIO_Pin = NRF_IRQ_PIN;
+    131                GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    132                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    133                GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    134                GPIO_Init(NRF_IRQ_GPIO, &GPIO_InitStructure);
+    135                
+    136                EXTI_InitTypeDef EXTI_InitStructure;
+    137                EXTI_InitStructure.EXTI_Line = EXTI_Line3;
+    138                EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    139                EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    140                EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    141                EXTI_Init(&EXTI_InitStructure);
+    142          
+    143                NVIC_InitTypeDef NVIC_InitStructure;
+    144          
+    145                NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    146                NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn;
+    147                NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    148                NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    149                NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    150                NVIC_Init(&NVIC_InitStructure);
+    151          }
+    152          
+    153          /**
+    154            * @brief  configure SPI1 peripheral .
+    155            * @param  None
+    156            * @retval None
+    157            */
+    158          void si4432_bsp_init()
+    159          {
+    160                GPIO_InitTypeDef GPIO_InitStructure;
+    161                SPI_InitTypeDef  SPI_InitStructure;
+    162                
+    163                GPIO_SetBits(NRF_CSN_GPIO,NRF_CSN_PIN);
+    164                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    165                GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    166                GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+    167                
+    168                /* configure PA4 as SPI1 NSS */
+    169                GPIO_InitStructure.GPIO_Pin =  NRF_CSN_PIN;
+    170                GPIO_Init(NRF_CSN_GPIO, &GPIO_InitStructure);
+    171                
+    172                /* configure PB2 as SI4432 CE */ 
+    173                GPIO_InitStructure.GPIO_Pin =  NRF_SD_PIN;
+    174                GPIO_Init(NRF_SD_GPIO, &GPIO_InitStructure);
+    175                     
+    176                RCC_APB2PeriphClockCmd( RCC_APB2Periph_SPI1, ENABLE );
+    177                
+    178                GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_5|GPIO_Pin_6 | GPIO_Pin_7;
+    179                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF; 
+    180                GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    181                GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+    182                GPIO_Init(GPIOA, &GPIO_InitStructure);
+    183                
+    184                GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1); 
+    185                GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1); 
+    186                GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1); 
+    187          
+    188                SPI_Cmd(SPIX, DISABLE);
+    189                
+    190                SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  
+    191                SPI_InitStructure.SPI_Mode = SPI_Mode_Master; 
+    192                SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b; 
+    193                SPI_InitStructure.SPI_CPOL = SPI_CPOL_High; 
+    194                SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge; 
+    195                SPI_InitStructure.SPI_NSS = SPI_NSS_Soft; 
+    196                SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;
+    197                SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+    198                SPI_InitStructure.SPI_CRCPolynomial = 7; 
+    199                SPI_Init(SPIX, &SPI_InitStructure);  
+    200                
+    201                SPI_Cmd(SPIX, ENABLE); 
+    202          
+    203                si4432_irq_init();         
+    204                
+    205                return;
+    206          }
+    207          
+    208          /**
+    209            * @brief  configure SI4432 module .
+    210            * @param  None
+    211            * @retval None
+    212            */
+    213          void si4432_init()
+    214          {   
+    215            int8_t ch;
+    216           
+    217            si4432_bsp_init();
+    218            
+    219            ch = DEFAULT_WIRELESS_CHANNEL;
+    220            
+    221            GPIO_SetBits(NRF_SD_GPIO, NRF_SD_PIN);
+    222            delay(10000000);
+    223            GPIO_ResetBits(NRF_SD_GPIO, NRF_SD_PIN);
+    224            delay(10000000);
+    225            
+    226            ItStatus1 = SI4432_ReadReg(0x03);  
+    227            ItStatus2 = SI4432_ReadReg(0x04);  	 
+    228            
+    229            /* Reset SI4432 */
+    230            SI4432_WriteReg(0x07, 0x80); 
+    231            
+    232            while (SI4432_NIRQ);     
+    233            
+    234            do
+    235            {
+    236              SI4432_WriteReg(0x40, 0xaa);
+    237              ItStatus1 = SI4432_ReadReg(0x40);  
+    238            }
+    239            while(ItStatus1!=0xaa);
+    240            
+    241            ItStatus1 = SI4432_ReadReg(0x03);  
+    242            ItStatus2 = SI4432_ReadReg(0x04);  
+    243            
+    244            /* Set frequency 433M  */
+    245            SI4432_WriteReg(0x75, 0x51);
+    246            SI4432_WriteReg(0x76, 0x7D); 
+    247            SI4432_WriteReg(0x77, 0x00);
+    248            SI4432_WriteReg(0x79, ch*10);
+    249            SI4432_WriteReg(0x7A, 16);    
+    250            
+    251            /* send rate */
+    252            SI4432_WriteReg(0x6e, 0x41);
+    253            SI4432_WriteReg(0x6f, 0x89);
+    254            SI4432_WriteReg(0x70, 0x0c);  
+    255            SI4432_WriteReg(0x58, 0xED);	
+    256          
+    257            SI4432_WriteReg(0x72, 0xCD);	        //frequency offset
+    258            SI4432_WriteReg(0x71, 0x23);          //Disable CLK£¬FiFo £¬in FSK mode
+    259          
+    260            SI4432_WriteReg(0x1C, 0x8C);          //write 0x24 to the Clock Recovery Timing Loop Gain 0 register
+    261            SI4432_WriteReg(0x20, 0x2f);          //write 0xD0 to the Clock Recovery Oversampling Ratio register
+    262            SI4432_WriteReg(0x21, 0x02);          //write 0x00 to the Clock Recovery Offset 2 register
+    263            SI4432_WriteReg(0x22, 0xbb);          //write 0x9D to the Clock Recovery Offset 1 register
+    264            SI4432_WriteReg(0x23, 0x0d);          //write 0x49 to the Clock Recovery Offset 0 register
+    265            SI4432_WriteReg(0x24, 0x07);          //write 0x00 to the Clock Recovery Timing Loop Gain 1 register
+    266            SI4432_WriteReg(0x25, 0xff);          //write 0x0A to the AFC Timing Control register
+    267            SI4432_WriteReg(0x1D, 0x40);          //write 0x40 to the AFC Loop Gearshift Override register
+    268            SI4432_WriteReg(0x1E, 0x02);          //write 0x1E to the IF Filter Bandwidth register
+    269            SI4432_WriteReg(0x2A, 0x50);	        //write 0x20 to the AFC Limiter register
+    270            SI4432_WriteReg(0x1F, 0x03);	        //write 0x20 to the AFC Limiter register
+    271            SI4432_WriteReg(0x69, 0x60);          //AGC overload 
+    272          
+    273            /* Preamble and synchronization word */
+    274            SI4432_WriteReg(0x30, 0xAC);          //enable PH+ FIFO mode £¬enable CRC
+    275            SI4432_WriteReg(0x32, 0x8C);          //disable frame head 
+    276            SI4432_WriteReg(0x33, 0x00);  
+    277            SI4432_WriteReg(0x34, 0X08);          // send 5 bytes as Preamble
+    278            SI4432_WriteReg(0x35, 0x22);          // enable detect Preamble
+    279            SI4432_WriteReg(0x36, ch*10+ch);      //synchronization word is 0x2dd4
+    280            SI4432_WriteReg(0x37, ch*10+ch);
+    281          
+    282            /* set GPIO from SI4432 */
+    283            SI4432_WriteReg(0x0b, 0x12); 
+    284            SI4432_WriteReg(0x0c, 0x15); 
+    285          
+    286            /* set other function from SI4432 */ 
+    287            SI4432_WriteReg(0x6d, 0x1e);
+    288          
+    289            SI4432_WriteReg(0x07, 0x05);
+    290            /* open receive intertupt */
+    291            SI4432_WriteReg(0x05, 0x02); 
+    292            SI4432_WriteReg(0x06, 0x00);            //preamble detect -RSSI 
+    293            /* clear interrupt */
+    294            ItStatus1 = SI4432_ReadReg(0x03);	  //read the Interrupt Status1 register
+    295            ItStatus2 = SI4432_ReadReg(0x04);	  //read the Interrupt Status2 register		
+    296            SI4432_WriteReg(0x07, 0x05);            	
+    297            
+    298            SI4432_WriteReg(0x08, 0x12); 
+    299            SI4432_WriteReg(0x08, 0x10);            //clear fifo
+    300          	
+    301          }   
+    302            
+    303          /**
+    304            * @brief  send data to SI4432 .
+    305            * @param  None
+    306            * @retval None
+    307            */
+    308          void si4432_send(uint8_t* buff,uint8_t count)
+    309          {
+    310              SI4432_WriteReg(0x3e, count);       // count = 8
+    311              for(uint8_t i=0;i<count;i++)
+    312                      SI4432_WriteReg(0x7F, buff[i]);
+    313              
+    314              SI4432_WriteReg(0x06, 0x00);
+    315              
+    316              SI4432_ReadReg(0x03);               //clear interrupt	  
+    317              SI4432_ReadReg(0x04);
+    318              
+    319              SI4432_WriteReg(0x07, 0x09);        //open send	
+    320              while (SI4432_NIRQ);
+    321              
+    322              SI4432_ReadReg(0x03);  	
+    323              SI4432_ReadReg(0x04);		 	
+    324              
+    325              SI4432_WriteReg(0x08, 0x12); 
+    326              SI4432_WriteReg(0x08, 0x10);        //clear fifo
+    327              SI4432_WriteReg(0x05, 0x02); 
+    328              SI4432_WriteReg(0x07, 0x05);        //open receive	
+    329          }
+    330          
+    331          /**
+    332            * @brief  control SI4432 receive data .
+    333            * @param  None
+    334            * @retval None
+    335            */
+    336          void si4432_startRx()
+    337          {
+    338              SI4432_WriteReg(0x08, 0x12); 
+    339              SI4432_WriteReg(0x08, 0x10);        //clear fifo
+    340              SI4432_WriteReg(0x07, 0x05);        //open send	
+    341              SI4432_WriteReg(0x05, 0x02); 
+    342          }
+    343          
+    344          /**
+    345            * @brief  get IRQ from SI4432 .
+    346            * @param  None
+    347            * @retval None
+    348            */
+    349          uint8_t si4432_getIRQ()
+    350          {
+    351              return SI4432_NIRQ;
+    352          }
+    353          
+    354          /**
+    355            * @brief  receive data from SI4432 .
+    356            * @param  None
+    357            * @retval None
+    358            */
+    359          u8 si4432_read(uint8_t* buff, uint8_t* rssi)
+    360          {
+    361              uint8_t SI4432_RxLenth=0;
+    362            
+    363              if(SI4432_NIRQ)
+    364                 return 0;
+    365              if(rssi)
+    366                 *rssi=latchedRssi;
+    367              
+    368              ItStatus1 = SI4432_ReadReg(0x03);		//read the Interrupt Status1 register
+    369              ItStatus2 = SI4432_ReadReg(0x04);		//read the Interrupt Status2 register
+    370              if ((ItStatus1 & 0x02))                     //RXed
+    371              {
+    372                  SI4432_RxLenth = SI4432_ReadReg(0x4B);	
+    373                  if (SI4432_RxLenth != SI4432_ReadReg(0x7F) /*|| (SI4432_RxLenth > 20)*/) {
+    374                          SI4432_WriteReg(0x08, 0x12);
+    375                          SI4432_WriteReg(0x08, 0x10);	 //clear fifo
+    376                          return 0;
+    377                  }
+    378                  for (uint8_t SI4432_RxCount=0;SI4432_RxCount < SI4432_RxLenth;SI4432_RxCount++){
+    379                          buff[SI4432_RxCount] = SI4432_ReadReg(0x7F);	
+    380                  }
+    381                  SI4432_WriteReg(0x08, 0x12);	
+    382                  SI4432_WriteReg(0x08, 0x10);
+    383                  SI4432_WriteReg(0x07, 0x05);            //open receive
+    384              }
+    385              else if(ItStatus2 &0x80)//rssi
+    386              {
+    387                  latchedRssi=SI4432_ReadReg(0x26);
+    388              }
+    389              return SI4432_RxLenth;
+    390          }
+    391          
+    392          /**
+    393            * @brief  send data about control command .
+    394            * @param  None
+    395            * @retval None
+    396            */
+    397          void si4432_send_no_wait(uint8_t* buff,uint8_t count)
+    398          {
+    399              SI4432_WriteReg(0x3e, count);  
+    400              for(uint8_t i=0;i<count;i++)
+    401                      SI4432_WriteReg(0x7F, buff[i]);
+    402              
+    403              SI4432_WriteReg(0x05, 0x00);	//generated interrupt 	
+    404              SI4432_ReadReg(0x03);               //clear intertupt	  
+    405              SI4432_ReadReg(0x04);
+    406              
+    407              SI4432_WriteReg(0x07, 0x09);        //open send	
+    408              return;
+    409          }
+    410          
+    411          /**
+    412            * @brief  end send .
+    413            * @param  None
+    414            * @retval None
+    415            */
+    416          void si4432_send_exit()
+    417          {
+    418              SI4432_ReadReg(0x03);  	
+    419              SI4432_ReadReg(0x04);		 	
+    420              
+    421              SI4432_WriteReg(0x08, 0x12); 
+    422              SI4432_WriteReg(0x08, 0x10);        //clear fifo
+    423              SI4432_WriteReg(0x05, 0x02); 
+    424              SI4432_WriteReg(0x07, 0x05);        //open send	
+    425          
+    426              return;
+    427          }
+    428          
+    429          /**
+    430            * @brief  transmission of SI4432 .
+    431            * @param  None
+    432            * @retval None
+    433            */
+    434          void si4432_poll()
+    435          {
+    436              si4432_read_count = si4432_read(buf_4432,NULL);
+    437              exti3_flag = 0;
+    438              
+    439              switch (si4432_read_count)
+    440              {
+    441                case 7:		//light sync
+    442                  if (!(buf_4432[0] & 0x80))              //lighthouse A
+    443                  {
+    444                        wireless_phase_control_run();
+    445                        
+    446                        wireless_phase_control_scan_num_push(buf_4432[6]);
+    447                        
+    448                        fpga_light_sync_package_process(buf_4432,&(light_sync_package[0]));
+    449                        
+    450                        if (!((measure_result_valid[0])&&(measure_result_valid[1])))
+    451                        {
+    452                              light_sync_package[0].flush_flag = 0;
+    453                        }
+    454                        sync_report_routine();  
+    455                  }
+    456                  else                                   //lighthouse B
+    457                  {
+    458                        light_b_sync_flag = 1;
+    459                        
+    460                        fpga_light_sync_package_process(buf_4432,&(light_sync_package[1]));
+    461          
+    462                        if (!((measure_result_valid[2])&&(measure_result_valid[3])))
+    463                        {
+    464                            light_sync_package[1].flush_flag = 0;
+    465                        }
+    466          
+    467                  } 
+    468                  
+    469                  lighthouse_version_report_flush();//µÆËþÍ¬²½°ü
+    470                  
+    471                  break;
+    472              default:
+    473                  asm("nop");
+    474                  break;
+    475              }
+    476          }
+    477          
+    478          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   SI4432_ReadReg
+        16   -> GPIO_ResetBits
+        16   -> GPIO_SetBits
+        16   -> SPI_Byte
+      16   SI4432_WriteReg
+        16   -> GPIO_ResetBits
+         0   -> GPIO_SetBits
+        16   -> SPI_Byte
+      16   SPI_Byte
+        16   -> SPI_I2S_GetFlagStatus
+        16   -> SPI_I2S_ReceiveData
+        16   -> SPI_I2S_SendData
+       0   delay
+      40   si4432_bsp_init
+        40   -> GPIO_Init
+        40   -> GPIO_PinAFConfig
+        40   -> GPIO_SetBits
+        40   -> RCC_APB2PeriphClockCmd
+        40   -> SPI_Cmd
+        40   -> SPI_Init
+        40   -> si4432_irq_init
+       0   si4432_getIRQ
+      16   si4432_init
+        16   -> GPIO_ResetBits
+        16   -> GPIO_SetBits
+        16   -> SI4432_ReadReg
+         0   -> SI4432_WriteReg
+        16   -> SI4432_WriteReg
+        16   -> delay
+        16   -> si4432_bsp_init
+      24   si4432_irq_init
+        24   -> EXTI_Init
+        24   -> GPIO_Init
+        24   -> NVIC_Init
+        24   -> NVIC_PriorityGroupConfig
+      16   si4432_poll
+        16   -> fpga_light_sync_package_process
+         0   -> lighthouse_version_report_flush
+        16   -> si4432_read
+        16   -> sync_report_routine
+        16   -> wireless_phase_control_run
+        16   -> wireless_phase_control_scan_num_push
+      16   si4432_read
+        16   -> SI4432_ReadReg
+        16   -> SI4432_WriteReg
+      16   si4432_send
+        16   -> SI4432_ReadReg
+         0   -> SI4432_WriteReg
+        16   -> SI4432_WriteReg
+       8   si4432_send_exit
+         8   -> SI4432_ReadReg
+         0   -> SI4432_WriteReg
+         8   -> SI4432_WriteReg
+      16   si4432_send_no_wait
+        16   -> SI4432_ReadReg
+         0   -> SI4432_WriteReg
+        16   -> SI4432_WriteReg
+       8   si4432_startRx
+         0   -> SI4432_WriteReg
+         8   -> SI4432_WriteReg
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable9
+       4  ??DataTable9_1
+       4  ??DataTable9_10
+       4  ??DataTable9_2
+       4  ??DataTable9_3
+       4  ??DataTable9_4
+       4  ??DataTable9_5
+       4  ??DataTable9_6
+       4  ??DataTable9_7
+       4  ??DataTable9_8
+       4  ??DataTable9_9
+       6  ?Subroutine0
+       6  ?Subroutine1
+       4  ?Subroutine2
+       6  ?Subroutine3
+       8  ?Subroutine4
+       6  ?Subroutine5
+       6  ?Subroutine6
+      10  ?Subroutine7
+       3  ItStatus1
+          ItStatus2
+          latchedRssi
+      42  SI4432_ReadReg
+      44  SI4432_WriteReg
+      50  SPI_Byte
+     257  buf_4432
+          si4432_read_count
+      14  delay
+     222  si4432_bsp_init
+      10  si4432_getIRQ
+     400  si4432_init
+     104  si4432_irq_init
+     116  si4432_poll
+     124  si4432_read
+      82  si4432_send
+      28  si4432_send_exit
+      50  si4432_send_no_wait
+      26  si4432_startRx
+
+ 
+   260 bytes in section .bss
+ 1 408 bytes in section .text
+ 
+ 1 408 bytes of CODE memory
+   260 bytes of DATA memory
+
+Errors: none
+Warnings: none

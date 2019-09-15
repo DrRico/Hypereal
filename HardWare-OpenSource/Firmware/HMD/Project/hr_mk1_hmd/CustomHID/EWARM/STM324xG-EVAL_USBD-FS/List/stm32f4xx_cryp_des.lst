@@ -1,0 +1,400 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:32
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_cryp_des.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_cryp_des.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_cryp_des.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_cryp_des.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_cryp_des.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_cryp_des.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides high level functions to encrypt and decrypt an 
+      8            *          input message using DES in ECB/CBC modes.
+      9            *          It uses the stm32f4xx_cryp.c/.h drivers to access the STM32F4xx CRYP
+     10            *          peripheral.
+     11            *
+     12          @verbatim
+     13            
+     14           ===================================================================
+     15                            ##### How to use this driver #####
+     16           ===================================================================
+     17           [..] 
+     18             (#) Enable The CRYP controller clock using 
+     19                 RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_CRYP, ENABLE); function.
+     20            
+     21             (#) Encrypt and decrypt using DES in ECB Mode using CRYP_DES_ECB() function.
+     22            
+     23             (#) Encrypt and decrypt using DES in CBC Mode using CRYP_DES_CBC() function.
+     24            
+     25          @endverbatim
+     26            *
+     27            ******************************************************************************
+     28            * @attention
+     29            *
+     30            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     31            *
+     32            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     33            * You may not use this file except in compliance with the License.
+     34            * You may obtain a copy of the License at:
+     35            *
+     36            *        http://www.st.com/software_license_agreement_liberty_v2
+     37            *
+     38            * Unless required by applicable law or agreed to in writing, software 
+     39            * distributed under the License is distributed on an "AS IS" BASIS, 
+     40            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     41            * See the License for the specific language governing permissions and
+     42            * limitations under the License.
+     43            *
+     44            ******************************************************************************
+     45            */
+     46          
+     47          /* Includes ------------------------------------------------------------------*/
+     48          #include "stm32f4xx_cryp.h"
+     49          
+     50          
+     51          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     52            * @{
+     53            */
+     54          
+     55          /** @defgroup CRYP 
+     56            * @brief CRYP driver modules
+     57            * @{
+     58            */
+     59          
+     60          /* Private typedef -----------------------------------------------------------*/
+     61          /* Private define ------------------------------------------------------------*/
+     62          #define DESBUSY_TIMEOUT    ((uint32_t) 0x00010000)
+     63          
+     64          /* Private macro -------------------------------------------------------------*/
+     65          /* Private variables ---------------------------------------------------------*/
+     66          /* Private function prototypes -----------------------------------------------*/
+     67          /* Private functions ---------------------------------------------------------*/
+     68          
+     69          
+     70          /** @defgroup CRYP_Private_Functions
+     71            * @{
+     72            */ 
+     73          
+     74          /** @defgroup CRYP_Group8 High Level DES functions
+     75           *  @brief   High Level DES functions 
+     76           *
+     77          @verbatim   
+     78           ===============================================================================
+     79                                 ##### High Level DES functions #####
+     80           ===============================================================================
+     81          @endverbatim
+     82            * @{
+     83            */
+     84          
+     85          /**
+     86            * @brief  Encrypt and decrypt using DES in ECB Mode
+     87            * @param  Mode: encryption or decryption Mode.
+     88            *           This parameter can be one of the following values:
+     89            *            @arg MODE_ENCRYPT: Encryption
+     90            *            @arg MODE_DECRYPT: Decryption
+     91            * @param  Key: Key used for DES algorithm.
+     92            * @param  Ilength: length of the Input buffer, must be a multiple of 8.
+     93            * @param  Input: pointer to the Input buffer.
+     94            * @param  Output: pointer to the returned buffer.
+     95            * @retval An ErrorStatus enumeration value:
+     96            *          - SUCCESS: Operation done
+     97            *          - ERROR: Operation failed
+     98            */
+     99          ErrorStatus CRYP_DES_ECB(uint8_t Mode, uint8_t Key[8], uint8_t *Input, 
+    100                                   uint32_t Ilength, uint8_t *Output)
+    101          {
+    102            CRYP_InitTypeDef DES_CRYP_InitStructure;
+    103            CRYP_KeyInitTypeDef DES_CRYP_KeyInitStructure;
+    104            __IO uint32_t counter = 0;
+    105            uint32_t busystatus = 0;
+    106            ErrorStatus status = SUCCESS;
+    107            uint32_t keyaddr    = (uint32_t)Key;
+    108            uint32_t inputaddr  = (uint32_t)Input;
+    109            uint32_t outputaddr = (uint32_t)Output;
+    110            uint32_t i = 0;
+    111          
+    112            /* Crypto structures initialisation*/
+    113            CRYP_KeyStructInit(&DES_CRYP_KeyInitStructure);
+    114          
+    115            /* Crypto Init for Encryption process */
+    116            if( Mode == MODE_ENCRYPT ) /* DES encryption */
+    117            {
+    118               DES_CRYP_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+    119            }
+    120            else/* if( Mode == MODE_DECRYPT )*/ /* DES decryption */
+    121            {      
+    122               DES_CRYP_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Decrypt;
+    123            }
+    124          
+    125            DES_CRYP_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_DES_ECB;
+    126            DES_CRYP_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+    127            CRYP_Init(&DES_CRYP_InitStructure);
+    128          
+    129            /* Key Initialisation */
+    130            DES_CRYP_KeyInitStructure.CRYP_Key1Left = __REV(*(uint32_t*)(keyaddr));
+    131            keyaddr+=4;
+    132            DES_CRYP_KeyInitStructure.CRYP_Key1Right= __REV(*(uint32_t*)(keyaddr));
+    133            CRYP_KeyInit(& DES_CRYP_KeyInitStructure);
+    134          
+    135            /* Flush IN/OUT FIFO */
+    136            CRYP_FIFOFlush();
+    137          
+    138            /* Enable Crypto processor */
+    139            CRYP_Cmd(ENABLE);
+    140          
+    141            if(CRYP_GetCmdStatus() == DISABLE)
+    142            {
+    143              /* The CRYP peripheral clock is not enabled or the device doesn't embed 
+    144                 the CRYP peripheral (please check the device sales type. */
+    145              return(ERROR);
+    146            }
+    147            for(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+    148            {
+    149          
+    150              /* Write the Input block in the Input FIFO */
+    151              CRYP_DataIn(*(uint32_t*)(inputaddr));
+    152              inputaddr+=4;
+    153              CRYP_DataIn(*(uint32_t*)(inputaddr));
+    154              inputaddr+=4;
+    155          
+    156          /* Wait until the complete message has been processed */
+    157              counter = 0;
+    158              do
+    159              {
+    160                busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+    161                counter++;
+    162              }while ((counter != DESBUSY_TIMEOUT) && (busystatus != RESET));
+    163          
+    164              if (busystatus != RESET)
+    165             {
+    166                 status = ERROR;
+    167              }
+    168              else
+    169              {
+    170          
+    171                /* Read the Output block from the Output FIFO */
+    172                *(uint32_t*)(outputaddr) = CRYP_DataOut();
+    173                outputaddr+=4;
+    174                *(uint32_t*)(outputaddr) = CRYP_DataOut();
+    175                outputaddr+=4;
+    176              }
+    177            }
+    178          
+    179            /* Disable Crypto */
+    180            CRYP_Cmd(DISABLE);
+    181          
+    182            return status; 
+    183          }
+    184          
+    185          /**
+    186            * @brief  Encrypt and decrypt using DES in CBC Mode
+    187            * @param  Mode: encryption or decryption Mode.
+    188            *          This parameter can be one of the following values:
+    189            *            @arg MODE_ENCRYPT: Encryption
+    190            *            @arg MODE_DECRYPT: Decryption
+    191            * @param  Key: Key used for DES algorithm.
+    192            * @param  InitVectors: Initialisation Vectors used for DES algorithm.
+    193            * @param  Ilength: length of the Input buffer, must be a multiple of 8.
+    194            * @param  Input: pointer to the Input buffer.
+    195            * @param  Output: pointer to the returned buffer.
+    196            * @retval An ErrorStatus enumeration value:
+    197            *          - SUCCESS: Operation done
+    198            *          - ERROR: Operation failed
+    199            */
+    200          ErrorStatus CRYP_DES_CBC(uint8_t Mode, uint8_t Key[8], uint8_t InitVectors[8],
+    201                                   uint8_t *Input, uint32_t Ilength, uint8_t *Output)
+    202          {
+    203            CRYP_InitTypeDef DES_CRYP_InitStructure;
+    204            CRYP_KeyInitTypeDef DES_CRYP_KeyInitStructure;
+    205            CRYP_IVInitTypeDef DES_CRYP_IVInitStructure;
+    206            __IO uint32_t counter = 0;
+    207            uint32_t busystatus = 0;
+    208            ErrorStatus status = SUCCESS;
+    209            uint32_t keyaddr    = (uint32_t)Key;
+    210            uint32_t inputaddr  = (uint32_t)Input;
+    211            uint32_t outputaddr = (uint32_t)Output;
+    212            uint32_t ivaddr     = (uint32_t)InitVectors;
+    213            uint32_t i = 0;
+    214          
+    215            /* Crypto structures initialisation*/
+    216            CRYP_KeyStructInit(&DES_CRYP_KeyInitStructure);
+    217          
+    218            /* Crypto Init for Encryption process */
+    219            if(Mode == MODE_ENCRYPT) /* DES encryption */
+    220            {
+    221               DES_CRYP_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+    222            }
+    223            else /*if(Mode == MODE_DECRYPT)*/ /* DES decryption */
+    224            {
+    225               DES_CRYP_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Decrypt;
+    226            }
+    227          
+    228            DES_CRYP_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_DES_CBC;
+    229            DES_CRYP_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+    230            CRYP_Init(&DES_CRYP_InitStructure);
+    231          
+    232            /* Key Initialisation */
+    233            DES_CRYP_KeyInitStructure.CRYP_Key1Left = __REV(*(uint32_t*)(keyaddr));
+    234            keyaddr+=4;
+    235            DES_CRYP_KeyInitStructure.CRYP_Key1Right= __REV(*(uint32_t*)(keyaddr));
+    236            CRYP_KeyInit(& DES_CRYP_KeyInitStructure);
+    237          
+    238            /* Initialization Vectors */
+    239            DES_CRYP_IVInitStructure.CRYP_IV0Left = __REV(*(uint32_t*)(ivaddr));
+    240            ivaddr+=4;
+    241            DES_CRYP_IVInitStructure.CRYP_IV0Right= __REV(*(uint32_t*)(ivaddr));
+    242            CRYP_IVInit(&DES_CRYP_IVInitStructure);
+    243          
+    244            /* Flush IN/OUT FIFO */
+    245            CRYP_FIFOFlush();
+    246            
+    247            /* Enable Crypto processor */
+    248            CRYP_Cmd(ENABLE);
+    249          
+    250            if(CRYP_GetCmdStatus() == DISABLE)
+    251            {
+    252              /* The CRYP peripheral clock is not enabled or the device doesn't embed 
+    253                 the CRYP peripheral (please check the device sales type. */
+    254              return(ERROR);
+    255            }
+    256            for(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+    257            {
+    258              /* Write the Input block in the Input FIFO */
+    259              CRYP_DataIn(*(uint32_t*)(inputaddr));
+    260              inputaddr+=4;
+    261              CRYP_DataIn(*(uint32_t*)(inputaddr));
+    262              inputaddr+=4;
+    263          
+    264              /* Wait until the complete message has been processed */
+    265              counter = 0;
+    266              do
+    267              {
+    268                busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+    269                counter++;
+    270              }while ((counter != DESBUSY_TIMEOUT) && (busystatus != RESET));
+    271          
+    272              if (busystatus != RESET)
+    273             {
+    274                 status = ERROR;
+    275              }
+    276              else
+    277              {
+    278                /* Read the Output block from the Output FIFO */
+    279                *(uint32_t*)(outputaddr) = CRYP_DataOut();
+    280                outputaddr+=4;
+    281                *(uint32_t*)(outputaddr) = CRYP_DataOut();
+    282                outputaddr+=4;
+    283              }
+    284            }
+    285          
+    286            /* Disable Crypto */
+    287            CRYP_Cmd(DISABLE);
+    288          
+    289            return status; 
+    290          }
+    291          
+    292          /**
+    293            * @}
+    294            */ 
+    295          
+    296          /**
+    297            * @}
+    298            */ 
+    299          
+    300          /**
+    301            * @}
+    302            */ 
+    303          
+    304          /**
+    305            * @}
+    306            */ 
+    307          
+    308          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+     104   CRYP_DES_CBC
+       104   -> CRYP_Cmd
+       104   -> CRYP_DataIn
+       104   -> CRYP_DataOut
+       104   -> CRYP_FIFOFlush
+       104   -> CRYP_GetCmdStatus
+       104   -> CRYP_GetFlagStatus
+       104   -> CRYP_IVInit
+       104   -> CRYP_Init
+       104   -> CRYP_KeyInit
+       104   -> CRYP_KeyStructInit
+      88   CRYP_DES_ECB
+        88   -> CRYP_Cmd
+        88   -> CRYP_DataIn
+        88   -> CRYP_DataOut
+        88   -> CRYP_FIFOFlush
+        88   -> CRYP_GetCmdStatus
+        88   -> CRYP_GetFlagStatus
+        88   -> CRYP_Init
+        88   -> CRYP_KeyInit
+        88   -> CRYP_KeyStructInit
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      12  ?Subroutine0
+      14  ?Subroutine1
+     190  CRYP_DES_CBC
+     164  CRYP_DES_ECB
+
+ 
+ 380 bytes in section .text
+ 
+ 380 bytes of CODE memory
+
+Errors: none
+Warnings: none

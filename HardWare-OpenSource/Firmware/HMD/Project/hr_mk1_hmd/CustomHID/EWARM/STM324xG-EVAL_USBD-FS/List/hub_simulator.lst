@@ -1,0 +1,224 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        23/Sep/2016  19:21:54
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\hub_simulator.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\hub_simulator.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\hub_simulator.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\hub_simulator.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\hub_simulator.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    hub_simulator.c
+      4            * @author  Hypereal Team
+      5            * @version V1.2.0
+      6            * @date    19-September-2016
+      7            * @brief   This file provides firmware functions to receive data from gamepad 
+      8            *          and push these data to usb stack.
+      9            ******************************************************************************
+     10          
+     11            ******************************************************************************
+     12            */ 
+     13          
+     14          /* Includes ------------------------------------------------------------------*/
+     15          #include "hub_simulator.h"
+     16          #include "usbd_trans.h"
+     17          #include "fpga_coprocesser.h"
+     18          #include "wireless_phase_control.h"
+     19          
+     20          /* Private macro -------------------------------------------------------------*/
+     21          gamepad_battery_report_type gamepad_battery_report[2];
+     22          lighthouse_version_report_type lighthouse_version_report[2];
+     23          GamepadSensorReport gamepad_report;
+     24          
+     25          /* Private define ------------------------------------------------------------*/
+     26          #define gamepad_num                             2
+     27          #define gamepad_packet_num                      8
+     28          /* Private variables ---------------------------------------------------------*/
+     29          unsigned char remote_flush_flag[gamepad_num] = {0,0};
+     30          uint16_t cubeRxCount[gamepad_num] = { 0, 0 };
+     31          uint16_t joystickRxCount[gamepad_num] = { 0, 0 };
+     32          
+     33          remote_data_type remote_data_stack[gamepad_packet_num];
+     34          uint8_t remote_data_stack_count = 0;
+     35          uint32_t remote_data_push_count = 0;
+     36          
+     37          /**
+     38            * @brief  Analytic frames from gamepad 
+     39            * @param  None
+     40            * @retval None
+     41            */
+     42          void hub_remote_data_push(uint8_t * buf)
+     43          {
+     44          	uint8_t *ptr_8;
+     45          	uint16_t *ptr_16;
+     46                  uint8_t i;
+     47          	
+     48          	if (remote_data_stack_count < gamepad_packet_num)
+     49          	{
+     50          		remote_data_stack[remote_data_stack_count].remote_id = buf[0]>>7;
+     51          		remote_data_stack[remote_data_stack_count].button = (buf[0]&0x7f)|0X80;
+     52          		remote_data_stack[remote_data_stack_count].trigger = buf[1];
+     53          		remote_data_stack[remote_data_stack_count].js_x = buf[2];
+     54          		remote_data_stack[remote_data_stack_count].js_y = buf[3];
+     55          		
+     56          		ptr_8 = (uint8_t *)(void * )(&(remote_data_stack[remote_data_stack_count].qi[0]));
+     57          		for ( i = 0;i < 12;i++)
+     58          		{
+     59          			ptr_8[i] = buf[4+i];
+     60          		}
+     61          
+     62          		for (i = 0;i < 3;i++)
+     63          		{
+     64          			remote_data_stack[remote_data_stack_count].ls_en[i] = buf[16+i];
+     65          		}
+     66          		
+     67          		ptr_16 = (uint16_t *)(buf + 19);
+     68          		for (i = 0;i < 16;i++)
+     69          		{
+     70          			remote_data_stack[remote_data_stack_count].ls[i] = ptr_16[i];
+     71          		}
+     72          		
+     73          		remote_data_stack[remote_data_stack_count].bat = buf[51] & 0xfc;
+     74          		remote_data_stack[remote_data_stack_count].axis = buf[51]& 0x03;
+     75          		remote_data_stack[remote_data_stack_count].ver = buf[52];
+     76          
+     77          		remote_data_stack_count += 1;
+     78          	}
+     79          	
+     80          	uint8_t gamepad_id = buf[0]>>7;
+     81          	
+     82          	gamepad_battery_report[gamepad_id].version = ((buf[52]>>4)) + (((uint16_t)(buf[52] & 0x0f))<<8);
+     83          	gamepad_battery_report[gamepad_id].id = gamepad_id;
+     84          	gamepad_battery_report[gamepad_id].bat = buf[51]&0xfc;
+     85          	
+     86          	remote_flush_flag[gamepad_id] = 1;
+     87          	
+     88          }
+     89          
+     90          /**
+     91            * @brief  Push data from gamepad to USB stack. 
+     92            * @param  None
+     93            * @retval None
+     94            */
+     95          void hub_remote_data_stack_poll()
+     96          {
+     97          	uint8_t valid_count = 0;
+     98          	
+     99          	if (remote_data_stack_count)
+    100          	{
+    101                        gamepad_report.GamepadID = remote_data_stack[remote_data_stack_count-1].remote_id;
+    102                        gamepad_report.Buttons = remote_data_stack[remote_data_stack_count-1].button;
+    103                        gamepad_report.Trigger = remote_data_stack[remote_data_stack_count-1].trigger;
+    104                        gamepad_report.Joystick[0] = remote_data_stack[remote_data_stack_count-1].js_x;
+    105                        gamepad_report.Joystick[1] = remote_data_stack[remote_data_stack_count-1].js_y;
+    106                        for (uint8_t i=0;i<3;i++)
+    107                        {
+    108                                gamepad_report.QuatIncrement[i] = remote_data_stack[remote_data_stack_count-1].qi[i];
+    109                        }
+    110                        gamepad_report.QuatIncrement[3] = 0;
+    111                        
+    112                        gamepad_report.ScanNumber = scan_num;
+    113                        gamepad_report.ScanAxis = remote_data_stack[remote_data_stack_count-1].axis+1;
+    114                        
+    115                        for (uint8_t i = 0;i < 24;i++)
+    116                        {
+    117                                if (remote_data_stack[remote_data_stack_count-1].ls_en[i/8] & (0x01<<(i%8)))
+    118                                {
+    119                                        if (valid_count < 16)
+    120                                        {
+    121                                                gamepad_report.LightSensor[valid_count].MeasureResult = remote_data_stack[remote_data_stack_count-1].ls[valid_count];
+    122                                                gamepad_report.LightSensor[valid_count].SensorID = i;
+    123                                                gamepad_report.LightSensor[valid_count].TriggerCount = 1;
+    124                                                valid_count++;
+    125                                        }
+    126                                }
+    127                        }
+    128                        gamepad_report.SampleCount = valid_count;
+    129                        
+    130                        TX_push((uint8_t *)(&gamepad_report),sizeof(gamepad_report) - sizeof(LightSensorData)* (24-valid_count) ,0x05);
+    131                        remote_data_push_count ++;
+    132                        
+    133                        remote_data_stack_count --;
+    134          	}
+    135          }
+    136          
+    137          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      20   hub_remote_data_push
+      24   hub_remote_data_stack_poll
+        24   -> TX_push
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_2
+       4  ??DataTable1_3
+       4  cubeRxCount
+      12  gamepad_battery_report
+          remote_data_stack_count
+          remote_flush_flag
+     128  gamepad_report
+          remote_data_push_count
+     190  hub_remote_data_push
+     182  hub_remote_data_stack_poll
+       4  joystickRxCount
+      16  lighthouse_version_report
+     480  remote_data_stack
+
+ 
+ 644 bytes in section .bss
+ 388 bytes in section .text
+ 
+ 388 bytes of CODE memory
+ 644 bytes of DATA memory
+
+Errors: none
+Warnings: 1

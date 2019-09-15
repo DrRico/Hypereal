@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{16838E21-0033-45DA-8AD3-FE20A02CC2CD}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VS2013</RootNamespace>
+    <ProjectName>VRTrackedDevMgr</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(TOPDIR)/VRTrackDevHAL/LibHVRLighthouse/;$(TOPDIR)/VRTrackDevMgr/include/;$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;$(TOPDIR)/ExternalLibs/libusb-win32-src-1.2.6.0/src/;$(TOPDIR)/VRConfig/;$(TOPDIR)\ExternalLibs\HVR_Logger\include;$(TOPDIR)\ExternalLibs\libwebsockets\inc;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\include;$(IncludePath)</IncludePath>
+    <OutDir>$(TOPDIR)/Out//$(Platform)/$(Configuration)/</OutDir>
+    <TargetName>VRTrackedDevMgr</TargetName>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(TOPDIR)\ExternalLibs\HVR_Logger\Debug_Unicode\Win32;$(TOPDIR)\ExternalLibs\libwebsockets\lib32\RelWithDebInfo;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win32\Debug</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(TOPDIR)/VRTrackDevHAL/LibHVRLighthouse/;$(TOPDIR)/VRTrackDevMgr/include/;$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;$(TOPDIR)/ExternalLibs/libusb-win32-src-1.2.6.0/src/;$(TOPDIR)/VRConfig/;$(IncludePath)</IncludePath>
+    <OutDir>$(TOPDIR)/Out//$(Platform)/$(Configuration)/</OutDir>
+    <TargetName>VRTrackedDevMgr</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>VRTrackedDevMgr</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(TOPDIR)/VRTrackDevHAL/LibHVRLighthouse/;$(TOPDIR)/VRTrackDevMgr/include/;$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;$(TOPDIR)/ExternalLibs/libusb-win32-src-1.2.6.0/src/;$(TOPDIR)\ExternalLibs\HVR_Logger\include;$(TOPDIR)\ExternalLibs\libwebsockets\inc;$(TOPDIR)/VRConfig/;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\include;$(IncludePath)</IncludePath>
+    <OutDir>$(TOPDIR)/Out//$(Platform)/$(Configuration)/</OutDir>
+    <LibraryPath>$(TOPDIR)\ExternalLibs\HVR_Logger\Debug_Unicode\x64;$(LibraryPath);$(TOPDIR)\ExternalLibs\libwebsockets\lib64\RelWithDebInfo;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win64\Debug</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|x64'">
+    <TargetName>VRTrackedDevMgr</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../../../../ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;../../../../ExternalLibs/libusb-win32-src-1.2.6.0/src/;../../../../VRTrackDevHAL/VRTrackDevHAL/HVR_Lighthouse/;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(TOPDIR)/VRTrackDevHAL/LibHVRLighthouse/;$(TOPDIR)/VRTrackDevMgr/include/;$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;$(TOPDIR)/ExternalLibs/libusb-win32-src-1.2.6.0/src/;$(TOPDIR)/VRConfig/;$(TOPDIR)\ExternalLibs\HVR_Logger\include;$(TOPDIR)\ExternalLibs\libwebsockets\inc;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\include;$(IncludePath)</IncludePath>
+    <OutDir>$(TOPDIR)/Out//$(Platform)/$(Configuration)/</OutDir>
+    <TargetName>VRTrackedDevMgr</TargetName>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(TOPDIR)\ExternalLibs\HVR_Logger\Release_Unicode\Win32;$(TOPDIR)\ExternalLibs\libwebsockets\lib32\RelWithDebInfo;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win32\Release</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(TOPDIR)/VRTrackDevHAL/LibHVRLighthouse/;$(TOPDIR)/VRTrackDevMgr/include/;$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/include/;$(TOPDIR)/ExternalLibs/libusb-win32-src-1.2.6.0/src/;$(TOPDIR)/VRConfig/;$(TOPDIR)\ExternalLibs\HVR_Logger\include;$(TOPDIR)\ExternalLibs\libwebsockets\inc;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\include;$(IncludePath)</IncludePath>
+    <OutDir>$(TOPDIR)/Out//$(Platform)/$(Configuration)/</OutDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(TOPDIR)\ExternalLibs\HVR_Logger\Release_Unicode\x64;$(TOPDIR)\ExternalLibs\libwebsockets\lib64\RelWithDebInfo;$(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win64\Release</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);VRTRACKDRVDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AlgorithmSDK.lib;%(AdditionalDependencies);HVR_Logger.lib;websockets_static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/lib/Win32/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>md $(TOPDIR)\Out\Inc
+copy  $(TOPDIR)\VRTrackDevMgr\include\*.h  $(TOPDIR)\Out\Inc\ 
+copy $(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win32\Debug\AlgorithmSDK.* $(TargetDir)\
+copy $(TOPDIR)\ExternalLibs\HVR_Logger\Debug_Unicode\Win32\* $(TargetDir)\
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AlgorithmSDKd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>md $(TOPDIR)\Out\Inc
+copy  $(TOPDIR)\VRTrackDevMgr\include\VRTrackedDeviceMgr.h  $(TOPDIR)\Out\Inc\ 
+copy  $(TOPDIR)\VRTrackDevMgr\include\VRCalibration.h  $(TOPDIR)\Out\Inc\ 
+copy $(TOPDIR)\ExternalLibs\HyTrackAlgRelease\TestAlgSDK\bin\AlgorithmSDKd.dll $(TargetDir)\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);VRTRACKDRVDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AlgorithmSDK.lib;;%(AdditionalDependencies);HVR_Logger.lib;websockets_static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/lib/x64/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>md $(TOPDIR)\Out\Inc
+copy  $(TOPDIR)\VRTrackDevMgr\include\*.h  $(TOPDIR)\Out\Inc\ 
+copy $(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win64\Debug\AlgorithmSDK.* $(TargetDir)\
+copy $(TOPDIR)\ExternalLibs\HVR_Logger\Debug_Unicode\x64\* $(TargetDir)\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debugx64|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AlgorithmSDKd.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\ExternalLibs\HyTrackAlgRelease\TestAlgSDK\AlgorithmSDK\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);VRTRACKDRVDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>AlgorithmSDK.lib;%(AdditionalDependencies);HVR_Logger.lib;websockets_static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/lib/Win32/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>md $(TOPDIR)\Out\Inc
+copy  $(TOPDIR)\VRTrackDevMgr\include\*.h  $(TOPDIR)\Out\Inc\ 
+copy $(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win32\Release\AlgorithmSDK.* $(TargetDir)\
+copy $(TOPDIR)\ExternalLibs\HVR_Logger\Release_Unicode\Win32\* $(TargetDir)\
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions); /FS;VRTRACKDRVDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalOptions>/D "VRTRACKDRVDLL_EXPORTS" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(TOPDIR)/ExternalLibs/HyTrackAlgRelease/TestAlgSDK/AlgorithmSDK/lib/x64/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AlgorithmSDK.lib;HVR_Logger.lib;websockets_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>md $(TOPDIR)\Out\Inc
+copy  $(TOPDIR)\VRTrackDevMgr\include\*.h  $(TOPDIR)\Out\Inc\ 
+copy $(TOPDIR)\ExternalLibs\HytrackAlgReleaseP4\libs\Win64\Release\AlgorithmSDK.* $(TargetDir)\
+copy $(TOPDIR)\ExternalLibs\HVR_Logger\Release_Unicode\x64\* $(TargetDir)\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\VRTrackDevMgr\include\VRCalibration.h" />
+    <ClInclude Include="..\..\VRTrackDevMgr\include\VRTrackedDeviceMgr.h" />
+    <ClInclude Include="..\..\VRTrackDevMgr\source\DeviceConnector.h" />
+    <ClInclude Include="..\..\VRTrackDevMgr\source\FirmwareVersion.h" />
+    <ClInclude Include="..\..\VRTrackDevMgr\source\ITrackedDevice.h" />
+    <ClInclude Include="..\..\VRTrackDevMgr\source\VRHMD.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="VersionNum.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\VRTrackDevMgr\source\DeviceConnector.cpp" />
+    <ClCompile Include="..\..\VRTrackDevMgr\source\ITrackedDevice.cpp" />
+    <ClCompile Include="..\..\VRTrackDevMgr\source\VRCalibration.cpp" />
+    <ClCompile Include="..\..\VRTrackDevMgr\source\VRHMD.cpp" />
+    <ClCompile Include="..\..\VRTrackDevMgr\source\VRLighthouse.cpp" />
+    <ClCompile Include="..\..\VRTrackDevMgr\source\VRTrackedDeviceMgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="VRCalibration.vcxproj">
+      <Project>{049fb861-6884-4f91-9941-769e20629feb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="VRTrackDevHAL.vcxproj">
+      <Project>{4e15bff4-a3aa-44fe-bf92-ea3a3931afc2}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VRTrackedDevMgr.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

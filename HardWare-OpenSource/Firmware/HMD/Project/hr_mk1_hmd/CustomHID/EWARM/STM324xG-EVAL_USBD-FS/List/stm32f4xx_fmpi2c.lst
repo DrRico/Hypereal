@@ -1,0 +1,1636 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:35
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_fmpi2c.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_fmpi2c.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_fmpi2c.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_fmpi2c.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_fmpi2c.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_fmpi2c.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Inter-Integrated circuit Fast Mode Plus (FMPI2C):
+      9            *           + Initialization and Configuration
+     10            *           + Communications handling
+     11            *           + SMBUS management
+     12            *           + FMPI2C registers management
+     13            *           + Data transfers management
+     14            *           + DMA transfers management
+     15            *           + Interrupts and flags management
+     16            *
+     17            *  @verbatim
+     18           ============================================================================
+     19                               ##### How to use this driver #####
+     20           ============================================================================
+     21             [..]
+     22             (#) Enable peripheral clock using RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2Cx, ENABLE)
+     23                 function for FMPI2C peripheral.
+     24             (#) Enable SDA, SCL  and SMBA (when used) GPIO clocks using 
+     25                 RCC_AHBPeriphClockCmd() function. 
+     26             (#) Peripherals alternate function: 
+     27                 (++) Connect the pin to the desired peripherals' Alternate 
+     28                      Function (AF) using GPIO_PinAFConfig() function.
+     29                 (++) Configure the desired pin in alternate function by:
+     30                      GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+     31                 (++) Select the type, OpenDrain and speed via 
+     32                      GPIO_PuPd, GPIO_OType and GPIO_Speed members
+     33                 (++) Call GPIO_Init() function.
+     34             (#) Program the Mode, Timing , Own address, Ack and Acknowledged Address 
+     35                 using the FMPI2C_Init() function.
+     36             (#) Optionally you can enable/configure the following parameters without
+     37                 re-initialization (i.e there is no need to call again FMPI2C_Init() function):
+     38                 (++) Enable the acknowledge feature using FMPI2C_AcknowledgeConfig() function.
+     39                 (++) Enable the dual addressing mode using FMPI2C_DualAddressCmd() function.
+     40                 (++) Enable the general call using the FMPI2C_GeneralCallCmd() function.
+     41                 (++) Enable the clock stretching using FMPI2C_StretchClockCmd() function.
+     42                 (++) Enable the PEC Calculation using FMPI2C_CalculatePEC() function.
+     43                 (++) For SMBus Mode: 
+     44                      (+++) Enable the SMBusAlert pin using FMPI2C_SMBusAlertCmd() function.
+     45             (#) Enable the NVIC and the corresponding interrupt using the function
+     46                 FMPI2C_ITConfig() if you need to use interrupt mode.
+     47             (#) When using the DMA mode 
+     48                (++) Configure the DMA using DMA_Init() function.
+     49                (++) Active the needed channel Request using FMPI2C_DMACmd() function.
+     50             (#) Enable the FMPI2C using the FMPI2C_Cmd() function.
+     51             (#) Enable the DMA using the DMA_Cmd() function when using DMA mode in the 
+     52                 transfers.
+     53             [..]        
+     54             (@) When using FMPI2C in Fast Mode Plus, SCL and SDA pin 20mA current drive capability
+     55                 must be enabled by setting the driving capability control bit in SYSCFG.
+     56                 
+     57              @endverbatim
+     58            ******************************************************************************
+     59            * @attention
+     60            *
+     61            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     62            *
+     63            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     64            * You may not use this file except in compliance with the License.
+     65            * You may obtain a copy of the License at:
+     66            *
+     67            *        http://www.st.com/software_license_agreement_liberty_v2
+     68            *
+     69            * Unless required by applicable law or agreed to in writing, software 
+     70            * distributed under the License is distributed on an "AS IS" BASIS, 
+     71            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     72            * See the License for the specific language governing permissions and
+     73            * limitations under the License.
+     74            *
+     75            ******************************************************************************
+     76            */
+     77          
+     78          /* Includes ------------------------------------------------------------------*/
+     79          #include "stm32f4xx_fmpi2c.h"
+     80          #include "stm32f4xx_rcc.h"
+     81          
+     82          /** @addtogroup STM32F40x_StdPeriph_Driver
+     83            * @{
+     84            */
+     85          
+     86          /** @defgroup FMPI2C 
+     87            * @brief FMPI2C driver modules
+     88            * @{
+     89            */
+     90          #if defined(STM32F410xx) || defined(STM32F446xx)
+     91          /* Private typedef -----------------------------------------------------------*/
+     92          /* Private define ------------------------------------------------------------*/
+     93          
+     94          #define CR1_CLEAR_MASK          ((uint32_t)0x00CFE0FF)  /*<! FMPI2C CR1 clear register Mask */
+     95          #define CR2_CLEAR_MASK          ((uint32_t)0x07FF7FFF)  /*<! FMPI2C CR2 clear register Mask */
+     96          #define TIMING_CLEAR_MASK       ((uint32_t)0xF0FFFFFF)  /*<! FMPI2C TIMING clear register Mask */
+     97          #define ERROR_IT_MASK           ((uint32_t)0x00003F00)  /*<! FMPI2C Error interrupt register Mask */
+     98          #define TC_IT_MASK              ((uint32_t)0x000000C0)  /*<! FMPI2C TC interrupt register Mask */
+     99          
+    100          /* Private macro -------------------------------------------------------------*/
+    101          /* Private variables ---------------------------------------------------------*/
+    102          /* Private function prototypes -----------------------------------------------*/
+    103          /* Private functions ---------------------------------------------------------*/
+    104          
+    105          /** @defgroup FMPI2C_Private_Functions
+    106            * @{
+    107            */
+    108          
+    109          
+    110          /** @defgroup FMPI2C_Group1 Initialization and Configuration functions
+    111           *  @brief   Initialization and Configuration functions 
+    112           *
+    113          @verbatim   
+    114           ===============================================================================
+    115                     ##### Initialization and Configuration functions #####
+    116           ===============================================================================
+    117              [..] This section provides a set of functions allowing to initialize the FMPI2C Mode,
+    118                   FMPI2C Timing, FMPI2C filters, FMPI2C Addressing mode, FMPI2C OwnAddress1.
+    119          
+    120              [..] The FMPI2C_Init() function follows the FMPI2C configuration procedures (these procedures 
+    121                   are available in reference manual).
+    122                   
+    123              [..] When the Software Reset is performed using FMPI2C_SoftwareResetCmd() function, the internal
+    124                   states machines are reset and communication control bits, as well as status bits come 
+    125                   back to their reset value.
+    126                   
+    127              [..] Before enabling Stop mode using FMPI2C_StopModeCmd() FMPI2C Clock source must be set to
+    128                   HSI and Digital filters must be disabled.
+    129                   
+    130              [..] Before enabling Own Address 2 via FMPI2C_DualAddressCmd() function, OA2 and mask should be
+    131                   configured using FMPI2C_OwnAddress2Config() function.
+    132                   
+    133              [..] FMPI2C_SlaveByteControlCmd() enable Slave byte control that allow user to get control of 
+    134                   each byte in slave mode when NBYTES is set to 0x01. 
+    135                       
+    136          @endverbatim
+    137            * @{
+    138            */
+    139          
+    140          /**
+    141            * @brief  Deinitializes the FMPI2Cx peripheral registers to their default reset values.
+    142            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    143            * @retval None
+    144            */
+    145          void FMPI2C_DeInit(FMPI2C_TypeDef* FMPI2Cx)
+    146          {
+    147            /* Check the parameters */
+    148            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    149          
+    150            if (FMPI2Cx == FMPI2C1)
+    151            {
+    152              /* Enable FMPI2C1 reset state */
+    153              RCC_APB1PeriphResetCmd(RCC_APB1Periph_FMPI2C1, ENABLE);
+    154              /* Release FMPI2C1 from reset state */
+    155              RCC_APB1PeriphResetCmd(RCC_APB1Periph_FMPI2C1, DISABLE);      
+    156            }
+    157          }
+    158          
+    159          /**
+    160            * @brief  Initializes the FMPI2Cx peripheral according to the specified
+    161            *         parameters in the FMPI2C_InitStruct.
+    162            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    163            * @param  FMPI2C_InitStruct: pointer to a FMPI2C_InitTypeDef structure that
+    164            *         contains the configuration information for the specified FMPI2C peripheral.
+    165            * @retval None
+    166            */
+    167          void FMPI2C_Init(FMPI2C_TypeDef* FMPI2Cx, FMPI2C_InitTypeDef* FMPI2C_InitStruct)
+    168          {
+    169            uint32_t tmpreg = 0;
+    170          
+    171            /* Check the parameters */
+    172            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    173            assert_param(IS_FMPI2C_ANALOG_FILTER(FMPI2C_InitStruct->FMPI2C_AnalogFilter));
+    174            assert_param(IS_FMPI2C_DIGITAL_FILTER(FMPI2C_InitStruct->FMPI2C_DigitalFilter));
+    175            assert_param(IS_FMPI2C_MODE(FMPI2C_InitStruct->FMPI2C_Mode));
+    176            assert_param(IS_FMPI2C_OWN_ADDRESS1(FMPI2C_InitStruct->FMPI2C_OwnAddress1));
+    177            assert_param(IS_FMPI2C_ACK(FMPI2C_InitStruct->FMPI2C_Ack));
+    178            assert_param(IS_FMPI2C_ACKNOWLEDGE_ADDRESS(FMPI2C_InitStruct->FMPI2C_AcknowledgedAddress));
+    179          
+    180            /* Disable FMPI2Cx Peripheral */
+    181            FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_PE);
+    182          
+    183            /*---------------------------- FMPI2Cx FILTERS Configuration ------------------*/
+    184            /* Get the FMPI2Cx CR1 value */
+    185            tmpreg = FMPI2Cx->CR1;
+    186            /* Clear FMPI2Cx CR1 register */
+    187            tmpreg &= CR1_CLEAR_MASK;
+    188            /* Configure FMPI2Cx: analog and digital filter */
+    189            /* Set ANFOFF bit according to FMPI2C_AnalogFilter value */
+    190            /* Set DFN bits according to FMPI2C_DigitalFilter value */
+    191            tmpreg |= (uint32_t)FMPI2C_InitStruct->FMPI2C_AnalogFilter |(FMPI2C_InitStruct->FMPI2C_DigitalFilter << 8);
+    192            
+    193            /* Write to FMPI2Cx CR1 */
+    194            FMPI2Cx->CR1 = tmpreg;
+    195          
+    196            /*---------------------------- FMPI2Cx TIMING Configuration -------------------*/
+    197            /* Configure FMPI2Cx: Timing */
+    198            /* Set TIMINGR bits according to FMPI2C_Timing */
+    199            /* Write to FMPI2Cx TIMING */
+    200            FMPI2Cx->TIMINGR = FMPI2C_InitStruct->FMPI2C_Timing & TIMING_CLEAR_MASK;
+    201          
+    202            /* Enable FMPI2Cx Peripheral */
+    203            FMPI2Cx->CR1 |= FMPI2C_CR1_PE;
+    204          
+    205            /*---------------------------- FMPI2Cx OAR1 Configuration ---------------------*/
+    206            /* Clear tmpreg local variable */
+    207            tmpreg = 0;
+    208            /* Clear OAR1 register */
+    209            FMPI2Cx->OAR1 = (uint32_t)tmpreg;
+    210            /* Clear OAR2 register */
+    211            FMPI2Cx->OAR2 = (uint32_t)tmpreg;
+    212            /* Configure FMPI2Cx: Own Address1 and acknowledged address */
+    213            /* Set OA1MODE bit according to FMPI2C_AcknowledgedAddress value */
+    214            /* Set OA1 bits according to FMPI2C_OwnAddress1 value */
+    215            tmpreg = (uint32_t)((uint32_t)FMPI2C_InitStruct->FMPI2C_AcknowledgedAddress | \
+    216                                (uint32_t)FMPI2C_InitStruct->FMPI2C_OwnAddress1);
+    217            /* Write to FMPI2Cx OAR1 */
+    218            FMPI2Cx->OAR1 = tmpreg;
+    219            /* Enable Own Address1 acknowledgement */
+    220            FMPI2Cx->OAR1 |= FMPI2C_OAR1_OA1EN;
+    221          
+    222            /*---------------------------- FMPI2Cx MODE Configuration ---------------------*/
+    223            /* Configure FMPI2Cx: mode */
+    224            /* Set SMBDEN and SMBHEN bits according to FMPI2C_Mode value */
+    225            tmpreg = FMPI2C_InitStruct->FMPI2C_Mode;
+    226            /* Write to FMPI2Cx CR1 */
+    227            FMPI2Cx->CR1 |= tmpreg;
+    228          
+    229            /*---------------------------- FMPI2Cx ACK Configuration ----------------------*/
+    230            /* Get the FMPI2Cx CR2 value */
+    231            tmpreg = FMPI2Cx->CR2;
+    232            /* Clear FMPI2Cx CR2 register */
+    233            tmpreg &= CR2_CLEAR_MASK;
+    234            /* Configure FMPI2Cx: acknowledgement */
+    235            /* Set NACK bit according to FMPI2C_Ack value */
+    236            tmpreg |= FMPI2C_InitStruct->FMPI2C_Ack;
+    237            /* Write to FMPI2Cx CR2 */
+    238            FMPI2Cx->CR2 = tmpreg;
+    239          }
+    240          
+    241          /**
+    242            * @brief  Fills each FMPI2C_InitStruct member with its default value.
+    243            * @param  FMPI2C_InitStruct: pointer to an FMPI2C_InitTypeDef structure which will be initialized.
+    244            * @retval None
+    245            */
+    246          void FMPI2C_StructInit(FMPI2C_InitTypeDef* FMPI2C_InitStruct)
+    247          {
+    248            /*---------------- Reset FMPI2C init structure parameters values --------------*/
+    249            /* Initialize the FMPI2C_Timing member */
+    250            FMPI2C_InitStruct->FMPI2C_Timing = 0;
+    251            /* Initialize the FMPI2C_AnalogFilter member */
+    252            FMPI2C_InitStruct->FMPI2C_AnalogFilter = FMPI2C_AnalogFilter_Enable;
+    253            /* Initialize the FMPI2C_DigitalFilter member */
+    254            FMPI2C_InitStruct->FMPI2C_DigitalFilter = 0;
+    255            /* Initialize the FMPI2C_Mode member */
+    256            FMPI2C_InitStruct->FMPI2C_Mode = FMPI2C_Mode_FMPI2C;
+    257            /* Initialize the FMPI2C_OwnAddress1 member */
+    258            FMPI2C_InitStruct->FMPI2C_OwnAddress1 = 0;
+    259            /* Initialize the FMPI2C_Ack member */
+    260            FMPI2C_InitStruct->FMPI2C_Ack = FMPI2C_Ack_Disable;
+    261            /* Initialize the FMPI2C_AcknowledgedAddress member */
+    262            FMPI2C_InitStruct->FMPI2C_AcknowledgedAddress = FMPI2C_AcknowledgedAddress_7bit;
+    263          }
+    264          
+    265          /**
+    266            * @brief  Enables or disables the specified FMPI2C peripheral.
+    267            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    268            * @param  NewState: new state of the FMPI2Cx peripheral. 
+    269            *   This parameter can be: ENABLE or DISABLE.
+    270            * @retval None
+    271            */
+    272          void FMPI2C_Cmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    273          {
+    274            /* Check the parameters */
+    275            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    276            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    277            if (NewState != DISABLE)
+    278            {
+    279              /* Enable the selected FMPI2C peripheral */
+    280              FMPI2Cx->CR1 |= FMPI2C_CR1_PE;
+    281            }
+    282            else
+    283            {
+    284              /* Disable the selected FMPI2C peripheral */
+    285              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_PE);
+    286            }
+    287          }
+    288          
+    289          
+    290          /**
+    291            * @brief  Enables or disables the specified FMPI2C software reset.
+    292            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    293            * @retval None
+    294            */
+    295          void FMPI2C_SoftwareResetCmd(FMPI2C_TypeDef* FMPI2Cx)
+    296          {
+    297            /* Check the parameters */
+    298            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    299          
+    300            /* Disable peripheral */
+    301            FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_PE);
+    302          
+    303            /* Perform a dummy read to delay the disable of peripheral for minimum
+    304               3 APB clock cycles to perform the software reset functionality */
+    305            *(__IO uint32_t *)(uint32_t)FMPI2Cx; 
+    306          
+    307            /* Enable peripheral */
+    308            FMPI2Cx->CR1 |= FMPI2C_CR1_PE;
+    309          }
+    310          
+    311          /**
+    312            * @brief  Enables or disables the specified FMPI2C interrupts.
+    313            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    314            * @param  FMPI2C_IT: specifies the FMPI2C interrupts sources to be enabled or disabled. 
+    315            *   This parameter can be any combination of the following values:
+    316            *     @arg FMPI2C_IT_ERRI: Error interrupt mask
+    317            *     @arg FMPI2C_IT_TCI: Transfer Complete interrupt mask
+    318            *     @arg FMPI2C_IT_STOPI: Stop Detection interrupt mask
+    319            *     @arg FMPI2C_IT_NACKI: Not Acknowledge received interrupt mask
+    320            *     @arg FMPI2C_IT_ADDRI: Address Match interrupt mask  
+    321            *     @arg FMPI2C_IT_RXI: RX interrupt mask
+    322            *     @arg FMPI2C_IT_TXI: TX interrupt mask
+    323            * @param  NewState: new state of the specified FMPI2C interrupts.
+    324            *   This parameter can be: ENABLE or DISABLE.
+    325            * @retval None
+    326            */
+    327          void FMPI2C_ITConfig(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_IT, FunctionalState NewState)
+    328          {
+    329            /* Check the parameters */
+    330            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    331            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    332            assert_param(IS_FMPI2C_CONFIG_IT(FMPI2C_IT));
+    333            
+    334            if (NewState != DISABLE)
+    335            {
+    336              /* Enable the selected FMPI2C interrupts */
+    337              FMPI2Cx->CR1 |= FMPI2C_IT;
+    338            }
+    339            else
+    340            {
+    341              /* Disable the selected FMPI2C interrupts */
+    342              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_IT);
+    343            }
+    344          }
+    345          
+    346          /**
+    347            * @brief  Enables or disables the FMPI2C Clock stretching.
+    348            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    349            * @param  NewState: new state of the FMPI2Cx Clock stretching.
+    350            *   This parameter can be: ENABLE or DISABLE.
+    351            * @retval None
+    352            */
+    353          void FMPI2C_StretchClockCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    354          {
+    355            /* Check the parameters */
+    356            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    357            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    358            
+    359            if (NewState != DISABLE)
+    360            {
+    361              /* Enable clock stretching */
+    362              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_NOSTRETCH);    
+    363            }
+    364            else
+    365            {
+    366              /* Disable clock stretching  */
+    367              FMPI2Cx->CR1 |= FMPI2C_CR1_NOSTRETCH;
+    368            }
+    369          }
+    370          
+    371          /**
+    372            * @brief  Enables or disables FMPI2Cp from stop mode.
+    373            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    374            * @param  NewState: new state of the FMPI2Cx stop mode.
+    375            *   This parameter can be: ENABLE or DISABLE.
+    376            * @retval None
+    377            */
+    378          void FMPI2C_StopModeCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    379          {
+    380            /* Check the parameters */
+    381            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    382            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    383            
+    384            if (NewState != DISABLE)
+    385            {
+    386              /* Enable wakeup from stop mode */
+    387              FMPI2Cx->CR1 |= FMPI2C_CR1_WUPEN;   
+    388            }
+    389            else
+    390            {
+    391              /* Disable wakeup from stop mode */    
+    392              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_WUPEN); 
+    393            }
+    394          }
+    395          
+    396          /**
+    397            * @brief  Enables or disables the FMPI2C own address 2.
+    398            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    399            * @param  NewState: new state of the FMPI2C own address 2.
+    400            *   This parameter can be: ENABLE or DISABLE.  
+    401            * @retval None
+    402            */
+    403          void FMPI2C_DualAddressCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    404          {
+    405            /* Check the parameters */
+    406            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    407            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    408            
+    409            if (NewState != DISABLE)
+    410            {
+    411              /* Enable own address 2 */
+    412              FMPI2Cx->OAR2 |= FMPI2C_OAR2_OA2EN;
+    413            }
+    414            else
+    415            {
+    416              /* Disable own address 2 */
+    417              FMPI2Cx->OAR2 &= (uint32_t)~((uint32_t)FMPI2C_OAR2_OA2EN);
+    418            }
+    419          }    
+    420          
+    421          /**
+    422            * @brief  Configures the FMPI2C slave own address 2 and mask.
+    423            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    424            * @param  Address: specifies the slave address to be programmed.
+    425            * @param  Mask: specifies own address 2 mask to be programmed.
+    426            *   This parameter can be one of the following values:
+    427            *     @arg FMPI2C_OA2_NoMask: no mask.
+    428            *     @arg FMPI2C_OA2_Mask01: OA2[1] is masked and don't care.
+    429            *     @arg FMPI2C_OA2_Mask02: OA2[2:1] are masked and don't care.
+    430            *     @arg FMPI2C_OA2_Mask03: OA2[3:1] are masked and don't care.
+    431            *     @arg FMPI2C_OA2_Mask04: OA2[4:1] are masked and don't care.
+    432            *     @arg FMPI2C_OA2_Mask05: OA2[5:1] are masked and don't care.
+    433            *     @arg FMPI2C_OA2_Mask06: OA2[6:1] are masked and don't care.
+    434            *     @arg FMPI2C_OA2_Mask07: OA2[7:1] are masked and don't care.
+    435            * @retval None
+    436            */
+    437          void FMPI2C_OwnAddress2Config(FMPI2C_TypeDef* FMPI2Cx, uint16_t Address, uint8_t Mask)
+    438          {
+    439            uint32_t tmpreg = 0;
+    440          
+    441            /* Check the parameters */
+    442            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    443            assert_param(IS_FMPI2C_OWN_ADDRESS2(Address));
+    444            assert_param(IS_FMPI2C_OWN_ADDRESS2_MASK(Mask));
+    445            
+    446            /* Get the old register value */
+    447            tmpreg = FMPI2Cx->OAR2;
+    448          
+    449            /* Reset FMPI2Cx OA2 bit [7:1] and OA2MSK bit [1:0]  */
+    450            tmpreg &= (uint32_t)~((uint32_t)(FMPI2C_OAR2_OA2 | FMPI2C_OAR2_OA2MSK));
+    451          
+    452            /* Set FMPI2Cx SADD */
+    453            tmpreg |= (uint32_t)(((uint32_t)Address & FMPI2C_OAR2_OA2) | \
+    454                      (((uint32_t)Mask << 8) & FMPI2C_OAR2_OA2MSK)) ;
+    455          
+    456            /* Store the new register value */
+    457            FMPI2Cx->OAR2 = tmpreg;
+    458          }
+    459          
+    460          /**
+    461            * @brief  Enables or disables the FMPI2C general call mode.
+    462            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    463            * @param  NewState: new state of the FMPI2C general call mode.
+    464            *   This parameter can be: ENABLE or DISABLE.  
+    465            * @retval None
+    466            */
+    467          void FMPI2C_GeneralCallCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    468          {
+    469            /* Check the parameters */
+    470            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    471            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    472            
+    473            if (NewState != DISABLE)
+    474            {
+    475              /* Enable general call mode */
+    476              FMPI2Cx->CR1 |= FMPI2C_CR1_GCEN;
+    477            }
+    478            else
+    479            {
+    480              /* Disable general call mode */
+    481              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_GCEN);
+    482            }
+    483          } 
+    484          
+    485          /**
+    486            * @brief  Enables or disables the FMPI2C slave byte control.
+    487            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    488            * @param  NewState: new state of the FMPI2C slave byte control.
+    489            *   This parameter can be: ENABLE or DISABLE.  
+    490            * @retval None
+    491            */
+    492          void FMPI2C_SlaveByteControlCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    493          {
+    494            /* Check the parameters */
+    495            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    496            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    497            
+    498            if (NewState != DISABLE)
+    499            {
+    500              /* Enable slave byte control */
+    501              FMPI2Cx->CR1 |= FMPI2C_CR1_SBC;
+    502            }
+    503            else
+    504            {
+    505              /* Disable slave byte control */
+    506              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_SBC);
+    507            }
+    508          }
+    509          
+    510          /**
+    511            * @brief  Configures the slave address to be transmitted after start generation.
+    512            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    513            * @param  Address: specifies the slave address to be programmed.
+    514            * @note   This function should be called before generating start condition.  
+    515            * @retval None
+    516            */
+    517          void FMPI2C_SlaveAddressConfig(FMPI2C_TypeDef* FMPI2Cx, uint16_t Address)
+    518          {
+    519            uint32_t tmpreg = 0;
+    520          
+    521            /* Check the parameters */
+    522            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    523            assert_param(IS_FMPI2C_SLAVE_ADDRESS(Address));
+    524                         
+    525            /* Get the old register value */
+    526            tmpreg = FMPI2Cx->CR2;
+    527          
+    528            /* Reset FMPI2Cx SADD bit [9:0] */
+    529            tmpreg &= (uint32_t)~((uint32_t)FMPI2C_CR2_SADD);
+    530          
+    531            /* Set FMPI2Cx SADD */
+    532            tmpreg |= (uint32_t)((uint32_t)Address & FMPI2C_CR2_SADD);
+    533          
+    534            /* Store the new register value */
+    535            FMPI2Cx->CR2 = tmpreg;
+    536          }
+    537            
+    538          /**
+    539            * @brief  Enables or disables the FMPI2C 10-bit addressing mode for the master.
+    540            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    541            * @param  NewState: new state of the FMPI2C 10-bit addressing mode.
+    542            *   This parameter can be: ENABLE or DISABLE.
+    543            * @note   This function should be called before generating start condition.  
+    544            * @retval None
+    545            */
+    546          void FMPI2C_10BitAddressingModeCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    547          {
+    548            /* Check the parameters */
+    549            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    550            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    551            
+    552            if (NewState != DISABLE)
+    553            {
+    554              /* Enable 10-bit addressing mode */
+    555              FMPI2Cx->CR2 |= FMPI2C_CR2_ADD10;
+    556            }
+    557            else
+    558            {
+    559              /* Disable 10-bit addressing mode */
+    560              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_ADD10);
+    561            }
+    562          } 
+    563          
+    564          /**
+    565            * @}
+    566            */
+    567          
+    568          
+    569          /** @defgroup FMPI2C_Group2 Communications handling functions
+    570           *  @brief   Communications handling functions 
+    571           *
+    572          @verbatim
+    573           ===============================================================================
+    574                            ##### Communications handling functions #####
+    575           ===============================================================================  
+    576              [..] This section provides a set of functions that handles FMPI2C communication.
+    577              
+    578              [..] Automatic End mode is enabled using FMPI2C_AutoEndCmd() function. When Reload
+    579                   mode is enabled via FMPI2C_ReloadCmd() AutoEnd bit has no effect.
+    580                   
+    581              [..] FMPI2C_NumberOfBytesConfig() function set the number of bytes to be transferred,
+    582                   this configuration should be done before generating start condition in master 
+    583                   mode.
+    584                   
+    585              [..] When switching from master write operation to read operation in 10Bit addressing
+    586                   mode, master can only sends the 1st 7 bits of the 10 bit address, followed by 
+    587                   Read direction by enabling HEADR bit using FMPI2C_10BitAddressHeader() function.        
+    588                   
+    589              [..] In master mode, when transferring more than 255 bytes Reload mode should be used
+    590                   to handle communication. In the first phase of transfer, Nbytes should be set to 
+    591                   255. After transferring these bytes TCR flag is set and FMPI2C_TransferHandling()
+    592                   function should be called to handle remaining communication.
+    593                   
+    594              [..] In master mode, when software end mode is selected when all data is transferred
+    595                   TC flag is set FMPI2C_TransferHandling() function should be called to generate STOP
+    596                   or generate ReStart.                      
+    597                       
+    598          @endverbatim
+    599            * @{
+    600            */
+    601            
+    602          /**
+    603            * @brief  Enables or disables the FMPI2C automatic end mode (stop condition is 
+    604            *         automatically sent when nbytes data are transferred).
+    605            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    606            * @param  NewState: new state of the FMPI2C automatic end mode.
+    607            *   This parameter can be: ENABLE or DISABLE.
+    608            * @note   This function has effect if Reload mode is disabled.   
+    609            * @retval None
+    610            */
+    611          void FMPI2C_AutoEndCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    612          {
+    613            /* Check the parameters */
+    614            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    615            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    616            
+    617            if (NewState != DISABLE)
+    618            {
+    619              /* Enable Auto end mode */
+    620              FMPI2Cx->CR2 |= FMPI2C_CR2_AUTOEND;
+    621            }
+    622            else
+    623            {
+    624              /* Disable Auto end mode */
+    625              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_AUTOEND);
+    626            }
+    627          } 
+    628          
+    629          /**
+    630            * @brief  Enables or disables the FMPI2C nbytes reload mode.
+    631            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    632            * @param  NewState: new state of the nbytes reload mode.
+    633            *   This parameter can be: ENABLE or DISABLE.
+    634            * @retval None
+    635            */
+    636          void FMPI2C_ReloadCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    637          {
+    638            /* Check the parameters */
+    639            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    640            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    641            
+    642            if (NewState != DISABLE)
+    643            {
+    644              /* Enable Auto Reload mode */
+    645              FMPI2Cx->CR2 |= FMPI2C_CR2_RELOAD;
+    646            }
+    647            else
+    648            {
+    649              /* Disable Auto Reload mode */
+    650              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_RELOAD);
+    651            }
+    652          }
+    653          
+    654          /**
+    655            * @brief  Configures the number of bytes to be transmitted/received.
+    656            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    657            * @param  Number_Bytes: specifies the number of bytes to be programmed.
+    658            * @retval None
+    659            */
+    660          void FMPI2C_NumberOfBytesConfig(FMPI2C_TypeDef* FMPI2Cx, uint8_t Number_Bytes)
+    661          {
+    662            uint32_t tmpreg = 0;
+    663          
+    664            /* Check the parameters */
+    665            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    666          
+    667            /* Get the old register value */
+    668            tmpreg = FMPI2Cx->CR2;
+    669          
+    670            /* Reset FMPI2Cx Nbytes bit [7:0] */
+    671            tmpreg &= (uint32_t)~((uint32_t)FMPI2C_CR2_NBYTES);
+    672          
+    673            /* Set FMPI2Cx Nbytes */
+    674            tmpreg |= (uint32_t)(((uint32_t)Number_Bytes << 16 ) & FMPI2C_CR2_NBYTES);
+    675          
+    676            /* Store the new register value */
+    677            FMPI2Cx->CR2 = tmpreg;
+    678          }  
+    679            
+    680          /**
+    681            * @brief  Configures the type of transfer request for the master.
+    682            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    683            * @param  FMPI2C_Direction: specifies the transfer request direction to be programmed.
+    684            *    This parameter can be one of the following values:
+    685            *     @arg FMPI2C_Direction_Transmitter: Master request a write transfer
+    686            *     @arg FMPI2C_Direction_Receiver: Master request a read transfer 
+    687            * @retval None
+    688            */
+    689          void FMPI2C_MasterRequestConfig(FMPI2C_TypeDef* FMPI2Cx, uint16_t FMPI2C_Direction)
+    690          {
+    691          /* Check the parameters */
+    692            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    693            assert_param(IS_FMPI2C_DIRECTION(FMPI2C_Direction));
+    694            
+    695            /* Test on the direction to set/reset the read/write bit */
+    696            if (FMPI2C_Direction == FMPI2C_Direction_Transmitter)
+    697            {
+    698              /* Request a write Transfer */
+    699              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_RD_WRN);
+    700            }
+    701            else
+    702            {
+    703              /* Request a read Transfer */
+    704              FMPI2Cx->CR2 |= FMPI2C_CR2_RD_WRN;
+    705            }
+    706          }  
+    707            
+    708          /**
+    709            * @brief  Generates FMPI2Cx communication START condition.
+    710            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    711            * @param  NewState: new state of the FMPI2C START condition generation.
+    712            *   This parameter can be: ENABLE or DISABLE.
+    713            * @retval None
+    714            */
+    715          void FMPI2C_GenerateSTART(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    716          {
+    717            /* Check the parameters */
+    718            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    719            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    720            
+    721            if (NewState != DISABLE)
+    722            {
+    723              /* Generate a START condition */
+    724              FMPI2Cx->CR2 |= FMPI2C_CR2_START;
+    725            }
+    726            else
+    727            {
+    728              /* Disable the START condition generation */
+    729              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_START);
+    730            }
+    731          }  
+    732            
+    733          /**
+    734            * @brief  Generates FMPI2Cx communication STOP condition.
+    735            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    736            * @param  NewState: new state of the FMPI2C STOP condition generation.
+    737            *   This parameter can be: ENABLE or DISABLE.
+    738            * @retval None
+    739            */
+    740          void FMPI2C_GenerateSTOP(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    741          {
+    742            /* Check the parameters */
+    743            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    744            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    745            
+    746            if (NewState != DISABLE)
+    747            {
+    748              /* Generate a STOP condition */
+    749              FMPI2Cx->CR2 |= FMPI2C_CR2_STOP;
+    750            }
+    751            else
+    752            {
+    753              /* Disable the STOP condition generation */
+    754              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_STOP);
+    755            }
+    756          }  
+    757          
+    758          /**
+    759            * @brief  Enables or disables the FMPI2C 10-bit header only mode with read direction.
+    760            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    761            * @param  NewState: new state of the FMPI2C 10-bit header only mode.
+    762            *   This parameter can be: ENABLE or DISABLE.
+    763            * @note   This mode can be used only when switching from master transmitter mode 
+    764            *         to master receiver mode.        
+    765            * @retval None
+    766            */
+    767          void FMPI2C_10BitAddressHeaderCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    768          {
+    769            /* Check the parameters */
+    770            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    771            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    772            
+    773            if (NewState != DISABLE)
+    774            {
+    775              /* Enable 10-bit header only mode */
+    776              FMPI2Cx->CR2 |= FMPI2C_CR2_HEAD10R;
+    777            }
+    778            else
+    779            {
+    780              /* Disable 10-bit header only mode */
+    781              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_HEAD10R);
+    782            }
+    783          }    
+    784          
+    785          /**
+    786            * @brief  Generates FMPI2C communication Acknowledge.
+    787            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    788            * @param  NewState: new state of the Acknowledge.
+    789            *   This parameter can be: ENABLE or DISABLE.  
+    790            * @retval None
+    791            */
+    792          void FMPI2C_AcknowledgeConfig(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    793          {
+    794            /* Check the parameters */
+    795            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    796            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    797            
+    798            if (NewState != DISABLE)
+    799            {
+    800              /* Enable ACK generation */
+    801              FMPI2Cx->CR2 &= (uint32_t)~((uint32_t)FMPI2C_CR2_NACK);    
+    802            }
+    803            else
+    804            {
+    805              /* Enable NACK generation */
+    806              FMPI2Cx->CR2 |= FMPI2C_CR2_NACK;
+    807            }
+    808          }
+    809          
+    810          /**
+    811            * @brief  Returns the FMPI2C slave matched address .
+    812            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    813            * @retval The value of the slave matched address .
+    814            */
+    815          uint8_t FMPI2C_GetAddressMatched(FMPI2C_TypeDef* FMPI2Cx)
+    816          {
+    817            /* Check the parameters */
+    818            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    819            
+    820            /* Return the slave matched address in the SR1 register */
+    821            return (uint8_t)(((uint32_t)FMPI2Cx->ISR & FMPI2C_ISR_ADDCODE) >> 16) ;
+    822          }
+    823          
+    824          /**
+    825            * @brief  Returns the FMPI2C slave received request.
+    826            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    827            * @retval The value of the received request.
+    828            */
+    829          uint16_t FMPI2C_GetTransferDirection(FMPI2C_TypeDef* FMPI2Cx)
+    830          {
+    831            uint32_t tmpreg = 0;
+    832            uint16_t direction = 0;
+    833            
+    834            /* Check the parameters */
+    835            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    836            
+    837            /* Return the slave matched address in the SR1 register */
+    838            tmpreg = (uint32_t)(FMPI2Cx->ISR & FMPI2C_ISR_DIR);
+    839            
+    840            /* If write transfer is requested */
+    841            if (tmpreg == 0)
+    842            {
+    843              /* write transfer is requested */
+    844              direction = FMPI2C_Direction_Transmitter;
+    845            }
+    846            else
+    847            {
+    848              /* Read transfer is requested */
+    849              direction = FMPI2C_Direction_Receiver;
+    850            }  
+    851            return direction;
+    852          }
+    853          
+    854          /**
+    855            * @brief  Handles FMPI2Cx communication when starting transfer or during transfer (TC or TCR flag are set).
+    856            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    857            * @param  Address: specifies the slave address to be programmed.
+    858            * @param  Number_Bytes: specifies the number of bytes to be programmed.
+    859            *   This parameter must be a value between 0 and 255.
+    860            * @param  ReloadEndMode: new state of the FMPI2C START condition generation.
+    861            *   This parameter can be one of the following values:
+    862            *     @arg FMPI2C_Reload_Mode: Enable Reload mode .
+    863            *     @arg FMPI2C_AutoEnd_Mode: Enable Automatic end mode.
+    864            *     @arg FMPI2C_SoftEnd_Mode: Enable Software end mode.
+    865            * @param  StartStopMode: new state of the FMPI2C START condition generation.
+    866            *   This parameter can be one of the following values:
+    867            *     @arg FMPI2C_No_StartStop: Don't Generate stop and start condition.
+    868            *     @arg FMPI2C_Generate_Stop: Generate stop condition (Number_Bytes should be set to 0).
+    869            *     @arg FMPI2C_Generate_Start_Read: Generate Restart for read request.
+    870            *     @arg FMPI2C_Generate_Start_Write: Generate Restart for write request.
+    871            * @retval None
+    872            */
+    873          void FMPI2C_TransferHandling(FMPI2C_TypeDef* FMPI2Cx, uint16_t Address, uint8_t Number_Bytes, uint32_t ReloadEndMode, uint32_t StartStopMode)
+    874          {
+    875            uint32_t tmpreg = 0;
+    876            
+    877            /* Check the parameters */
+    878            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    879            assert_param(IS_FMPI2C_SLAVE_ADDRESS(Address));  
+    880            assert_param(IS_RELOAD_END_MODE(ReloadEndMode));
+    881            assert_param(IS_START_STOP_MODE(StartStopMode));
+    882              
+    883            /* Get the CR2 register value */
+    884            tmpreg = FMPI2Cx->CR2;
+    885            
+    886            /* clear tmpreg specific bits */
+    887            tmpreg &= (uint32_t)~((uint32_t)(FMPI2C_CR2_SADD | FMPI2C_CR2_NBYTES | FMPI2C_CR2_RELOAD | FMPI2C_CR2_AUTOEND | FMPI2C_CR2_RD_WRN | FMPI2C_CR2_START | FMPI2C_CR2_STOP));
+    888            
+    889            /* update tmpreg */
+    890            tmpreg |= (uint32_t)(((uint32_t)Address & FMPI2C_CR2_SADD) | (((uint32_t)Number_Bytes << 16 ) & FMPI2C_CR2_NBYTES) | \
+    891                      (uint32_t)ReloadEndMode | (uint32_t)StartStopMode);
+    892            
+    893            /* update CR2 register */
+    894            FMPI2Cx->CR2 = tmpreg;  
+    895          }  
+    896          
+    897          /**
+    898            * @}
+    899            */
+    900          
+    901          
+    902          /** @defgroup FMPI2C_Group3 SMBUS management functions
+    903           *  @brief   SMBUS management functions 
+    904           *
+    905          @verbatim
+    906           ===============================================================================
+    907                                ##### SMBUS management functions #####
+    908           ===============================================================================   
+    909              [..] This section provides a set of functions that handles SMBus communication
+    910                   and timeouts detection.
+    911              
+    912              [..] The SMBus Device default address (0b1100 001) is enabled by calling FMPI2C_Init()
+    913                   function and setting FMPI2C_Mode member of FMPI2C_InitTypeDef() structure to 
+    914                   FMPI2C_Mode_SMBusDevice.
+    915                   
+    916              [..] The SMBus Host address (0b0001 000) is enabled by calling FMPI2C_Init()
+    917                   function and setting FMPI2C_Mode member of FMPI2C_InitTypeDef() structure to 
+    918                   FMPI2C_Mode_SMBusHost.         
+    919                   
+    920              [..] The Alert Response Address (0b0001 100) is enabled using FMPI2C_SMBusAlertCmd()
+    921                   function.
+    922                   
+    923              [..] To detect cumulative SCL stretch in master and slave mode, TIMEOUTB should be 
+    924                   configured (in accordance to SMBus specification) using FMPI2C_TimeoutBConfig() 
+    925                   function then FMPI2C_ExtendedClockTimeoutCmd() function should be called to enable
+    926                   the detection.
+    927                   
+    928              [..] SCL low timeout is detected by configuring TIMEOUTB using FMPI2C_TimeoutBConfig()
+    929                   function followed by the call of FMPI2C_ClockTimeoutCmd(). When adding to this 
+    930                   procedure the call of FMPI2C_IdleClockTimeoutCmd() function, Bus Idle condition 
+    931                   (both SCL and SDA high) is detected also.                
+    932                                    
+    933          @endverbatim
+    934            * @{
+    935            */
+    936          
+    937          /**
+    938            * @brief  Enables or disables FMPI2C SMBus alert.
+    939            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    940            * @param  NewState: new state of the FMPI2Cx SMBus alert.
+    941            *   This parameter can be: ENABLE or DISABLE.
+    942            * @retval None
+    943            */
+    944          void FMPI2C_SMBusAlertCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    945          {
+    946            /* Check the parameters */
+    947            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    948            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    949            
+    950            if (NewState != DISABLE)
+    951            {
+    952              /* Enable SMBus alert */
+    953              FMPI2Cx->CR1 |= FMPI2C_CR1_ALERTEN;   
+    954            }
+    955            else
+    956            {
+    957              /* Disable SMBus alert */    
+    958              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_ALERTEN); 
+    959            }
+    960          }
+    961          
+    962          /**
+    963            * @brief  Enables or disables FMPI2C Clock Timeout (SCL Timeout detection).
+    964            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    965            * @param  NewState: new state of the FMPI2Cx clock Timeout.
+    966            *   This parameter can be: ENABLE or DISABLE.
+    967            * @retval None
+    968            */
+    969          void FMPI2C_ClockTimeoutCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    970          {
+    971            /* Check the parameters */
+    972            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    973            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    974            
+    975            if (NewState != DISABLE)
+    976            {
+    977              /* Enable Clock Timeout */
+    978              FMPI2Cx->TIMEOUTR |= FMPI2C_TIMEOUTR_TIMOUTEN;   
+    979            }
+    980            else
+    981            {
+    982              /* Disable Clock Timeout */    
+    983              FMPI2Cx->TIMEOUTR &= (uint32_t)~((uint32_t)FMPI2C_TIMEOUTR_TIMOUTEN); 
+    984            }
+    985          }
+    986          
+    987          /**
+    988            * @brief  Enables or disables FMPI2C Extended Clock Timeout (SCL cumulative Timeout detection).
+    989            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+    990            * @param  NewState: new state of the FMPI2Cx Extended clock Timeout.
+    991            *   This parameter can be: ENABLE or DISABLE.
+    992            * @retval None
+    993            */
+    994          void FMPI2C_ExtendedClockTimeoutCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+    995          {
+    996            /* Check the parameters */
+    997            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+    998            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    999            
+   1000            if (NewState != DISABLE)
+   1001            {
+   1002              /* Enable Clock Timeout */
+   1003              FMPI2Cx->TIMEOUTR |= FMPI2C_TIMEOUTR_TEXTEN;   
+   1004            }
+   1005            else
+   1006            {
+   1007              /* Disable Clock Timeout */    
+   1008              FMPI2Cx->TIMEOUTR &= (uint32_t)~((uint32_t)FMPI2C_TIMEOUTR_TEXTEN); 
+   1009            }
+   1010          }
+   1011          
+   1012          /**
+   1013            * @brief  Enables or disables FMPI2C Idle Clock Timeout (Bus idle SCL and SDA 
+   1014            *         high detection).
+   1015            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1016            * @param  NewState: new state of the FMPI2Cx Idle clock Timeout.
+   1017            *   This parameter can be: ENABLE or DISABLE.
+   1018            * @retval None
+   1019            */
+   1020          void FMPI2C_IdleClockTimeoutCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+   1021          {
+   1022            /* Check the parameters */
+   1023            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1024            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1025            
+   1026            if (NewState != DISABLE)
+   1027            {
+   1028              /* Enable Clock Timeout */
+   1029              FMPI2Cx->TIMEOUTR |= FMPI2C_TIMEOUTR_TIDLE;   
+   1030            }
+   1031            else
+   1032            {
+   1033              /* Disable Clock Timeout */    
+   1034              FMPI2Cx->TIMEOUTR &= (uint32_t)~((uint32_t)FMPI2C_TIMEOUTR_TIDLE); 
+   1035            }
+   1036          }
+   1037          
+   1038          /**
+   1039            * @brief  Configures the FMPI2C Bus Timeout A (SCL Timeout when TIDLE = 0 or Bus 
+   1040            *   idle SCL and SDA high when TIDLE = 1).
+   1041            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1042            * @param  Timeout: specifies the TimeoutA to be programmed. 
+   1043            * @retval None
+   1044            */
+   1045          void FMPI2C_TimeoutAConfig(FMPI2C_TypeDef* FMPI2Cx, uint16_t Timeout)
+   1046          {
+   1047            uint32_t tmpreg = 0;
+   1048          
+   1049            /* Check the parameters */
+   1050            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1051            assert_param(IS_FMPI2C_TIMEOUT(Timeout));
+   1052              
+   1053            /* Get the old register value */
+   1054            tmpreg = FMPI2Cx->TIMEOUTR;
+   1055          
+   1056            /* Reset FMPI2Cx TIMEOUTA bit [11:0] */
+   1057            tmpreg &= (uint32_t)~((uint32_t)FMPI2C_TIMEOUTR_TIMEOUTA);
+   1058          
+   1059            /* Set FMPI2Cx TIMEOUTA */
+   1060            tmpreg |= (uint32_t)((uint32_t)Timeout & FMPI2C_TIMEOUTR_TIMEOUTA) ;
+   1061          
+   1062            /* Store the new register value */
+   1063            FMPI2Cx->TIMEOUTR = tmpreg;
+   1064          }
+   1065          
+   1066          /**
+   1067            * @brief  Configures the FMPI2C Bus Timeout B (SCL cumulative Timeout).
+   1068            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1069            * @param  Timeout: specifies the TimeoutB to be programmed. 
+   1070            * @retval None
+   1071            */
+   1072          void FMPI2C_TimeoutBConfig(FMPI2C_TypeDef* FMPI2Cx, uint16_t Timeout)
+   1073          {
+   1074            uint32_t tmpreg = 0;
+   1075          
+   1076            /* Check the parameters */
+   1077            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1078            assert_param(IS_FMPI2C_TIMEOUT(Timeout));
+   1079          
+   1080            /* Get the old register value */
+   1081            tmpreg = FMPI2Cx->TIMEOUTR;
+   1082          
+   1083            /* Reset FMPI2Cx TIMEOUTB bit [11:0] */
+   1084            tmpreg &= (uint32_t)~((uint32_t)FMPI2C_TIMEOUTR_TIMEOUTB);
+   1085          
+   1086            /* Set FMPI2Cx TIMEOUTB */
+   1087            tmpreg |= (uint32_t)(((uint32_t)Timeout << 16) & FMPI2C_TIMEOUTR_TIMEOUTB) ;
+   1088          
+   1089            /* Store the new register value */
+   1090            FMPI2Cx->TIMEOUTR = tmpreg;
+   1091          }
+   1092          
+   1093          /**
+   1094            * @brief  Enables or disables FMPI2C PEC calculation.
+   1095            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1096            * @param  NewState: new state of the FMPI2Cx PEC calculation.
+   1097            *   This parameter can be: ENABLE or DISABLE.
+   1098            * @retval None
+   1099            */
+   1100          void FMPI2C_CalculatePEC(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+   1101          {
+   1102            /* Check the parameters */
+   1103            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1104            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1105            
+   1106            if (NewState != DISABLE)
+   1107            {
+   1108              /* Enable PEC calculation */
+   1109              FMPI2Cx->CR1 |= FMPI2C_CR1_PECEN;   
+   1110            }
+   1111            else
+   1112            {
+   1113              /* Disable PEC calculation */    
+   1114              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR1_PECEN); 
+   1115            }
+   1116          }
+   1117          
+   1118          /**
+   1119            * @brief  Enables or disables FMPI2C PEC transmission/reception request.
+   1120            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1121            * @param  NewState: new state of the FMPI2Cx PEC request.
+   1122            *   This parameter can be: ENABLE or DISABLE.
+   1123            * @retval None
+   1124            */
+   1125          void FMPI2C_PECRequestCmd(FMPI2C_TypeDef* FMPI2Cx, FunctionalState NewState)
+   1126          {
+   1127            /* Check the parameters */
+   1128            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1129            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1130            
+   1131            if (NewState != DISABLE)
+   1132            {
+   1133              /* Enable PEC transmission/reception request */
+   1134              FMPI2Cx->CR1 |= FMPI2C_CR2_PECBYTE;   
+   1135            }
+   1136            else
+   1137            {
+   1138              /* Disable PEC transmission/reception request */    
+   1139              FMPI2Cx->CR1 &= (uint32_t)~((uint32_t)FMPI2C_CR2_PECBYTE); 
+   1140            }
+   1141          }
+   1142          
+   1143          /**
+   1144            * @brief  Returns the FMPI2C PEC.
+   1145            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1146            * @retval The value of the PEC .
+   1147            */
+   1148          uint8_t FMPI2C_GetPEC(FMPI2C_TypeDef* FMPI2Cx)
+   1149          {
+   1150            /* Check the parameters */
+   1151            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1152            
+   1153            /* Return the slave matched address in the SR1 register */
+   1154            return (uint8_t)((uint32_t)FMPI2Cx->PECR & FMPI2C_PECR_PEC);
+   1155          }
+   1156          
+   1157          /**
+   1158            * @}
+   1159            */  
+   1160            
+   1161            
+   1162          /** @defgroup FMPI2C_Group4 FMPI2C registers management functions
+   1163           *  @brief   FMPI2C registers management functions 
+   1164           *
+   1165          @verbatim
+   1166           ===============================================================================
+   1167                          ##### FMPI2C registers management functions #####
+   1168           ===============================================================================  
+   1169              [..] This section provides a functions that allow user the management of 
+   1170                   FMPI2C registers.
+   1171                   
+   1172          @endverbatim
+   1173            * @{
+   1174            */
+   1175          
+   1176            /**
+   1177            * @brief  Reads the specified FMPI2C register and returns its value.
+   1178            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1179            * @param  FMPI2C_Register: specifies the register to read.
+   1180            *   This parameter can be one of the following values:
+   1181            *     @arg FMPI2C_Register_CR1: CR1 register.
+   1182            *     @arg FMPI2C_Register_CR2: CR2 register.
+   1183            *     @arg FMPI2C_Register_OAR1: OAR1 register.
+   1184            *     @arg FMPI2C_Register_OAR2: OAR2 register.
+   1185            *     @arg FMPI2C_Register_TIMINGR: TIMING register.
+   1186            *     @arg FMPI2C_Register_TIMEOUTR: TIMEOUTR register.
+   1187            *     @arg FMPI2C_Register_ISR: ISR register.
+   1188            *     @arg FMPI2C_Register_ICR: ICR register.
+   1189            *     @arg FMPI2C_Register_PECR: PECR register.
+   1190            *     @arg FMPI2C_Register_RXDR: RXDR register.
+   1191            *     @arg FMPI2C_Register_TXDR: TXDR register.
+   1192            * @retval The value of the read register.
+   1193            */
+   1194          uint32_t FMPI2C_ReadRegister(FMPI2C_TypeDef* FMPI2Cx, uint8_t FMPI2C_Register)
+   1195          {
+   1196            __IO uint32_t tmp = 0;
+   1197          
+   1198            /* Check the parameters */
+   1199            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1200            assert_param(IS_FMPI2C_REGISTER(FMPI2C_Register));
+   1201          
+   1202            tmp = (uint32_t)FMPI2Cx;
+   1203            tmp += FMPI2C_Register;
+   1204          
+   1205            /* Return the selected register value */
+   1206            return (*(__IO uint32_t *) tmp);
+   1207          }
+   1208          
+   1209          /**
+   1210            * @}
+   1211            */  
+   1212            
+   1213          /** @defgroup FMPI2C_Group5 Data transfers management functions
+   1214           *  @brief   Data transfers management functions 
+   1215           *
+   1216          @verbatim
+   1217           ===============================================================================
+   1218                          ##### Data transfers management functions #####
+   1219           =============================================================================== 
+   1220              [..] This subsection provides a set of functions allowing to manage 
+   1221                   the FMPI2C data transfers.
+   1222                   
+   1223              [..] The read access of the FMPI2C_RXDR register can be done using 
+   1224                   the FMPI2C_ReceiveData() function and returns the received value.
+   1225                   Whereas a write access to the FMPI2C_TXDR can be done using FMPI2C_SendData()
+   1226                   function and stores the written data into TXDR.
+   1227          @endverbatim
+   1228            * @{
+   1229            */  
+   1230            
+   1231          /**
+   1232            * @brief  Sends a data byte through the FMPI2Cx peripheral.
+   1233            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1234            * @param  Data: Byte to be transmitted..
+   1235            * @retval None
+   1236            */
+   1237          void FMPI2C_SendData(FMPI2C_TypeDef* FMPI2Cx, uint8_t Data)
+   1238          {
+   1239            /* Check the parameters */
+   1240            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1241            
+   1242            /* Write in the DR register the data to be sent */
+   1243            FMPI2Cx->TXDR = (uint8_t)Data;
+   1244          }
+   1245          
+   1246          /**
+   1247            * @brief  Returns the most recent received data by the FMPI2Cx peripheral.
+   1248            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1249            * @retval The value of the received data.
+   1250            */
+   1251          uint8_t FMPI2C_ReceiveData(FMPI2C_TypeDef* FMPI2Cx)
+   1252          {
+   1253            /* Check the parameters */
+   1254            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1255            
+   1256            /* Return the data in the DR register */
+   1257            return (uint8_t)FMPI2Cx->RXDR;
+   1258          }  
+   1259          
+   1260          /**
+   1261            * @}
+   1262            */ 
+   1263            
+   1264            
+   1265          /** @defgroup FMPI2C_Group6 DMA transfers management functions
+   1266           *  @brief   DMA transfers management functions 
+   1267           *
+   1268          @verbatim
+   1269           ===============================================================================
+   1270                         ##### DMA transfers management functions #####
+   1271           ===============================================================================  
+   1272              [..] This section provides two functions that can be used only in DMA mode.
+   1273              [..] In DMA Mode, the FMPI2C communication can be managed by 2 DMA Channel 
+   1274                   requests:
+   1275                   (#) FMPI2C_DMAReq_Tx: specifies the Tx buffer DMA transfer request.
+   1276                   (#) FMPI2C_DMAReq_Rx: specifies the Rx buffer DMA transfer request.
+   1277              [..] In this Mode it is advised to use the following function:
+   1278                   (+) FMPI2C_DMACmd(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_DMAReq, FunctionalState NewState);
+   1279          @endverbatim
+   1280            * @{
+   1281            */  
+   1282              
+   1283          /**
+   1284            * @brief  Enables or disables the FMPI2C DMA interface.
+   1285            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1286            * @param  FMPI2C_DMAReq: specifies the FMPI2C DMA transfer request to be enabled or disabled. 
+   1287            *   This parameter can be any combination of the following values:
+   1288            *     @arg FMPI2C_DMAReq_Tx: Tx DMA transfer request
+   1289            *     @arg FMPI2C_DMAReq_Rx: Rx DMA transfer request
+   1290            * @param  NewState: new state of the selected FMPI2C DMA transfer request.
+   1291            *         This parameter can be: ENABLE or DISABLE.
+   1292            * @retval None
+   1293            */
+   1294          void FMPI2C_DMACmd(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_DMAReq, FunctionalState NewState)
+   1295          {
+   1296            /* Check the parameters */
+   1297            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1298            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1299            assert_param(IS_FMPI2C_DMA_REQ(FMPI2C_DMAReq));
+   1300          
+   1301            if (NewState != DISABLE)
+   1302            {
+   1303              /* Enable the selected FMPI2C DMA requests */
+   1304              FMPI2Cx->CR1 |= FMPI2C_DMAReq;
+   1305            }
+   1306            else
+   1307            {
+   1308              /* Disable the selected FMPI2C DMA requests */
+   1309              FMPI2Cx->CR1 &= (uint32_t)~FMPI2C_DMAReq;
+   1310            }
+   1311          }
+   1312          /**
+   1313            * @}
+   1314            */  
+   1315          
+   1316          
+   1317          /** @defgroup FMPI2C_Group7 Interrupts and flags management functions
+   1318           *  @brief   Interrupts and flags management functions 
+   1319           *
+   1320          @verbatim
+   1321           ===============================================================================
+   1322                       ##### Interrupts and flags management functions  #####
+   1323           =============================================================================== 
+   1324              [..] This section provides functions allowing to configure the FMPI2C Interrupts 
+   1325                   sources and check or clear the flags or pending bits status.
+   1326                   The user should identify which mode will be used in his application to manage 
+   1327                   the communication: Polling mode, Interrupt mode or DMA mode(refer FMPI2C_Group6) .
+   1328          
+   1329            *** Polling Mode ***
+   1330            ====================
+   1331              [..] In Polling Mode, the FMPI2C communication can be managed by 15 flags:
+   1332                  (#) FMPI2C_FLAG_TXE: to indicate the status of Transmit data register empty flag.
+   1333                  (#) FMPI2C_FLAG_TXIS: to indicate the status of Transmit interrupt status flag .
+   1334                  (#) FMPI2C_FLAG_RXNE: to indicate the status of Receive data register not empty flag.
+   1335                  (#) FMPI2C_FLAG_ADDR: to indicate the status of Address matched flag (slave mode).
+   1336                  (#) FMPI2C_FLAG_NACKF: to indicate the status of NACK received flag.
+   1337                  (#) FMPI2C_FLAG_STOPF: to indicate the status of STOP detection flag.
+   1338                  (#) FMPI2C_FLAG_TC: to indicate the status of Transfer complete flag(master mode).
+   1339                  (#) FMPI2C_FLAG_TCR: to indicate the status of Transfer complete reload flag.
+   1340                  (#) FMPI2C_FLAG_BERR: to indicate the status of Bus error flag.
+   1341                  (#) FMPI2C_FLAG_ARLO: to indicate the status of Arbitration lost flag.
+   1342                  (#) FMPI2C_FLAG_OVR: to indicate the status of Overrun/Underrun flag.
+   1343                  (#) FMPI2C_FLAG_PECERR: to indicate the status of PEC error in reception flag.
+   1344                  (#) FMPI2C_FLAG_TIMEOUT: to indicate the status of Timeout or Tlow detection flag.
+   1345                  (#) FMPI2C_FLAG_ALERT: to indicate the status of SMBus Alert flag.
+   1346                  (#) FMPI2C_FLAG_BUSY: to indicate the status of Bus busy flag.
+   1347          
+   1348              [..] In this Mode it is advised to use the following functions:
+   1349                  (+) FlagStatus FMPI2C_GetFlagStatus(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_FLAG);
+   1350                  (+) void FMPI2C_ClearFlag(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_FLAG);
+   1351          
+   1352              [..]
+   1353                  (@)Do not use the BUSY flag to handle each data transmission or reception.It is 
+   1354                     better to use the TXIS and RXNE flags instead.
+   1355          
+   1356            *** Interrupt Mode ***
+   1357            ======================
+   1358              [..] In Interrupt Mode, the FMPI2C communication can be managed by 7 interrupt sources
+   1359                   and 15 pending bits: 
+   1360              [..] Interrupt Source:
+   1361                  (#) FMPI2C_IT_ERRI: specifies the interrupt source for the Error interrupt.
+   1362                  (#) FMPI2C_IT_TCI: specifies the interrupt source for the Transfer Complete interrupt.
+   1363                  (#) FMPI2C_IT_STOPI: specifies the interrupt source for the Stop Detection interrupt.
+   1364                  (#) FMPI2C_IT_NACKI: specifies the interrupt source for the Not Acknowledge received interrupt.
+   1365                  (#) FMPI2C_IT_ADDRI: specifies the interrupt source for the Address Match interrupt.  
+   1366                  (#) FMPI2C_IT_RXI: specifies the interrupt source for the RX interrupt.
+   1367                  (#) FMPI2C_IT_TXI: specifies the interrupt source for the TX interrupt.
+   1368          
+   1369              [..] Pending Bits:
+   1370                  (#) FMPI2C_IT_TXIS: to indicate the status of Transmit interrupt status flag.
+   1371                  (#) FMPI2C_IT_RXNE: to indicate the status of Receive data register not empty flag.
+   1372                  (#) FMPI2C_IT_ADDR: to indicate the status of Address matched flag (slave mode).
+   1373                  (#) FMPI2C_IT_NACKF: to indicate the status of NACK received flag.
+   1374                  (#) FMPI2C_IT_STOPF: to indicate the status of STOP detection flag.
+   1375                  (#) FMPI2C_IT_TC: to indicate the status of Transfer complete flag (master mode).
+   1376                  (#) FMPI2C_IT_TCR: to indicate the status of Transfer complete reload flag.
+   1377                  (#) FMPI2C_IT_BERR: to indicate the status of Bus error flag.
+   1378                  (#) FMPI2C_IT_ARLO: to indicate the status of Arbitration lost flag.
+   1379                  (#) FMPI2C_IT_OVR: to indicate the status of Overrun/Underrun flag.
+   1380                  (#) FMPI2C_IT_PECERR: to indicate the status of PEC error in reception flag.
+   1381                  (#) FMPI2C_IT_TIMEOUT: to indicate the status of Timeout or Tlow detection flag.
+   1382                  (#) FMPI2C_IT_ALERT: to indicate the status of SMBus Alert flag.
+   1383          
+   1384              [..] In this Mode it is advised to use the following functions:
+   1385                   (+) void FMPI2C_ClearITPendingBit(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_IT);
+   1386                   (+) ITStatus FMPI2C_GetITStatus(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_IT);
+   1387          
+   1388          @endverbatim
+   1389            * @{
+   1390            */  
+   1391          
+   1392          /**
+   1393            * @brief  Checks whether the specified FMPI2C flag is set or not.
+   1394            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1395            * @param  FMPI2C_FLAG: specifies the flag to check. 
+   1396            *   This parameter can be one of the following values:
+   1397            *     @arg FMPI2C_FLAG_TXE: Transmit data register empty
+   1398            *     @arg FMPI2C_FLAG_TXIS: Transmit interrupt status
+   1399            *     @arg FMPI2C_FLAG_RXNE: Receive data register not empty
+   1400            *     @arg FMPI2C_FLAG_ADDR: Address matched (slave mode)
+   1401            *     @arg FMPI2C_FLAG_NACKF: NACK received flag
+   1402            *     @arg FMPI2C_FLAG_STOPF: STOP detection flag
+   1403            *     @arg FMPI2C_FLAG_TC: Transfer complete (master mode)
+   1404            *     @arg FMPI2C_FLAG_TCR: Transfer complete reload
+   1405            *     @arg FMPI2C_FLAG_BERR: Bus error
+   1406            *     @arg FMPI2C_FLAG_ARLO: Arbitration lost
+   1407            *     @arg FMPI2C_FLAG_OVR: Overrun/Underrun
+   1408            *     @arg FMPI2C_FLAG_PECERR: PEC error in reception
+   1409            *     @arg FMPI2C_FLAG_TIMEOUT: Timeout or Tlow detection flag
+   1410            *     @arg FMPI2C_FLAG_ALERT: SMBus Alert
+   1411            *     @arg FMPI2C_FLAG_BUSY: Bus busy
+   1412            * @retval The new state of FMPI2C_FLAG (SET or RESET).
+   1413            */
+   1414          FlagStatus FMPI2C_GetFlagStatus(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_FLAG)
+   1415          {
+   1416            uint32_t tmpreg = 0;
+   1417            FlagStatus bitstatus = RESET;
+   1418            
+   1419            /* Check the parameters */
+   1420            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1421            assert_param(IS_FMPI2C_GET_FLAG(FMPI2C_FLAG));
+   1422            
+   1423            /* Get the ISR register value */
+   1424            tmpreg = FMPI2Cx->ISR;
+   1425            
+   1426            /* Get flag status */
+   1427            tmpreg &= FMPI2C_FLAG;
+   1428            
+   1429            if(tmpreg != 0)
+   1430            {
+   1431              /* FMPI2C_FLAG is set */
+   1432              bitstatus = SET;
+   1433            }
+   1434            else
+   1435            {
+   1436              /* FMPI2C_FLAG is reset */
+   1437              bitstatus = RESET;
+   1438            }
+   1439            return bitstatus;
+   1440          }  
+   1441            
+   1442          /**
+   1443            * @brief  Clears the FMPI2Cx's pending flags.
+   1444            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1445            * @param  FMPI2C_FLAG: specifies the flag to clear. 
+   1446            *   This parameter can be any combination of the following values:
+   1447            *     @arg FMPI2C_FLAG_ADDR: Address matched (slave mode)
+   1448            *     @arg FMPI2C_FLAG_NACKF: NACK received flag
+   1449            *     @arg FMPI2C_FLAG_STOPF: STOP detection flag
+   1450            *     @arg FMPI2C_FLAG_BERR: Bus error
+   1451            *     @arg FMPI2C_FLAG_ARLO: Arbitration lost
+   1452            *     @arg FMPI2C_FLAG_OVR: Overrun/Underrun
+   1453            *     @arg FMPI2C_FLAG_PECERR: PEC error in reception
+   1454            *     @arg FMPI2C_FLAG_TIMEOUT: Timeout or Tlow detection flag
+   1455            *     @arg FMPI2C_FLAG_ALERT: SMBus Alert
+   1456            * @retval The new state of FMPI2C_FLAG (SET or RESET).
+   1457            */
+   1458          void FMPI2C_ClearFlag(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_FLAG)
+   1459          { 
+   1460            /* Check the parameters */
+   1461            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1462            assert_param(IS_FMPI2C_CLEAR_FLAG(FMPI2C_FLAG));
+   1463          
+   1464            /* Clear the selected flag */
+   1465            FMPI2Cx->ICR = FMPI2C_FLAG;
+   1466            }
+   1467          
+   1468          /**
+   1469            * @brief  Checks whether the specified FMPI2C interrupt has occurred or not.
+   1470            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1471            * @param  FMPI2C_IT: specifies the interrupt source to check.
+   1472            *   This parameter can be one of the following values:
+   1473            *     @arg FMPI2C_IT_TXIS: Transmit interrupt status
+   1474            *     @arg FMPI2C_IT_RXNE: Receive data register not empty
+   1475            *     @arg FMPI2C_IT_ADDR: Address matched (slave mode)
+   1476            *     @arg FMPI2C_IT_NACKF: NACK received flag
+   1477            *     @arg FMPI2C_IT_STOPF: STOP detection flag
+   1478            *     @arg FMPI2C_IT_TC: Transfer complete (master mode)
+   1479            *     @arg FMPI2C_IT_TCR: Transfer complete reload
+   1480            *     @arg FMPI2C_IT_BERR: Bus error
+   1481            *     @arg FMPI2C_IT_ARLO: Arbitration lost
+   1482            *     @arg FMPI2C_IT_OVR: Overrun/Underrun
+   1483            *     @arg FMPI2C_IT_PECERR: PEC error in reception
+   1484            *     @arg FMPI2C_IT_TIMEOUT: Timeout or Tlow detection flag
+   1485            *     @arg FMPI2C_IT_ALERT: SMBus Alert
+   1486            * @retval The new state of FMPI2C_IT (SET or RESET).
+   1487            */
+   1488          ITStatus FMPI2C_GetITStatus(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_IT)
+   1489          {
+   1490            uint32_t tmpreg = 0;
+   1491            ITStatus bitstatus = RESET;
+   1492            uint32_t enablestatus = 0;
+   1493          
+   1494            /* Check the parameters */
+   1495            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1496            assert_param(IS_FMPI2C_GET_IT(FMPI2C_IT));
+   1497          
+   1498            /* Check if the interrupt source is enabled or not */
+   1499            /* If Error interrupt */
+   1500            if((uint32_t)(FMPI2C_IT & ERROR_IT_MASK))
+   1501            {
+   1502              enablestatus = (uint32_t)((FMPI2C_CR1_ERRIE) & (FMPI2Cx->CR1));
+   1503            }
+   1504            /* If TC interrupt */
+   1505            else if((uint32_t)(FMPI2C_IT & TC_IT_MASK))
+   1506            {
+   1507              enablestatus = (uint32_t)((FMPI2C_CR1_TCIE) & (FMPI2Cx->CR1));
+   1508            }
+   1509            else
+   1510            {
+   1511              enablestatus = (uint32_t)((FMPI2C_IT) & (FMPI2Cx->CR1));
+   1512            }
+   1513            
+   1514            /* Get the ISR register value */
+   1515            tmpreg = FMPI2Cx->ISR;
+   1516          
+   1517            /* Get flag status */
+   1518            tmpreg &= FMPI2C_IT;
+   1519          
+   1520            /* Check the status of the specified FMPI2C flag */
+   1521            if((tmpreg != RESET) && enablestatus)
+   1522            {
+   1523              /* FMPI2C_IT is set */
+   1524              bitstatus = SET;
+   1525            }
+   1526            else
+   1527            {
+   1528              /* FMPI2C_IT is reset */
+   1529              bitstatus = RESET;
+   1530            }
+   1531          
+   1532            /* Return the FMPI2C_IT status */
+   1533            return bitstatus;
+   1534          }
+   1535            
+   1536          /**
+   1537            * @brief  Clears the FMPI2Cx's interrupt pending bits.
+   1538            * @param  FMPI2Cx: where x can be 1 to select the FMPI2C peripheral.
+   1539            * @param  FMPI2C_IT: specifies the interrupt pending bit to clear.
+   1540            *   This parameter can be any combination of the following values:
+   1541            *     @arg FMPI2C_IT_ADDR: Address matched (slave mode)
+   1542            *     @arg FMPI2C_IT_NACKF: NACK received flag
+   1543            *     @arg FMPI2C_IT_STOPF: STOP detection flag
+   1544            *     @arg FMPI2C_IT_BERR: Bus error
+   1545            *     @arg FMPI2C_IT_ARLO: Arbitration lost
+   1546            *     @arg FMPI2C_IT_OVR: Overrun/Underrun
+   1547            *     @arg FMPI2C_IT_PECERR: PEC error in reception
+   1548            *     @arg FMPI2C_IT_TIMEOUT: Timeout or Tlow detection flag
+   1549            *     @arg FMPI2C_IT_ALERT: SMBus Alert
+   1550            * @retval The new state of FMPI2C_IT (SET or RESET).
+   1551            */
+   1552          void FMPI2C_ClearITPendingBit(FMPI2C_TypeDef* FMPI2Cx, uint32_t FMPI2C_IT)
+   1553          {
+   1554            /* Check the parameters */
+   1555            assert_param(IS_FMPI2C_ALL_PERIPH(FMPI2Cx));
+   1556            assert_param(IS_FMPI2C_CLEAR_IT(FMPI2C_IT));
+   1557          
+   1558            /* Clear the selected flag */
+   1559            FMPI2Cx->ICR = FMPI2C_IT;
+   1560          }
+   1561          
+   1562          /**
+   1563            * @}
+   1564            */  
+   1565            
+   1566          /**
+   1567            * @}
+   1568            */
+   1569          #endif /* STM32F410xx || STM32F446xx */
+   1570          
+   1571          /**
+   1572            * @}
+   1573            */
+   1574          
+   1575          /**
+   1576            * @}
+   1577            */
+   1578          
+   1579          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none

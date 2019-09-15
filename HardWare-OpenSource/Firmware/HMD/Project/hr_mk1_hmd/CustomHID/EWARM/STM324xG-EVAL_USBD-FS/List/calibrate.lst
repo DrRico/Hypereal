@@ -1,0 +1,192 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:47:57
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\calibrate.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\calibrate.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\calibrate.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\calibrate.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\calibrate.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    calibrate.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides calibrate data about accel and gyroscope.
+     30            ******************************************************************************
+     31          
+     32            ******************************************************************************
+     33            */ 
+     34          
+     35          /* Includes ------------------------------------------------------------------*/
+     36          #include "calibrate.h"
+     37          #include <math.h>
+     38          #include <stdlib.h>
+     39          #include <string.h>
+     40          
+     41          /* Private typedef -----------------------------------------------------------*/
+     42          typedef struct averaging_struct {
+     43              uint32_t sample_count;
+     44              int32_t gyro[3];                    //0: X-axis,1: Y-axis,2: Z-axis
+     45              int32_t acc[3];                     //0: X-axis,1: Y-axis,2: Z-axis
+     46              int32_t temp;
+     47          } averaging_s, *averaging_p;
+     48          
+     49          /* Private define ------------------------------------------------------------*/
+     50          /* Private macro -------------------------------------------------------------*/
+     51          /* Private variables ---------------------------------------------------------*/
+     52          static calibrate_s g_cal;
+     53          static averaging_s avg = {0};
+     54          float dcorrection[3];                   //0: X-axis,1: Y-axis,2: Z-axis
+     55          
+     56          /* Private function prototypes -----------------------------------------------*/
+     57          
+     58          /**
+     59            * @brief  clear remainders from IMU offset.
+     60            * @param  None
+     61            * @retval None
+     62            */
+     63          void averaging_reset()
+     64          {
+     65              memset(&avg, 0, sizeof(averaging_s));
+     66          
+     67              dcorrection[0] = 0;
+     68              dcorrection[1] = 0;
+     69              dcorrection[2] = 0;
+     70              
+     71          }
+     72          
+     73          /**
+     74            * @brief  init IMU offset.
+     75            * @param  None
+     76            * @retval None
+     77            */
+     78          void calibrate_init(void)
+     79          {
+     80              memset(&g_cal, 0, sizeof(g_cal));
+     81              averaging_reset();
+     82          }
+     83          
+     84          /**
+     85            * @brief  calibrate IMU data.
+     86            * @param  None
+     87            * @retval None
+     88            */
+     89          bool calibrate_apply(imu_data *data)
+     90          {	
+     91              for(int i=0;i<3;i++)
+     92              {
+     93                  dcorrection[i] += (float)data->gyro[i] - (g_cal.gyro_correction.intercept[i]);
+     94                  data->gyro[i] = dcorrection[i];
+     95          		dcorrection[i] -= data->gyro[i];
+     96              }
+     97              
+     98              for(int i=0;i<3;i++)
+     99              {
+    100                  data->acce[i] = (float)data->acce[i] - (g_cal.acc_correction.intercept[i]);
+    101              }
+    102          
+    103              return 0; 
+    104          }
+    105          
+    106          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   averaging_reset
+         8   -> __aeabi_memclr4
+      24   calibrate_apply
+        24   -> __aeabi_f2iz
+        24   -> __aeabi_fadd
+        24   -> __aeabi_fsub
+        24   -> __aeabi_i2f
+       8   calibrate_init
+         8   -> __aeabi_memclr4
+         0   -> averaging_reset
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+      24  averaging_reset
+     112  calibrate_apply
+      16  calibrate_init
+      92  g_cal
+          dcorrection
+          avg
+
+ 
+  92 bytes in section .bss
+ 156 bytes in section .text
+ 
+ 156 bytes of CODE memory
+  92 bytes of DATA memory
+
+Errors: none
+Warnings: 2

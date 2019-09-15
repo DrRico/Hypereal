@@ -1,0 +1,232 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        20/Sep/2016  15:48:05
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\button_js_trigger_bat.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\button_js_trigger_bat.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\button_js_trigger_bat.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\button_js_trigger_bat.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\button_js_trigger_bat.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    button_js_trigger_bat.c
+      4            * @author  Hypereal Team
+      5            * @version V1.2.0
+      6            * @date    19-September-2016
+      7            * @brief   Configure the button and battery on Gamepads.
+      8            *          This file is responsible to offer board support package and is 
+      9            *          configurable by user.  
+     10            ******************************************************************************
+     11            */ 
+     12          
+     13          /* Includes ------------------------------------------------------------------*/
+     14          #include  "hr_mk1_config.h"
+     15              
+     16          #ifndef    HMD
+     17          
+     18          #include  "button_js_trigger_bat.h"
+     19          #include  "stm32f4xx.h"
+     20          #include  "stm32f4xx_gpio.h"
+     21          #include  "stm32f4xx_rcc.h"
+     22          #include  "stm32f4xx_adc.h"
+     23          #include  "stm32f4xx_dma.h"
+     24          #include  "handle_adc.h"
+     25          
+     26          uint32_t jsy16_jsx16;
+     27          uint16_t bat16;
+     28          uint16_t trigger16;
+     29          
+     30          uint8_t js_x_value;
+     31          uint8_t js_y_value;
+     32          uint8_t trigger_value = 0;
+     33          uint16_t trigger_value_base = 0;
+     34          uint8_t button_value;
+     35          uint8_t bat_value = 0xff;
+     36          
+     37          /**
+     38          * @brief  bjtb_init
+     39          *         special ports in Gamepad configurations
+     40          * @param  None
+     41          * @retval None
+     42          */
+     43          
+     44          void bjtb_init()
+     45          {
+     46              GPIO_InitTypeDef GPIO_InitStructure;
+     47          		
+     48              /* 使能GPIOA时钟，用于对PA4, PA5, PA6, PA7进行采样 */
+     49              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+     50              
+     51              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2;
+     52              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;     // 模拟输入
+     53              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL; // 不带上下拉
+     54              GPIO_Init(GPIOA, &GPIO_InitStructure);
+     55          
+     56              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+     57              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+     58              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;     // 模拟输入
+     59              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL; // 不带上下拉
+     60              GPIO_Init(GPIOB, &GPIO_InitStructure);
+     61          
+     62              DMAx_Config(DMA2, DMA2_Stream4, DMA_Channel_0, ADC1, (uint32_t)(&jsy16_jsx16), DMA2_Stream4_IRQn, 0);
+     63              DMAx_Config(DMA2, DMA2_Stream3, DMA_Channel_1, ADC2, (uint32_t)(&bat16), DMA2_Stream3_IRQn, 1);
+     64              DMAx_Config(DMA2, DMA2_Stream1, DMA_Channel_2, ADC3, (uint32_t)(&trigger16), DMA2_Stream1_IRQn, 1);
+     65              
+     66              /* 开启DMA传输 */
+     67              DMA_Cmd(DMA2_Stream4, ENABLE);
+     68              DMA_Cmd(DMA2_Stream3, ENABLE);
+     69              DMA_Cmd(DMA2_Stream1, ENABLE);
+     70          
+     71              /* 配置 ADC1， ADC2, ADC3 */
+     72              ADCx_Init(ADC1, ADC_Channel_0, ADC_Channel_1, ADC_Channel_None, 1);
+     73              ADCx_Init(ADC3, ADC_Channel_2, ADC_Channel_None, ADC_Channel_None, 1);
+     74              ADCx_Init(ADC2, ADC_Channel_9, ADC_Channel_None, ADC_Channel_None, 0);
+     75              
+     76              /* ADC Common Init */
+     77              ADC_CommonInit_Local();
+     78              
+     79              /* 使能 ADC1, ADC2, ADC3 */
+     80              ADC_Cmd(ADC1, ENABLE);
+     81              ADC_Cmd(ADC2, ENABLE);
+     82              ADC_Cmd(ADC3, ENABLE);
+     83              
+     84              /* 配置 TIMER1 */
+     85              TIM3_Int_Init(200-1,8400-1);	//freq = 84000000/8400/200
+     86          		
+     87              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+     88              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 |GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4;
+     89              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;     // 模拟输入
+     90              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; // 不带上下拉
+     91              GPIO_Init(GPIOC, &GPIO_InitStructure);
+     92          		
+     93          		
+     94          }
+     95          
+     96          extern uint8_t bat_trig_flag ;
+     97          
+     98          void bjtb_poll()
+     99          {
+    100          	if ((trigger_value_base == 0) && (trigger16 != 0))
+    101          	{
+    102          			trigger_value_base = trigger16;
+    103          	}
+    104          	
+    105          	js_x_value = ((jsy16_jsx16)&0xffff)>>4;
+    106          	js_y_value = (jsy16_jsx16)>>20;
+    107          	
+    108          	if (trigger16>trigger_value_base+5)
+    109          	{
+    110          			if (trigger16<trigger_value_base+256+5)
+    111          				trigger_value = trigger16 -trigger_value_base -5;
+    112          			else
+    113          				trigger_value = 0xff;
+    114          	}
+    115          	else if (trigger16<(trigger_value_base-5))
+    116          	{
+    117          		if (trigger16>(trigger_value_base-256-5))
+    118          			trigger_value = trigger_value_base-trigger16 -5;
+    119          		else
+    120          			trigger_value = 0xff;
+    121          	}
+    122          	else
+    123          	{
+    124          		trigger_value = 0;
+    125          	}
+    126          		
+    127          	
+    128          	if (bat_trig_flag)
+    129          	{
+    130          		bat_trig_flag = 0;
+    131          		GET_BAT16();
+    132          		
+    133          		if (bat16!= 0)
+    134          		{
+    135          				if (bat16<2300)	bat_value = 0x00;
+    136          				else if (bat16>2555) bat_value = 0xff;
+    137          				else bat_value = bat16-2300;
+    138          		}
+    139          		else bat_value = 0xff;
+    140          	}
+    141          	
+    142          #ifdef NO_SIDE_BUTTON
+    143          	button_value = (~0x1f) | ((GPIO_ReadInputData(GPIOC)) & 0x1f) | (0x01<<4);
+    144          #else
+    145          	button_value = (~0x1f) | ((GPIO_ReadInputData(GPIOC)) & 0x1f);
+    146          #endif
+    147          }
+    148          
+    149          
+    150          void ReConfig_DMA2_Stream4(void)
+    151          {
+    152              /* 重新初始化 DMA2_Stream4, Channel 0 */
+    153          		DMAx_Config(DMA2, DMA2_Stream4, DMA_Channel_0, ADC1, (uint32_t)(&jsy16_jsx16), DMA2_Stream4_IRQn, 0);
+    154              //DMAx_Config(DMA2, DMA2_Stream4, DMA_Channel_0, ADC1, (uint32_t)SendBuff_1, DMA2_Stream4_IRQn, 0);
+    155              DMA_Cmd(DMA2_Stream4, ENABLE);
+    156          }
+    157          
+    158          void ReConfig_DMA2_Stream3(void)
+    159          {
+    160              /* 重新初始化 DMA2, Stream 3, Channel 1, 外设数据16位，存储器数据16位, for ADC2 */
+    161          		DMAx_Config(DMA2, DMA2_Stream3, DMA_Channel_1, ADC2, (uint32_t)(&bat16), DMA2_Stream3_IRQn, 1);
+    162              //DMAx_Config(DMA2, DMA2_Stream3, DMA_Channel_1, ADC2, (uint32_t)SendBuff_2, DMA2_Stream3_IRQn, 1);
+    163              DMA_Cmd(DMA2_Stream3, ENABLE);
+    164          }
+    165          
+    166          void ReConfig_DMA2_Stream1(void)
+    167          {
+    168              /* 重新初始化 DMA2, Stream 1, Channel 2 */
+    169          		DMAx_Config(DMA2, DMA2_Stream1, DMA_Channel_2, ADC3, (uint32_t)(&trigger16), DMA2_Stream1_IRQn, 1);
+    170              //DMAx_Config(DMA2, DMA2_Stream1, DMA_Channel_2, ADC3, (uint32_t)SendBuff_3, DMA2_Stream1_IRQn, 1);
+    171              DMA_Cmd(DMA2_Stream1, ENABLE);
+    172          }
+    173          
+    174          
+    175          #endif
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none

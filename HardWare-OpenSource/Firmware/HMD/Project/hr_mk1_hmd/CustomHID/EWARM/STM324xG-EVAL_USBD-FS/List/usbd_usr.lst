@@ -1,0 +1,295 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:45
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_usr.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_usr.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\usbd_usr.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\usbd_usr.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usbd_usr.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    usbd_usr.c
+      4            * @author  MCD Application Team
+      5            * @version V1.2.0
+      6            * @date    09-November-2015
+      7            * @brief   This file includes the user application layer
+      8            ******************************************************************************
+      9            * @attention
+     10            *
+     11            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     12            *
+     13            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     14            * You may not use this file except in compliance with the License.
+     15            * You may obtain a copy of the License at:
+     16            *
+     17            *        http://www.st.com/software_license_agreement_liberty_v2
+     18            *
+     19            * Unless required by applicable law or agreed to in writing, software 
+     20            * distributed under the License is distributed on an "AS IS" BASIS, 
+     21            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     22            * See the License for the specific language governing permissions and
+     23            * limitations under the License.
+     24            *
+     25            ******************************************************************************
+     26            */ 
+     27          
+     28          /* Includes ------------------------------------------------------------------*/
+     29          #include "usbd_usr.h"
+     30          
+     31          /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
+     32          * @{
+     33          */
+     34          
+     35          /** @defgroup USBD_USR 
+     36          * @brief    This file includes the user application layer
+     37          * @{
+     38          */ 
+     39          
+     40          /** @defgroup USBD_USR_Private_TypesDefinitions
+     41          * @{
+     42          */ 
+     43          /**
+     44          * @}
+     45          */ 
+     46          
+     47          
+     48          /** @defgroup USBD_USR_Private_Defines
+     49          * @{
+     50          */ 
+     51          /**
+     52          * @}
+     53          */ 
+     54          
+     55          
+     56          /** @defgroup USBD_USR_Private_Macros
+     57          * @{
+     58          */ 
+     59          /**
+     60          * @}
+     61          */ 
+     62          
+     63          
+     64          /** @defgroup USBD_USR_Private_Variables
+     65          * @{
+     66          */ 
+     67          
+     68          USBD_Usr_cb_TypeDef USR_cb =
+     69          {
+     70            USBD_USR_Init,
+     71            USBD_USR_DeviceReset,
+     72            USBD_USR_DeviceConfigured,
+     73            USBD_USR_DeviceSuspended,
+     74            USBD_USR_DeviceResumed,
+     75            
+     76            USBD_USR_DeviceConnected,
+     77            USBD_USR_DeviceDisconnected,  
+     78          };
+     79          
+     80          
+     81          /**
+     82          * @}
+     83          */
+     84          
+     85          /** @defgroup USBD_USR_Private_Constants
+     86          * @{
+     87          */ 
+     88          
+     89          /**
+     90          * @}
+     91          */
+     92          
+     93          
+     94          
+     95          
+     96          
+     97          /** @defgroup USBD_USR_Private_Functions
+     98          * @{
+     99          */ 
+    100          
+    101          #define USER_INFORMATION1      (uint8_t*)"[Key]:switch On/Off Button[ReportID 5] "
+    102          #define USER_INFORMATION2      (uint8_t*)"[Leds]:switch on/off Leds [ReportID 1]"
+    103          #define USER_INFORMATION3      (uint8_t*)"[Potentiometer]:[ReportID 7]"
+    104          
+    105          /**
+    106          * @brief  USBD_USR_Init 
+    107          *         Displays the message on LCD for host lib initialization
+    108          * @param  None
+    109          * @retval None
+    110          */
+    111          void USBD_USR_Init(void)
+    112          {  
+    113          	asm("nop");  
+    114          }
+    115          
+    116          /**
+    117          * @brief  USBD_USR_DeviceReset 
+    118          *         Displays the message on LCD on device Reset Event
+    119          * @param  speed : device speed
+    120          * @retval None
+    121          */
+    122          void USBD_USR_DeviceReset(uint8_t speed )
+    123          {
+    124          		/*
+    125           switch (speed)
+    126           {
+    127             case USB_OTG_SPEED_HIGH: 
+    128               LCD_LOG_SetFooter ((uint8_t*)"     USB Device Library v1.2.0 [HS]" );
+    129               break;
+    130          
+    131            case USB_OTG_SPEED_FULL: 
+    132               LCD_LOG_SetFooter ((uint8_t*)"     USB Device Library v1.2.0 [FS]" );
+    133               break;
+    134           default:
+    135               LCD_LOG_SetFooter ((uint8_t*)"     USB Device Library v1.2.0 [??]" );
+    136               
+    137           }
+    138          		*/
+    139          }
+    140          
+    141          
+    142          /**
+    143          * @brief  USBD_USR_DeviceConfigured
+    144          *         Displays the message on LCD on device configuration Event
+    145          * @param  None
+    146          * @retval Staus
+    147          */
+    148          void USBD_USR_DeviceConfigured (void)
+    149          {
+    150           // LCD_UsrLog("> CUSTOMHID Interface started.\n");
+    151          
+    152          }
+    153          
+    154          
+    155          /**
+    156          * @brief  USBD_USR_DeviceConnected
+    157          *         Displays the message on LCD on device connection Event
+    158          * @param  None
+    159          * @retval Status
+    160          */
+    161          void USBD_USR_DeviceConnected (void)
+    162          {
+    163           // LCD_UsrLog("> USB Device Connected.\n");
+    164          }
+    165          
+    166          
+    167          /**
+    168          * @brief  USBD_USR_DeviceDisonnected
+    169          *         Displays the message on LCD on device disconnection Event
+    170          * @param  None
+    171          * @retval Status
+    172          */
+    173          void USBD_USR_DeviceDisconnected (void)
+    174          {
+    175           // LCD_UsrLog("> USB Device Disconnected.\n");
+    176          }
+    177          
+    178          /**
+    179          * @brief  USBD_USR_DeviceSuspended 
+    180          *         Displays the message on LCD on device suspend Event
+    181          * @param  None
+    182          * @retval None
+    183          */
+    184          void USBD_USR_DeviceSuspended(void)
+    185          {
+    186            //LCD_UsrLog("> USB Device in Suspend Mode.\n");
+    187            /* Users can do their application actions here for the USB-Reset */
+    188          }
+    189          
+    190          
+    191          /**
+    192          * @brief  USBD_USR_DeviceResumed 
+    193          *         Displays the message on LCD on device resume Event
+    194          * @param  None
+    195          * @retval None
+    196          */
+    197          void USBD_USR_DeviceResumed(void)
+    198          {
+    199             // LCD_UsrLog("> USB Device in Idle Mode.\n");
+    200            /* Users can do their application actions here for the USB-Reset */
+    201          }
+    202          
+    203          /**
+    204          * @}
+    205          */ 
+    206          
+    207          /**
+    208          * @}
+    209          */ 
+    210          
+    211          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   USBD_USR_DeviceConfigured
+       0   USBD_USR_DeviceConnected
+       0   USBD_USR_DeviceDisconnected
+       0   USBD_USR_DeviceReset
+       0   USBD_USR_DeviceResumed
+       0   USBD_USR_DeviceSuspended
+       0   USBD_USR_Init
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  USBD_USR_DeviceConfigured
+       2  USBD_USR_DeviceConnected
+       2  USBD_USR_DeviceDisconnected
+       2  USBD_USR_DeviceReset
+       2  USBD_USR_DeviceResumed
+       2  USBD_USR_DeviceSuspended
+       4  USBD_USR_Init
+      28  USR_cb
+
+ 
+ 28 bytes in section .data
+ 16 bytes in section .text
+ 
+ 16 bytes of CODE memory
+ 28 bytes of DATA memory
+
+Errors: none
+Warnings: none

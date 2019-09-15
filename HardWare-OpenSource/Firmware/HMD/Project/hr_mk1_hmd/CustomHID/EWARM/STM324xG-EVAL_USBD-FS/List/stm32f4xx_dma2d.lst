@@ -1,0 +1,904 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma2d.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma2d.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_dma2d.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_dma2d.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma2d.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_dma2d.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the DMA2D controller (DMA2D) peripheral:
+      9            *           + Initialization and configuration
+     10            *           + Interrupts and flags management
+     11            *           
+     12            @verbatim  
+     13           ===============================================================================
+     14                                ##### How to use this driver #####
+     15           ===============================================================================
+     16              [..]
+     17                  (#) Enable DMA2D clock using 
+     18                      RCC_APB2PeriphResetCmd(RCC_APB2Periph_DMA2D, ENABLE) function.
+     19                      
+     20                  (#) Configures DMA2D
+     21                    (++) transfer mode 
+     22                    (++) pixel format, line_number, pixel_per_line
+     23                    (++) output memory address
+     24                    (++) alpha value
+     25                    (++) output offset
+     26                    (++) Default color (RGB)
+     27                     
+     28                  (#) Configures Foreground or/and background
+     29                    (++) memory address
+     30                    (++) alpha value
+     31                    (++) offset and default color
+     32            
+     33                  (#) Call the DMA2D_Start() to enable the DMA2D controller.
+     34                  
+     35              @endverbatim
+     36            
+     37            ******************************************************************************
+     38            * @attention
+     39            *
+     40            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     41            *
+     42            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     43            * You may not use this file except in compliance with the License.
+     44            * You may obtain a copy of the License at:
+     45            *
+     46            *        http://www.st.com/software_license_agreement_liberty_v2
+     47            *
+     48            * Unless required by applicable law or agreed to in writing, software 
+     49            * distributed under the License is distributed on an "AS IS" BASIS, 
+     50            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     51            * See the License for the specific language governing permissions and
+     52            * limitations under the License.
+     53            *
+     54            ******************************************************************************
+     55            */ 
+     56          
+     57          /* Includes ------------------------------------------------------------------*/
+     58          #include "stm32f4xx_dma2d.h"
+     59          #include "stm32f4xx_rcc.h"
+     60          
+     61          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     62            * @{
+     63            */
+     64          
+     65          /** @defgroup DMA2D 
+     66            * @brief DMA2D driver modules
+     67            * @{
+     68            */
+     69          
+     70          /* Private typedef -----------------------------------------------------------*/
+     71          /* Private define ------------------------------------------------------------*/
+     72          /* Private macro -------------------------------------------------------------*/
+     73          /* Private variables ---------------------------------------------------------*/
+     74          /* Private function prototypes -----------------------------------------------*/
+     75          /* Private functions ---------------------------------------------------------*/
+     76          
+     77          #define CR_MASK                     ((uint32_t)0xFFFCE0FC)  /* DMA2D CR Mask */
+     78          #define PFCCR_MASK                  ((uint32_t)0x00FC00C0)  /* DMA2D FGPFCCR Mask */
+     79          #define DEAD_MASK                   ((uint32_t)0xFFFF00FE)  /* DMA2D DEAD Mask */
+     80          
+     81          /** @defgroup DMA2D_Private_Functions
+     82            * @{
+     83            */
+     84          
+     85          /** @defgroup DMA2D_Group1 Initialization and Configuration functions
+     86           *  @brief   Initialization and Configuration functions 
+     87           *
+     88          @verbatim
+     89           ===============================================================================
+     90                      ##### Initialization and Configuration functions #####
+     91           ===============================================================================
+     92              [..]  This section provides functions allowing to:
+     93                (+) Initialize and configure the DMA2D
+     94                (+) Start/Abort/Suspend Transfer
+     95                (+) Initialize, configure and set Foreground and background
+     96                (+) configure and enable DeadTime
+     97                (+) configure lineWatermark
+     98              
+     99              
+    100          @endverbatim
+    101            * @{
+    102            */
+    103          
+    104          /**
+    105            * @brief  Deinitializes the DMA2D peripheral registers to their default reset
+    106            *         values.
+    107            * @param  None
+    108            * @retval None
+    109            */
+    110          
+    111          void DMA2D_DeInit(void)
+    112          {
+    113            /* Enable DMA2D reset state */
+    114            RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_DMA2D, ENABLE);
+    115            /* Release DMA2D from reset state */
+    116            RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_DMA2D, DISABLE);
+    117          }
+    118          
+    119          
+    120          /**
+    121            * @brief  Initializes the DMA2D peripheral according to the specified parameters
+    122            *         in the DMA2D_InitStruct.
+    123            * @note   This function can be used only when the DMA2D is disabled.
+    124            * @param  DMA2D_InitStruct: pointer to a DMA2D_InitTypeDef structure that contains
+    125            *         the configuration information for the specified DMA2D peripheral.
+    126            * @retval None
+    127            */
+    128          void DMA2D_Init(DMA2D_InitTypeDef* DMA2D_InitStruct)
+    129          {
+    130          
+    131            uint32_t outgreen = 0;
+    132            uint32_t outred   = 0;
+    133            uint32_t outalpha = 0;
+    134            uint32_t pixline  = 0;
+    135          
+    136            /* Check the parameters */
+    137            assert_param(IS_DMA2D_MODE(DMA2D_InitStruct->DMA2D_Mode));
+    138            assert_param(IS_DMA2D_CMODE(DMA2D_InitStruct->DMA2D_CMode));
+    139            assert_param(IS_DMA2D_OGREEN(DMA2D_InitStruct->DMA2D_OutputGreen));
+    140            assert_param(IS_DMA2D_ORED(DMA2D_InitStruct->DMA2D_OutputRed));
+    141            assert_param(IS_DMA2D_OBLUE(DMA2D_InitStruct->DMA2D_OutputBlue));
+    142            assert_param(IS_DMA2D_OALPHA(DMA2D_InitStruct->DMA2D_OutputAlpha));
+    143            assert_param(IS_DMA2D_OUTPUT_OFFSET(DMA2D_InitStruct->DMA2D_OutputOffset));
+    144            assert_param(IS_DMA2D_LINE(DMA2D_InitStruct->DMA2D_NumberOfLine));
+    145            assert_param(IS_DMA2D_PIXEL(DMA2D_InitStruct->DMA2D_PixelPerLine));
+    146          
+    147            /* Configures the DMA2D operation mode */
+    148            DMA2D->CR &= (uint32_t)CR_MASK;
+    149            DMA2D->CR |= (DMA2D_InitStruct->DMA2D_Mode);
+    150          
+    151            /* Configures the color mode of the output image */
+    152            DMA2D->OPFCCR &= ~(uint32_t)DMA2D_OPFCCR_CM;
+    153            DMA2D->OPFCCR |= (DMA2D_InitStruct->DMA2D_CMode);
+    154          
+    155            /* Configures the output color */
+    156          
+    157            if (DMA2D_InitStruct->DMA2D_CMode == DMA2D_ARGB8888)
+    158            {
+    159              outgreen = DMA2D_InitStruct->DMA2D_OutputGreen << 8;
+    160              outred = DMA2D_InitStruct->DMA2D_OutputRed << 16;
+    161              outalpha = DMA2D_InitStruct->DMA2D_OutputAlpha << 24;
+    162            }
+    163            else
+    164            
+    165              if (DMA2D_InitStruct->DMA2D_CMode == DMA2D_RGB888)
+    166              {
+    167                outgreen = DMA2D_InitStruct->DMA2D_OutputGreen << 8;
+    168                outred = DMA2D_InitStruct->DMA2D_OutputRed << 16;
+    169                outalpha = (uint32_t)0x00000000;
+    170              }
+    171               
+    172            else
+    173          
+    174              if (DMA2D_InitStruct->DMA2D_CMode == DMA2D_RGB565)
+    175              {
+    176                outgreen = DMA2D_InitStruct->DMA2D_OutputGreen << 5;
+    177                outred = DMA2D_InitStruct->DMA2D_OutputRed << 11;
+    178                outalpha = (uint32_t)0x00000000;
+    179              }
+    180          
+    181            else
+    182          
+    183              if (DMA2D_InitStruct->DMA2D_CMode == DMA2D_ARGB1555)
+    184              {  
+    185                outgreen = DMA2D_InitStruct->DMA2D_OutputGreen << 5;
+    186                outred = DMA2D_InitStruct->DMA2D_OutputRed << 10;
+    187                outalpha = DMA2D_InitStruct->DMA2D_OutputAlpha << 15;
+    188              }
+    189          
+    190            else /* DMA2D_CMode = DMA2D_ARGB4444 */
+    191            {
+    192              outgreen = DMA2D_InitStruct->DMA2D_OutputGreen << 4;
+    193              outred = DMA2D_InitStruct->DMA2D_OutputRed << 8;
+    194              outalpha = DMA2D_InitStruct->DMA2D_OutputAlpha << 12;
+    195            }  
+    196            DMA2D->OCOLR |= ((outgreen) | (outred) | (DMA2D_InitStruct->DMA2D_OutputBlue) | (outalpha));
+    197          
+    198            /* Configures the output memory address */
+    199            DMA2D->OMAR = (DMA2D_InitStruct->DMA2D_OutputMemoryAdd);
+    200          
+    201            /* Configure  the line Offset */
+    202            DMA2D->OOR &= ~(uint32_t)DMA2D_OOR_LO;
+    203            DMA2D->OOR |= (DMA2D_InitStruct->DMA2D_OutputOffset);
+    204          
+    205            /* Configure the number of line and pixel per line */
+    206            pixline = DMA2D_InitStruct->DMA2D_PixelPerLine << 16; 
+    207            DMA2D->NLR &= ~(DMA2D_NLR_NL | DMA2D_NLR_PL);
+    208            DMA2D->NLR |= ((DMA2D_InitStruct->DMA2D_NumberOfLine) | (pixline));
+    209          
+    210          /**
+    211            * @brief  Fills each DMA2D_InitStruct member with its default value.
+    212            * @param  DMA2D_InitStruct: pointer to a DMA2D_InitTypeDef structure which will
+    213            *         be initialized.
+    214            * @retval None
+    215            */
+    216          }
+    217          void DMA2D_StructInit(DMA2D_InitTypeDef* DMA2D_InitStruct)
+    218          {
+    219            /* Initialize the transfer mode member */
+    220            DMA2D_InitStruct->DMA2D_Mode = DMA2D_M2M;
+    221          
+    222            /* Initialize the output color mode members */
+    223            DMA2D_InitStruct->DMA2D_CMode = DMA2D_ARGB8888;
+    224          
+    225            /* Initialize the alpha and RGB values */
+    226            DMA2D_InitStruct->DMA2D_OutputGreen = 0x00;
+    227            DMA2D_InitStruct->DMA2D_OutputBlue = 0x00;
+    228            DMA2D_InitStruct->DMA2D_OutputRed = 0x00;
+    229            DMA2D_InitStruct->DMA2D_OutputAlpha = 0x00;
+    230          
+    231            /* Initialize the output memory address */
+    232            DMA2D_InitStruct->DMA2D_OutputMemoryAdd = 0x00;
+    233          
+    234            /* Initialize the output offset */
+    235            DMA2D_InitStruct->DMA2D_OutputOffset = 0x00;
+    236          
+    237            /* Initialize the number of line and the number of pixel per line */
+    238            DMA2D_InitStruct->DMA2D_NumberOfLine = 0x00;
+    239            DMA2D_InitStruct->DMA2D_PixelPerLine = 0x00;
+    240          }
+    241          
+    242          /**
+    243            * @brief  Start the DMA2D transfer.
+    244            * @param 
+    245            * @retval None
+    246            */
+    247          
+    248          void DMA2D_StartTransfer(void)
+    249          {
+    250              /* Start DMA2D transfer by setting START bit */
+    251              DMA2D->CR |= (uint32_t)DMA2D_CR_START;
+    252          }
+    253          
+    254          /**
+    255            * @brief  Abort the DMA2D transfer.
+    256            * @param
+    257            * @retval None
+    258            */
+    259          
+    260          void DMA2D_AbortTransfer(void)
+    261          {
+    262              /* Start DMA2D transfer by setting START bit */
+    263              DMA2D->CR |= (uint32_t)DMA2D_CR_ABORT;
+    264          
+    265          }
+    266          
+    267          /**
+    268            * @brief  Stop or continue the DMA2D transfer.
+    269            * @param  NewState: new state of the DMA2D peripheral.
+    270            *   This parameter can be: ENABLE or DISABLE.
+    271            * @retval None
+    272            */
+    273          void DMA2D_Suspend(FunctionalState NewState)
+    274          {
+    275            /* Check the parameters */
+    276            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    277          
+    278            if (NewState != DISABLE)
+    279            {
+    280              /* Suspend DMA2D transfer by setting STOP bit */
+    281              DMA2D->CR |= (uint32_t)DMA2D_CR_SUSP;
+    282            }
+    283            else
+    284            {
+    285              /* Continue DMA2D transfer by clearing STOP bit */
+    286              DMA2D->CR &= ~(uint32_t)DMA2D_CR_SUSP;
+    287            }
+    288          }
+    289          
+    290          /**
+    291            * @brief  Configures the Foreground according to the specified parameters
+    292            *         in the DMA2D_FGStruct.
+    293            * @note   This function can be used only when the transfer is disabled.
+    294            * @param  DMA2D_FGStruct: pointer to a DMA2D_FGTypeDef structure that contains
+    295            *         the configuration information for the specified Background.
+    296            * @retval None
+    297            */
+    298          void DMA2D_FGConfig(DMA2D_FG_InitTypeDef* DMA2D_FG_InitStruct)
+    299          {
+    300          
+    301            uint32_t fg_clutcolormode = 0;
+    302            uint32_t fg_clutsize = 0;
+    303            uint32_t fg_alpha_mode = 0;
+    304            uint32_t fg_alphavalue = 0;
+    305            uint32_t fg_colorgreen = 0;
+    306            uint32_t fg_colorred = 0;
+    307          
+    308            assert_param(IS_DMA2D_FGO(DMA2D_FG_InitStruct->DMA2D_FGO));
+    309            assert_param(IS_DMA2D_FGCM(DMA2D_FG_InitStruct->DMA2D_FGCM));
+    310            assert_param(IS_DMA2D_FG_CLUT_CM(DMA2D_FG_InitStruct->DMA2D_FG_CLUT_CM));
+    311            assert_param(IS_DMA2D_FG_CLUT_SIZE(DMA2D_FG_InitStruct->DMA2D_FG_CLUT_SIZE));
+    312            assert_param(IS_DMA2D_FG_ALPHA_MODE(DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_MODE));
+    313            assert_param(IS_DMA2D_FG_ALPHA_VALUE(DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_VALUE));
+    314            assert_param(IS_DMA2D_FGC_BLUE(DMA2D_FG_InitStruct->DMA2D_FGC_BLUE));
+    315            assert_param(IS_DMA2D_FGC_GREEN(DMA2D_FG_InitStruct->DMA2D_FGC_GREEN));
+    316            assert_param(IS_DMA2D_FGC_RED(DMA2D_FG_InitStruct->DMA2D_FGC_RED));
+    317          
+    318            /* Configures the FG memory address */
+    319            DMA2D->FGMAR = (DMA2D_FG_InitStruct->DMA2D_FGMA);
+    320          
+    321            /* Configures the FG offset */
+    322            DMA2D->FGOR &= ~(uint32_t)DMA2D_FGOR_LO;
+    323            DMA2D->FGOR |= (DMA2D_FG_InitStruct->DMA2D_FGO);
+    324          
+    325            /* Configures foreground Pixel Format Convertor */
+    326            DMA2D->FGPFCCR &= (uint32_t)PFCCR_MASK;
+    327            fg_clutcolormode = DMA2D_FG_InitStruct->DMA2D_FG_CLUT_CM << 4;
+    328            fg_clutsize = DMA2D_FG_InitStruct->DMA2D_FG_CLUT_SIZE << 8;
+    329            fg_alpha_mode = DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_MODE << 16;
+    330            fg_alphavalue = DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_VALUE << 24;
+    331            DMA2D->FGPFCCR |= (DMA2D_FG_InitStruct->DMA2D_FGCM | fg_clutcolormode | fg_clutsize | \
+    332                              fg_alpha_mode | fg_alphavalue);
+    333          
+    334            /* Configures foreground color */
+    335            DMA2D->FGCOLR &= ~(DMA2D_FGCOLR_BLUE | DMA2D_FGCOLR_GREEN | DMA2D_FGCOLR_RED);
+    336            fg_colorgreen = DMA2D_FG_InitStruct->DMA2D_FGC_GREEN << 8;
+    337            fg_colorred = DMA2D_FG_InitStruct->DMA2D_FGC_RED << 16;
+    338            DMA2D->FGCOLR |= (DMA2D_FG_InitStruct->DMA2D_FGC_BLUE | fg_colorgreen | fg_colorred);
+    339          
+    340            /* Configures foreground CLUT memory address */
+    341            DMA2D->FGCMAR = DMA2D_FG_InitStruct->DMA2D_FGCMAR;
+    342          }
+    343          
+    344          /**
+    345            * @brief  Fills each DMA2D_FGStruct member with its default value.
+    346            * @param  DMA2D_FGStruct: pointer to a DMA2D_FGTypeDef structure which will
+    347            *         be initialized.
+    348            * @retval None
+    349            */
+    350          void DMA2D_FG_StructInit(DMA2D_FG_InitTypeDef* DMA2D_FG_InitStruct)
+    351          {
+    352            /*!< Initialize the DMA2D foreground memory address */
+    353            DMA2D_FG_InitStruct->DMA2D_FGMA = 0x00;
+    354          
+    355            /*!< Initialize the DMA2D foreground offset */
+    356            DMA2D_FG_InitStruct->DMA2D_FGO = 0x00;
+    357          
+    358            /*!< Initialize the DMA2D foreground color mode */
+    359            DMA2D_FG_InitStruct->DMA2D_FGCM = CM_ARGB8888;
+    360          
+    361            /*!< Initialize the DMA2D foreground CLUT color mode */
+    362            DMA2D_FG_InitStruct->DMA2D_FG_CLUT_CM = CLUT_CM_ARGB8888;
+    363          
+    364            /*!< Initialize the DMA2D foreground CLUT size */
+    365            DMA2D_FG_InitStruct->DMA2D_FG_CLUT_SIZE = 0x00;
+    366          
+    367            /*!< Initialize the DMA2D foreground alpha mode */
+    368            DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_MODE = NO_MODIF_ALPHA_VALUE;
+    369          
+    370            /*!< Initialize the DMA2D foreground alpha value */
+    371            DMA2D_FG_InitStruct->DMA2D_FGPFC_ALPHA_VALUE = 0x00;
+    372          
+    373            /*!< Initialize the DMA2D foreground blue value */
+    374            DMA2D_FG_InitStruct->DMA2D_FGC_BLUE = 0x00;
+    375          
+    376            /*!< Initialize the DMA2D foreground green value */
+    377            DMA2D_FG_InitStruct->DMA2D_FGC_GREEN = 0x00;
+    378          
+    379            /*!< Initialize the DMA2D foreground red value */
+    380            DMA2D_FG_InitStruct->DMA2D_FGC_RED = 0x00;
+    381          
+    382            /*!< Initialize the DMA2D foreground CLUT memory address */
+    383            DMA2D_FG_InitStruct->DMA2D_FGCMAR = 0x00;
+    384          }
+    385          
+    386          
+    387          /**
+    388            * @brief  Configures the Background according to the specified parameters
+    389            *         in the DMA2D_BGStruct.
+    390            * @note   This function can be used only when the transfer is disabled.
+    391            * @param  DMA2D_BGStruct: pointer to a DMA2D_BGTypeDef structure that contains
+    392            *         the configuration information for the specified Background.
+    393            * @retval None
+    394            */
+    395          void DMA2D_BGConfig(DMA2D_BG_InitTypeDef* DMA2D_BG_InitStruct)
+    396          {
+    397          
+    398            uint32_t bg_clutcolormode = 0;
+    399            uint32_t bg_clutsize = 0;
+    400            uint32_t bg_alpha_mode = 0;
+    401            uint32_t bg_alphavalue = 0;
+    402            uint32_t bg_colorgreen = 0;
+    403            uint32_t bg_colorred = 0;
+    404          
+    405            assert_param(IS_DMA2D_BGO(DMA2D_BG_InitStruct->DMA2D_BGO));
+    406            assert_param(IS_DMA2D_BGCM(DMA2D_BG_InitStruct->DMA2D_BGCM));
+    407            assert_param(IS_DMA2D_BG_CLUT_CM(DMA2D_BG_InitStruct->DMA2D_BG_CLUT_CM));
+    408            assert_param(IS_DMA2D_BG_CLUT_SIZE(DMA2D_BG_InitStruct->DMA2D_BG_CLUT_SIZE));
+    409            assert_param(IS_DMA2D_BG_ALPHA_MODE(DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_MODE));
+    410            assert_param(IS_DMA2D_BG_ALPHA_VALUE(DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_VALUE));
+    411            assert_param(IS_DMA2D_BGC_BLUE(DMA2D_BG_InitStruct->DMA2D_BGC_BLUE));
+    412            assert_param(IS_DMA2D_BGC_GREEN(DMA2D_BG_InitStruct->DMA2D_BGC_GREEN));
+    413            assert_param(IS_DMA2D_BGC_RED(DMA2D_BG_InitStruct->DMA2D_BGC_RED));
+    414          
+    415            /* Configures the BG memory address */
+    416            DMA2D->BGMAR = (DMA2D_BG_InitStruct->DMA2D_BGMA);
+    417          
+    418            /* Configures the BG offset */
+    419            DMA2D->BGOR &= ~(uint32_t)DMA2D_BGOR_LO;
+    420            DMA2D->BGOR |= (DMA2D_BG_InitStruct->DMA2D_BGO);
+    421          
+    422            /* Configures background Pixel Format Convertor */
+    423            DMA2D->BGPFCCR &= (uint32_t)PFCCR_MASK;
+    424            bg_clutcolormode = DMA2D_BG_InitStruct->DMA2D_BG_CLUT_CM << 4;
+    425            bg_clutsize = DMA2D_BG_InitStruct->DMA2D_BG_CLUT_SIZE << 8;
+    426            bg_alpha_mode = DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_MODE << 16;
+    427            bg_alphavalue = DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_VALUE << 24;
+    428            DMA2D->BGPFCCR |= (DMA2D_BG_InitStruct->DMA2D_BGCM | bg_clutcolormode | bg_clutsize | \
+    429                              bg_alpha_mode | bg_alphavalue);
+    430          
+    431            /* Configures background color */
+    432            DMA2D->BGCOLR &= ~(DMA2D_BGCOLR_BLUE | DMA2D_BGCOLR_GREEN | DMA2D_BGCOLR_RED);
+    433            bg_colorgreen = DMA2D_BG_InitStruct->DMA2D_BGC_GREEN << 8;
+    434            bg_colorred = DMA2D_BG_InitStruct->DMA2D_BGC_RED << 16;
+    435            DMA2D->BGCOLR |= (DMA2D_BG_InitStruct->DMA2D_BGC_BLUE | bg_colorgreen | bg_colorred);
+    436            
+    437            /* Configures background CLUT memory address */
+    438            DMA2D->BGCMAR = DMA2D_BG_InitStruct->DMA2D_BGCMAR;
+    439          
+    440          }
+    441          
+    442          /**
+    443            * @brief  Fills each DMA2D_BGStruct member with its default value.
+    444            * @param  DMA2D_BGStruct: pointer to a DMA2D_BGTypeDef structure which will
+    445            *         be initialized.
+    446            * @retval None
+    447            */
+    448          void DMA2D_BG_StructInit(DMA2D_BG_InitTypeDef* DMA2D_BG_InitStruct)
+    449          {
+    450            /*!< Initialize the DMA2D background memory address */
+    451            DMA2D_BG_InitStruct->DMA2D_BGMA = 0x00;
+    452          
+    453            /*!< Initialize the DMA2D background offset */
+    454            DMA2D_BG_InitStruct->DMA2D_BGO = 0x00;
+    455          
+    456            /*!< Initialize the DMA2D background color mode */
+    457            DMA2D_BG_InitStruct->DMA2D_BGCM = CM_ARGB8888;
+    458          
+    459            /*!< Initialize the DMA2D background CLUT color mode */
+    460            DMA2D_BG_InitStruct->DMA2D_BG_CLUT_CM = CLUT_CM_ARGB8888;
+    461          
+    462            /*!< Initialize the DMA2D background CLUT size */
+    463            DMA2D_BG_InitStruct->DMA2D_BG_CLUT_SIZE = 0x00;
+    464          
+    465            /*!< Initialize the DMA2D background alpha mode */
+    466            DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_MODE = NO_MODIF_ALPHA_VALUE;
+    467          
+    468            /*!< Initialize the DMA2D background alpha value */
+    469            DMA2D_BG_InitStruct->DMA2D_BGPFC_ALPHA_VALUE = 0x00;
+    470          
+    471            /*!< Initialize the DMA2D background blue value */
+    472            DMA2D_BG_InitStruct->DMA2D_BGC_BLUE = 0x00;
+    473          
+    474            /*!< Initialize the DMA2D background green value */
+    475            DMA2D_BG_InitStruct->DMA2D_BGC_GREEN = 0x00;
+    476          
+    477            /*!< Initialize the DMA2D background red value */
+    478            DMA2D_BG_InitStruct->DMA2D_BGC_RED = 0x00;
+    479          
+    480            /*!< Initialize the DMA2D background CLUT memory address */
+    481            DMA2D_BG_InitStruct->DMA2D_BGCMAR = 0x00;
+    482          }
+    483          
+    484          /**
+    485            * @brief  Start the automatic loading of the CLUT or abort the transfer.
+    486            * @param  NewState: new state of the DMA2D peripheral.
+    487            *   This parameter can be: ENABLE or DISABLE.
+    488            * @retval None
+    489            */
+    490          
+    491          void DMA2D_FGStart(FunctionalState NewState) 
+    492          {
+    493            /* Check the parameters */
+    494            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    495          
+    496            if (NewState != DISABLE)
+    497            {
+    498              /* Start the automatic loading of the CLUT */
+    499              DMA2D->FGPFCCR |= DMA2D_FGPFCCR_START;
+    500            }
+    501            else
+    502            {
+    503              /* abort the transfer */
+    504              DMA2D->FGPFCCR &= (uint32_t)~DMA2D_FGPFCCR_START;
+    505            }
+    506          }
+    507          
+    508          /**
+    509            * @brief  Start the automatic loading of the CLUT or abort the transfer.
+    510            * @param  NewState: new state of the DMA2D peripheral.
+    511            *   This parameter can be: ENABLE or DISABLE.
+    512            * @retval None
+    513            */
+    514            
+    515          void DMA2D_BGStart(FunctionalState NewState) 
+    516          {
+    517            /* Check the parameters */
+    518            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    519            
+    520            if (NewState != DISABLE)
+    521            {
+    522              /* Start the automatic loading of the CLUT */
+    523              DMA2D->BGPFCCR |= DMA2D_BGPFCCR_START;
+    524            }
+    525            else
+    526            {
+    527              /* abort the transfer */
+    528              DMA2D->BGPFCCR &= (uint32_t)~DMA2D_BGPFCCR_START;
+    529            }
+    530          }
+    531          
+    532          /**
+    533            * @brief  Configures the DMA2D dead time.
+    534            * @param  DMA2D_DeadTime: specifies the DMA2D dead time.
+    535            *   This parameter can be one of the following values:
+    536            * @retval None
+    537            */
+    538          void DMA2D_DeadTimeConfig(uint32_t DMA2D_DeadTime, FunctionalState NewState)
+    539          {
+    540             uint32_t DeadTime;
+    541          
+    542            /* Check the parameters */
+    543            assert_param(IS_DMA2D_DEAD_TIME(DMA2D_DeadTime));
+    544            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    545          
+    546            if (NewState != DISABLE)
+    547            {
+    548              /* Enable and Configures the dead time */
+    549              DMA2D->AMTCR &= (uint32_t)DEAD_MASK;
+    550              DeadTime = DMA2D_DeadTime << 8;
+    551              DMA2D->AMTCR |= (DeadTime | DMA2D_AMTCR_EN);
+    552            }
+    553            else
+    554            {
+    555               DMA2D->AMTCR &= ~(uint32_t)DMA2D_AMTCR_EN;
+    556            }
+    557          }
+    558          
+    559          /**
+    560            * @brief  Define the configuration of the line watermark .
+    561            * @param  DMA2D_LWatermarkConfig: Line Watermark configuration.
+    562            * @retval None
+    563            */
+    564          
+    565          void DMA2D_LineWatermarkConfig(uint32_t DMA2D_LWatermarkConfig)
+    566          {
+    567            /* Check the parameters */
+    568            assert_param(IS_DMA2D_LineWatermark(DMA2D_LWatermarkConfig));
+    569          
+    570            /* Sets the Line watermark configuration */
+    571            DMA2D->LWR = (uint32_t)DMA2D_LWatermarkConfig;
+    572          }
+    573          
+    574          /**
+    575            * @}
+    576            */
+    577          
+    578          /** @defgroup DMA2D_Group2 Interrupts and flags management functions
+    579           *  @brief   Interrupts and flags management functions
+    580           *
+    581          @verbatim
+    582           ===============================================================================
+    583                      ##### Interrupts and flags management functions #####
+    584           ===============================================================================
+    585          
+    586              [..] This section provides functions allowing to configure the DMA2D 
+    587                   Interrupts and to get the status and clear flags and Interrupts 
+    588                   pending bits.
+    589              [..] The DMA2D provides 6 Interrupts sources and 6 Flags
+    590              
+    591              *** Flags ***
+    592              =============
+    593              [..]
+    594                (+) DMA2D_FLAG_CE : Configuration Error Interrupt flag
+    595                (+) DMA2D_FLAG_CAE: CLUT Access Error Interrupt flag
+    596                (+) DMA2D_FLAG_TW:  Transfer Watermark Interrupt flag
+    597                (+) DMA2D_FLAG_TC:  Transfer Complete interrupt flag
+    598                (+) DMA2D_FLAG_TE:  Transfer Error interrupt flag
+    599                (+) DMA2D_FLAG_CTC: CLUT Transfer Complete Interrupt flag
+    600                
+    601              *** Interrupts ***
+    602              ==================
+    603              [..]
+    604                (+) DMA2D_IT_CE: Configuration Error Interrupt is generated when a wrong 
+    605                                 configuration is detected
+    606                (+) DMA2D_IT_CAE: CLUT Access Error Interrupt
+    607                (+) DMA2D_IT_TW: Transfer Watermark Interrupt is generated when 
+    608                                 the programmed watermark is reached 
+    609                (+) DMA2D_IT_TE: Transfer Error interrupt is generated when the CPU trying 
+    610                                 to access the CLUT while a CLUT loading or a DMA2D1 transfer 
+    611                                 is on going       
+    612                (+) DMA2D_IT_CTC: CLUT Transfer Complete Interrupt 
+    613                (+) DMA2D_IT_TC: Transfer Complete interrupt         
+    614          @endverbatim
+    615            * @{
+    616            */
+    617          /**
+    618            * @brief  Enables or disables the specified DMA2D's interrupts.
+    619            * @param  DMA2D_IT: specifies the DMA2D interrupts sources to be enabled or disabled.
+    620            *   This parameter can be any combination of the following values:
+    621            *     @arg DMA2D_IT_CE:   Configuration Error Interrupt Enable.
+    622            *     @arg DMA2D_IT_CTC:  CLUT Transfer Complete Interrupt Enable.
+    623            *     @arg DMA2D_IT_CAE:  CLUT Access Error Interrupt Enable.
+    624            *     @arg DMA2D_IT_TW:   Transfer Watermark Interrupt Enable.
+    625            *     @arg DMA2D_IT_TC:   Transfer Complete interrupt enable.
+    626            *     @arg DMA2D_IT_TE:   Transfer Error interrupt enable.
+    627            * @param NewState: new state of the specified DMA2D interrupts.
+    628            *   This parameter can be: ENABLE or DISABLE.
+    629            * @retval None
+    630            */
+    631          
+    632          void DMA2D_ITConfig(uint32_t DMA2D_IT, FunctionalState NewState)
+    633          {
+    634            /* Check the parameters */
+    635            assert_param(IS_DMA2D_IT(DMA2D_IT));
+    636            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    637          
+    638            if (NewState != DISABLE)
+    639            {
+    640              /* Enable the selected DMA2D interrupts */
+    641              DMA2D->CR |= DMA2D_IT;
+    642            }
+    643            else
+    644            {
+    645              /* Disable the selected DMA2D interrupts */
+    646              DMA2D->CR &= (uint32_t)~DMA2D_IT;
+    647            }
+    648          }
+    649          
+    650          /**
+    651            * @brief  Checks whether the specified DMA2D's flag is set or not.
+    652            * @param  DMA2D_FLAG: specifies the flag to check.
+    653            *   This parameter can be one of the following values:
+    654            *     @arg DMA2D_FLAG_CE:   Configuration Error Interrupt flag.
+    655            *     @arg DMA2D_FLAG_CTC:  CLUT Transfer Complete Interrupt flag.
+    656            *     @arg DMA2D_FLAG_CAE:  CLUT Access Error Interrupt flag.
+    657            *     @arg DMA2D_FLAG_TW:   Transfer Watermark Interrupt flag.
+    658            *     @arg DMA2D_FLAG_TC:   Transfer Complete interrupt flag.
+    659            *     @arg DMA2D_FLAG_TE:   Transfer Error interrupt flag.
+    660            * @retval The new state of DMA2D_FLAG (SET or RESET).
+    661            */
+    662          
+    663          FlagStatus DMA2D_GetFlagStatus(uint32_t DMA2D_FLAG)
+    664          {
+    665            FlagStatus bitstatus = RESET;
+    666            
+    667            /* Check the parameters */
+    668            assert_param(IS_DMA2D_GET_FLAG(DMA2D_FLAG));
+    669            
+    670            /* Check the status of the specified DMA2D flag */
+    671            if (((DMA2D->ISR) & DMA2D_FLAG) != (uint32_t)RESET)
+    672            {
+    673              /* DMA2D_FLAG is set */
+    674              bitstatus = SET;
+    675            }
+    676            else
+    677            {
+    678              /* DMA2D_FLAG is reset */
+    679              bitstatus = RESET;
+    680            }
+    681            /* Return the DMA2D_FLAG status */
+    682            return bitstatus;
+    683          }
+    684          
+    685          /**
+    686            * @brief  Clears the DMA2D's pending flags.
+    687            * @param  DMA2D_FLAG: specifies the flag to clear.
+    688            *   This parameter can be any combination of the following values:
+    689            *     @arg DMA2D_FLAG_CE:   Configuration Error Interrupt flag.
+    690            *     @arg DMA2D_FLAG_CTC:  CLUT Transfer Complete Interrupt flag.
+    691            *     @arg DMA2D_FLAG_CAE:  CLUT Access Error Interrupt flag.
+    692            *     @arg DMA2D_FLAG_TW:   Transfer Watermark Interrupt flag.
+    693            *     @arg DMA2D_FLAG_TC:   Transfer Complete interrupt flag.
+    694            *     @arg DMA2D_FLAG_TE:   Transfer Error interrupt flag.
+    695            * @retval None
+    696            */
+    697          void DMA2D_ClearFlag(uint32_t DMA2D_FLAG)
+    698          {
+    699            /* Check the parameters */
+    700            assert_param(IS_DMA2D_GET_FLAG(DMA2D_FLAG));
+    701              
+    702            /* Clear the corresponding DMA2D flag */
+    703            DMA2D->IFCR = (uint32_t)DMA2D_FLAG;
+    704          }
+    705          
+    706          /**
+    707            * @brief  Checks whether the specified DMA2D's interrupt has occurred or not.
+    708            * @param  DMA2D_IT: specifies the DMA2D interrupts sources to check.
+    709            *   This parameter can be one of the following values:
+    710            *     @arg DMA2D_IT_CE:   Configuration Error Interrupt Enable.
+    711            *     @arg DMA2D_IT_CTC:  CLUT Transfer Complete Interrupt Enable.
+    712            *     @arg DMA2D_IT_CAE:  CLUT Access Error Interrupt Enable.
+    713            *     @arg DMA2D_IT_TW:   Transfer Watermark Interrupt Enable.
+    714            *     @arg DMA2D_IT_TC:   Transfer Complete interrupt enable.
+    715            *     @arg DMA2D_IT_TE:   Transfer Error interrupt enable.
+    716            * @retval The new state of the DMA2D_IT (SET or RESET).
+    717            */
+    718          ITStatus DMA2D_GetITStatus(uint32_t DMA2D_IT)
+    719          {
+    720            ITStatus bitstatus = RESET;
+    721            uint32_t DMA2D_IT_FLAG = DMA2D_IT >> 8;
+    722            
+    723            /* Check the parameters */
+    724            assert_param(IS_DMA2D_IT(DMA2D_IT));
+    725          
+    726            if ((DMA2D->ISR & DMA2D_IT_FLAG) != (uint32_t)RESET)
+    727            {
+    728              bitstatus = SET;
+    729            }
+    730            else
+    731            {
+    732              bitstatus = RESET;
+    733            }
+    734            
+    735            if (((DMA2D->CR & DMA2D_IT) != (uint32_t)RESET) && (bitstatus != (uint32_t)RESET))
+    736            {
+    737              bitstatus = SET;
+    738            }
+    739            else
+    740            {
+    741              bitstatus = RESET;
+    742            }
+    743            return bitstatus;
+    744          }
+    745          
+    746          /**
+    747            * @brief  Clears the DMA2D's interrupt pending bits.
+    748            * @param  DMA2D_IT: specifies the interrupt pending bit to clear.
+    749            *   This parameter can be any combination of the following values:
+    750            *     @arg DMA2D_IT_CE:   Configuration Error Interrupt.
+    751            *     @arg DMA2D_IT_CTC:  CLUT Transfer Complete Interrupt.
+    752            *     @arg DMA2D_IT_CAE:  CLUT Access Error Interrupt.
+    753            *     @arg DMA2D_IT_TW:   Transfer Watermark Interrupt.
+    754            *     @arg DMA2D_IT_TC:   Transfer Complete interrupt.
+    755            *     @arg DMA2D_IT_TE:   Transfer Error interrupt.
+    756            * @retval None
+    757            */
+    758          void DMA2D_ClearITPendingBit(uint32_t DMA2D_IT)
+    759          {
+    760            /* Check the parameters */
+    761            assert_param(IS_DMA2D_IT(DMA2D_IT));
+    762            DMA2D_IT = DMA2D_IT >> 8;
+    763              
+    764            /* Clear the corresponding DMA2D Interrupt */
+    765            DMA2D->IFCR = (uint32_t)DMA2D_IT;
+    766          }
+    767          
+    768          /**
+    769            * @}
+    770            */
+    771          
+    772          /**
+    773            * @}
+    774            */
+    775          
+    776          /**
+    777            * @}
+    778            */
+    779          
+    780          /**
+    781            * @}
+    782            */
+    783          
+    784          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   DMA2D_AbortTransfer
+       8   DMA2D_BGConfig
+       0   DMA2D_BGStart
+       0   DMA2D_BG_StructInit
+       0   DMA2D_ClearFlag
+       0   DMA2D_ClearITPendingBit
+       8   DMA2D_DeInit
+         0   -> RCC_AHB1PeriphResetCmd
+         8   -> RCC_AHB1PeriphResetCmd
+       0   DMA2D_DeadTimeConfig
+       8   DMA2D_FGConfig
+       0   DMA2D_FGStart
+       0   DMA2D_FG_StructInit
+       0   DMA2D_GetFlagStatus
+       0   DMA2D_GetITStatus
+       0   DMA2D_ITConfig
+      12   DMA2D_Init
+       0   DMA2D_LineWatermarkConfig
+       0   DMA2D_StartTransfer
+       0   DMA2D_StructInit
+       0   DMA2D_Suspend
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable14
+       4  ??DataTable14_1
+       4  ??DataTable14_10
+       4  ??DataTable14_11
+       4  ??DataTable14_2
+       4  ??DataTable14_3
+       4  ??DataTable14_4
+       4  ??DataTable14_5
+       4  ??DataTable14_6
+       4  ??DataTable14_7
+       4  ??DataTable14_8
+       4  ??DataTable14_9
+      26  ?Subroutine0
+      12  DMA2D_AbortTransfer
+      98  DMA2D_BGConfig
+      20  DMA2D_BGStart
+       2  DMA2D_BG_StructInit
+       6  DMA2D_ClearFlag
+       8  DMA2D_ClearITPendingBit
+      26  DMA2D_DeInit
+      34  DMA2D_DeadTimeConfig
+      98  DMA2D_FGConfig
+      20  DMA2D_FGStart
+       2  DMA2D_FG_StructInit
+      16  DMA2D_GetFlagStatus
+      24  DMA2D_GetITStatus
+      18  DMA2D_ITConfig
+     154  DMA2D_Init
+       6  DMA2D_LineWatermarkConfig
+      12  DMA2D_StartTransfer
+      24  DMA2D_StructInit
+      20  DMA2D_Suspend
+
+ 
+ 674 bytes in section .text
+ 
+ 674 bytes of CODE memory
+
+Errors: none
+Warnings: none

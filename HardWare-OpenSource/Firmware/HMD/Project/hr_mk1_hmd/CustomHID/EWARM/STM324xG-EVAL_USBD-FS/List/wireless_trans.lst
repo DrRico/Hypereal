@@ -1,0 +1,110 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        20/Sep/2016  13:32:52
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\wireless_trans.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\wireless_trans.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\wireless_trans.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\wireless_trans.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\wireless_trans.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    wireless_trans.c
+      4            * @author  Hypereal Team
+      5            * @version V
+      6            * @date    19-September-2016
+      7            * @brief   This file provides the wireless transform method.
+      8            ******************************************************************************
+      9          
+     10            ******************************************************************************
+     11            */
+     12          
+     13          #include "wireless_trans.h"
+     14          #include "fpga_coprocesser.h"
+     15          #include "stm32f4xx_tim.h"
+     16          #include "stdio.h"
+     17          #include "led.h"
+     18          #include "hmc5883l.h"
+     19          #include "hr_mk1_config.h"
+     20          #include "imu_data.h"
+     21          
+     22          
+     23          
+     24          uint8_t wireless_channel;        //0~19
+     25          
+     26          
+     27          /**
+     28          * @brief  wireless_channel_init
+     29          *         Initializes the wireless channel
+     30          * @param  None
+     31          * @retval None
+     32          */
+     33          void wireless_channel_init()
+     34          {
+     35              wireless_channel = *(uint8_t *)NV_BYTE1_WIRELESS_CHANNEL;
+     36              if (wireless_channel > 19) 
+     37                wireless_channel = DEFAULT_WIRELESS_CHANNEL;
+     38          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   wireless_channel_init
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       1  wireless_channel
+      24  wireless_channel_init
+
+ 
+  1 byte  in section .bss
+ 24 bytes in section .text
+ 
+ 24 bytes of CODE memory
+  1 byte  of DATA memory
+
+Errors: none
+Warnings: none

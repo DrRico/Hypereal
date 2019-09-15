@@ -1,0 +1,167 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        12/Sep/2016  17:15:28
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\LibAHRS.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\LibAHRS.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\LibAHRS.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\LibAHRS.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\LibAHRS.c
+      1          #include "LibAHRS.h"
+      2          
+      3          static float Q0 = 1.0f, Q1 = 0.0f, Q2 = 0.0f, Q3 = 0.0f;
+      4          
+      5          
+      6          static float invSqrt(float number);
+      7          inline void rota_quaternion_integrate(float wx, float wy, float wz, float dt);
+      8          
+      9          /*
+     10           * @description: Rotation quternion update by gyro.
+     11           * @parameter: Calibrated gyroscope's ('gx', 'gy', 'gz')
+     12           * @parameter: 'period'	Simple period.
+     13           * @note: 'rota_quaternion_update_g()' must be called every sample period. Gyro data units are (rad/s)
+     14           */
+     15          void rota_quaternion_update_g(float gx, float gy, float gz, float period)
+     16          {
+     17          	float recipNorm;
+     18          
+     19          	// integrating the quaternion derivative.
+     20          	rota_quaternion_integrate(gx, gy, gz, period);
+     21          
+     22          	// normalise quaternion
+     23          	recipNorm = invSqrt(Q0*Q0 + Q1*Q1 + Q2*Q2 + Q3*Q3);
+     24          	Q0 *= recipNorm;
+     25          	Q1 *= recipNorm;
+     26          	Q2 *= recipNorm;
+     27          	Q3 *= recipNorm;
+     28          }
+     29          
+     30          /*
+     31           * @description: Get rotate quaterion then reset to '[1 0 0 0]'
+     32           */
+     33          void rota_quaternion_get_r(float q[])
+     34          {
+     35              q[0] = Q0;
+     36          	q[1] = Q1;
+     37          	q[2] = Q2;
+     38          	q[3] = Q3;
+     39          
+     40          	/*reset rotation*/
+     41          	Q0 = 1.0f;
+     42          	Q1 = 0.0f;
+     43          	Q2 = 0.0f;
+     44          	Q3 = 0.0f;
+     45          }
+     46          
+     47          /*
+     48          *	@description:	Integrating the quaternion derivative.
+     49          *	@parameter: 'wx','wy','wz'	Angular rate.
+     50          *	@parameter: 'dt'			Inerval time.
+     51          */
+     52          inline void rota_quaternion_integrate(float wx, float wy, float wz, float dt)
+     53          {
+     54          	Q0 += 0.5f*(-Q1*wx - Q2*wy - Q3*wz)*dt;
+     55          	Q1 += 0.5f*(Q0*wx + Q2*wz - Q3*wy)*dt;
+     56          	Q2 += 0.5f*(Q0*wy - Q1*wz + Q3*wx)*dt;
+     57          	Q3 += 0.5f*(Q0*wz + Q1*wy - Q2*wx)*dt;
+     58          }
+     59          
+     60          //---------------------------------------------------------------------------------------------------
+     61          // Fast inverse square-root
+     62          // See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
+     63          
+     64          static float invSqrt(float number)
+     65          {
+     66          	long i;
+     67          	float x2, y;
+     68          	const float threehalfs = 1.5F;
+     69          
+     70          	x2 = number * 0.5F;
+     71          	y = number;
+     72          	i = *(long *)&y;                       // evil floating point bit level hacking
+     73          	i = 0x5f3759df - (i >> 1);               // what the fuck? 
+     74          	y = *(float *)&i;
+     75          	y = y * (threehalfs - (x2 * y * y));   // 1st iteration
+     76              y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+     77          
+     78          	return y;
+     79          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   rota_quaternion_get_r
+      48   rota_quaternion_update_g
+        48   -> __aeabi_fadd
+        48   -> __aeabi_fmul
+        48   -> __aeabi_fsub
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+       8  ?Subroutine0
+       6  ?Subroutine1
+       6  ?Subroutine2
+      10  ?Subroutine3
+       6  ?Subroutine4
+       8  ?Subroutine5
+      16  Q0
+          Q1
+          Q2
+          Q3
+      34  rota_quaternion_get_r
+     390  rota_quaternion_update_g
+
+ 
+  16 bytes in section .data
+ 476 bytes in section .text
+ 
+ 476 bytes of CODE memory
+  16 bytes of DATA memory
+
+Errors: none
+Warnings: none

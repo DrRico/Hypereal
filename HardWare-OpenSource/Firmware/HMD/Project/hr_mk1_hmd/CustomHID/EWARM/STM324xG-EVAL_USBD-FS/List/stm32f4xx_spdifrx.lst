@@ -1,0 +1,551 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:39
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spdifrx.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spdifrx.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_spdifrx.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_spdifrx.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spdifrx.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_spdifrx.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Serial Audio Interface (SPDIFRX):
+      9            *           + Initialization and Configuration
+     10            *           + Data transfers functions
+     11            *           + DMA transfers management
+     12            *           + Interrupts and flags management 
+     13            ******************************************************************************
+     14            * @attention
+     15            *
+     16            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     17            *
+     18            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     19            * You may not use this file except in compliance with the License.
+     20            * You may obtain a copy of the License at:
+     21            *
+     22            *        http://www.st.com/software_license_agreement_liberty_v2
+     23            *
+     24            * Unless required by applicable law or agreed to in writing, software 
+     25            * distributed under the License is distributed on an "AS IS" BASIS, 
+     26            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     27            * See the License for the specific language governing permissions and
+     28            * limitations under the License.
+     29            *
+     30            ******************************************************************************
+     31            */ 
+     32          
+     33          /* Includes ------------------------------------------------------------------*/
+     34          #include "stm32f4xx_spdifrx.h"
+     35          #include "stm32f4xx_rcc.h"
+     36          
+     37          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     38            * @{
+     39            */
+     40          
+     41          /** @defgroup SPDIFRX 
+     42            * @brief SPDIFRX driver modules
+     43            * @{
+     44            */ 
+     45          #if defined(STM32F446xx)
+     46          /* Private typedef -----------------------------------------------------------*/
+     47          /* Private define ------------------------------------------------------------*/
+     48          #define CR_CLEAR_MASK 0x000000FE7
+     49          /* Private macro -------------------------------------------------------------*/
+     50          /* Private variables ---------------------------------------------------------*/
+     51          /* Private function prototypes -----------------------------------------------*/
+     52          /* Private functions ---------------------------------------------------------*/
+     53          
+     54          /** @defgroup SPDIFRX_Private_Functions
+     55            * @{
+     56            */
+     57          
+     58          /** @defgroup SPDIFRX_Group1 Initialization and Configuration functions
+     59            *  @brief   Initialization and Configuration functions 
+     60            *
+     61          @verbatim   
+     62           ===============================================================================
+     63                      ##### Initialization and Configuration functions #####
+     64           ===============================================================================  
+     65            [..]
+     66            This section provides a set of functions allowing to initialize the SPDIFRX Audio 
+     67          
+     68            Block Mode, Audio Protocol, Data size, Synchronization between audio block, 
+     69            Master clock Divider, FIFO threshold, Frame configuration, slot configuration,
+     70            Tristate mode, Companding mode and Mute mode.  
+     71            [..] 
+     72            The SPDIFRX_Init(), SPDIFRX_FrameInit() and SPDIFRX_SlotInit() functions follows the SPDIFRX Block
+     73            configuration procedures for Master mode and Slave mode (details for these procedures 
+     74            are available in reference manual(RMxxxx).
+     75            
+     76          @endverbatim
+     77            * @{
+     78            */
+     79          
+     80          /**
+     81            * @brief  Deinitialize the SPDIFRXx peripheral registers to their default reset values.
+     82            * @param  void
+     83            * @retval None
+     84            */
+     85          void SPDIFRX_DeInit(void)
+     86          {
+     87            /* Enable SPDIFRX reset state */
+     88            RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPDIFRX, ENABLE);
+     89            /* Release SPDIFRX from reset state */
+     90            RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPDIFRX, DISABLE); 
+     91          }
+     92          
+     93          /**
+     94            * @brief  Initializes the SPDIFRX  peripheral according to the specified 
+     95            *         parameters in the SPDIFRX_InitStruct.
+     96            *         
+     97            * @note   SPDIFRX clock is generated from a specific output of the PLLSPDIFRX or a specific  
+     98            *         output of the PLLI2S or from an alternate function bypassing the PLL I2S.
+     99            *        
+    100            * @param  SPDIFRX_InitStruct: pointer to a SPDIFRX_InitTypeDef structure that
+    101            *         contains the configuration information for the specified SPDIFRX Block peripheral.             
+    102            * @retval None
+    103            */
+    104          void SPDIFRX_Init(SPDIFRX_InitTypeDef* SPDIFRX_InitStruct)
+    105          {
+    106            uint32_t tmpreg = 0;
+    107            
+    108            /* Check the SPDIFRX parameters */
+    109            assert_param(IS_STEREO_MODE(SPDIFRX_InitStruct->SPDIFRX_StereoMode));
+    110            assert_param(IS_SPDIFRX_INPUT_SELECT(SPDIFRX_InitStruct->SPDIFRX_InputSelection));
+    111            assert_param(IS_SPDIFRX_MAX_RETRIES(SPDIFRX_InitStruct->SPDIFRX_Retries));
+    112            assert_param(IS_SPDIFRX_WAIT_FOR_ACTIVITY(SPDIFRX_InitStruct->SPDIFRX_WaitForActivity));
+    113            assert_param(IS_SPDIFRX_CHANNEL(SPDIFRX_InitStruct->SPDIFRX_ChannelSelection));
+    114            assert_param(IS_SPDIFRX_DATA_FORMAT(SPDIFRX_InitStruct->SPDIFRX_DataFormat));
+    115            
+    116            /* SPDIFRX CR Configuration */
+    117            /* Get the SPDIFRX CR value */
+    118            tmpreg = SPDIFRX->CR;
+    119            /* Clear INSEL, WFA, NBTR, CHSEL, DRFMT and RXSTEO bits */
+    120            tmpreg &= CR_CLEAR_MASK;
+    121            /* Configure SPDIFRX: Input selection, Maximum allowed re-tries during synchronization phase, 
+    122            wait for activity, Channel Selection, Data samples format and stereo/mono mode */  
+    123            /* Set INSEL bits according to SPDIFRX_InputSelection value   */
+    124            /* Set WFA   bit  according to SPDIFRX_WaitForActivity value  */
+    125            /* Set NBTR  bit  according to SPDIFRX_Retries value          */
+    126            /* Set CHSEL bit  according to SPDIFRX_ChannelSelection value */
+    127            /* Set DRFMT bits according to SPDIFRX_DataFormat value       */
+    128            /* Set RXSTEO bit according to SPDIFRX_StereoMode value       */
+    129            
+    130            tmpreg |= (uint32_t)(SPDIFRX_InitStruct->SPDIFRX_InputSelection   | SPDIFRX_InitStruct->SPDIFRX_WaitForActivity   |
+    131                                 SPDIFRX_InitStruct->SPDIFRX_Retries          | SPDIFRX_InitStruct->SPDIFRX_ChannelSelection  |  
+    132                                 SPDIFRX_InitStruct->SPDIFRX_DataFormat       | SPDIFRX_InitStruct->SPDIFRX_StereoMode
+    133                                 );
+    134            
+    135            /* Write to SPDIFRX CR */
+    136            SPDIFRX->CR = tmpreg;	
+    137          }
+    138          
+    139          /**
+    140            * @brief  Fills each SPDIFRX_InitStruct member with its default value.
+    141            * @param  SPDIFRX_InitStruct: pointer to a SPDIFRX_InitTypeDef structure which will 
+    142            *         be initialized.  
+    143            * @retval None
+    144            */
+    145          void SPDIFRX_StructInit(SPDIFRX_InitTypeDef* SPDIFRX_InitStruct)
+    146          {
+    147            /* Reset SPDIFRX init structure parameters values */
+    148            /* Initialize the PDIF_InputSelection member */
+    149            SPDIFRX_InitStruct->SPDIFRX_InputSelection = SPDIFRX_Input_IN0;
+    150            /* Initialize the SPDIFRX_WaitForActivity member */
+    151            SPDIFRX_InitStruct->SPDIFRX_WaitForActivity = SPDIFRX_WaitForActivity_On;
+    152            /* Initialize the SPDIFRX_Retries member */
+    153            SPDIFRX_InitStruct->SPDIFRX_Retries = SPDIFRX_16MAX_RETRIES;
+    154            /* Initialize the SPDIFRX_ChannelSelection member */
+    155            SPDIFRX_InitStruct->SPDIFRX_ChannelSelection = SPDIFRX_Select_Channel_A;
+    156            /* Initialize the SPDIFRX_DataFormat member */
+    157            SPDIFRX_InitStruct->SPDIFRX_DataFormat = SPDIFRX_MSB_DataFormat;
+    158            /* Initialize the SPDIFRX_StereoMode member */
+    159            SPDIFRX_InitStruct->SPDIFRX_StereoMode = SPDIFRX_StereoMode_Enabled;
+    160          }
+    161          
+    162          /**
+    163            * @brief  Enables or disables the SPDIFRX frame x bit.
+    164            * @param  NewState: new state of the selected SPDIFRX frame bit.
+    165            *          This parameter can be: ENABLE or DISABLE.
+    166            * @retval None
+    167            */
+    168          void SPDIFRX_SetPreambleTypeBit(FunctionalState NewState)
+    169          {
+    170            /* Check the parameters */
+    171            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    172            
+    173            if (NewState != DISABLE)
+    174            {
+    175              /* Enable the selected SPDIFRX frame bit */
+    176              SPDIFRX->CR |= SPDIFRX_CR_PTMSK;
+    177            }
+    178            else
+    179            {
+    180              /* Disable the selected SPDIFRX frame bit */
+    181              SPDIFRX->CR &= ~(SPDIFRX_CR_PTMSK);
+    182            }
+    183          }
+    184          
+    185          /**
+    186            * @brief  Enables or disables the SPDIFRX frame x bit.
+    187            * @param  NewState: new state of the selected SPDIFRX frame bit.
+    188            *          This parameter can be: ENABLE or DISABLE.
+    189            * @retval None
+    190            */
+    191          void SPDIFRX_SetUserDataChannelStatusBits(FunctionalState NewState)
+    192          {
+    193            /* Check the parameters */
+    194            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    195            
+    196            if (NewState != DISABLE)
+    197            {
+    198              /* Enable the selected SPDIFRX frame bit */
+    199              SPDIFRX->CR |= SPDIFRX_CR_CUMSK;
+    200            }
+    201            else
+    202            {
+    203              /* Disable the selected SPDIFRX frame bit */
+    204              SPDIFRX->CR &= ~(SPDIFRX_CR_CUMSK);
+    205            }
+    206          }
+    207          
+    208          /**
+    209            * @brief  Enables or disables the SPDIFRX frame x bit.
+    210            * @param  NewState: new state of the selected SPDIFRX frame bit.
+    211            *          This parameter can be: ENABLE or DISABLE.
+    212            * @retval None
+    213            */
+    214          void SPDIFRX_SetValidityBit(FunctionalState NewState)
+    215          {
+    216            /* Check the parameters */
+    217            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    218            
+    219            if (NewState != DISABLE)
+    220            {
+    221              /* Enable the selected SPDIFRX frame bit */
+    222              SPDIFRX->CR |= SPDIFRX_CR_VMSK;
+    223            }
+    224            else
+    225            {
+    226              /* Disable the selected SPDIFRX frame bit */
+    227              SPDIFRX->CR &= ~(SPDIFRX_CR_VMSK);
+    228            }
+    229          }
+    230          
+    231          /**
+    232            * @brief  Enables or disables the SPDIFRX frame x bit.
+    233            * @param  NewState: new state of the selected SPDIFRX frame bit.
+    234            *          This parameter can be: ENABLE or DISABLE.
+    235            * @retval None
+    236            */
+    237          void SPDIFRX_SetParityBit(FunctionalState NewState)
+    238          {
+    239            /* Check the parameters */
+    240            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    241            
+    242            if (NewState != DISABLE)
+    243            {
+    244              /* Enable the selected SPDIFRX frame bit */
+    245              SPDIFRX->CR |= SPDIFRX_CR_PMSK;
+    246            }
+    247            else
+    248            {
+    249              /* Disable the selected SPDIFRX frame bit */
+    250              SPDIFRX->CR &= ~(SPDIFRX_CR_PMSK);
+    251            }
+    252          }
+    253          
+    254          /**
+    255            * @brief  Enables or disables the SPDIFRX DMA interface (RX).
+    256            * @param  NewState: new state of the selected SPDIFRX DMA transfer request.
+    257            *          This parameter can be: ENABLE or DISABLE.
+    258            * @retval None
+    259            */
+    260          void SPDIFRX_RxDMACmd(FunctionalState NewState)
+    261          {
+    262            /* Check the parameters */
+    263            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    264            
+    265            if (NewState != DISABLE)
+    266            {
+    267              /* Enable the selected SPDIFRX DMA requests */
+    268              SPDIFRX->CR |= SPDIFRX_CR_RXDMAEN;
+    269            }
+    270            else
+    271            {
+    272              /* Disable the selected SPDIFRX DMA requests */
+    273              SPDIFRX->CR &= ~(SPDIFRX_CR_RXDMAEN);
+    274            }
+    275          }
+    276          
+    277          /**
+    278            * @brief  Enables or disables the SPDIFRX DMA interface (Control Buffer).
+    279            * @param  NewState: new state of the selected SPDIFRX DMA transfer request.
+    280            *          This parameter can be: ENABLE or DISABLE.
+    281            * @retval None
+    282            */
+    283          void SPDIFRX_CbDMACmd(FunctionalState NewState)
+    284          {
+    285            /* Check the parameters */
+    286            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    287            
+    288            if (NewState != DISABLE)
+    289            {
+    290              /* Enable the selected SPDIFRX DMA requests */
+    291              SPDIFRX->CR |= SPDIFRX_CR_CBDMAEN;
+    292            }
+    293            else
+    294            {
+    295              /* Disable the selected SPDIFRX DMA requests */
+    296              SPDIFRX->CR &= ~(SPDIFRX_CR_CBDMAEN);
+    297            }
+    298          }
+    299          
+    300          /**
+    301            * @brief  Enables or disables the SPDIFRX peripheral.
+    302            * @param  SPDIFRX_State: specifies the SPDIFRX peripheral state.
+    303            *          This parameter can be one of the following values:
+    304            *            @arg SPDIFRX_STATE_IDLE : Disable SPDIFRX-RX (STATE_IDLE)
+    305            *            @arg SPDIFRX_STATE_SYNC : Enable SPDIFRX-RX Synchronization only 
+    306            *            @arg SPDIFRX_STATE_RCV  : Enable SPDIFRX Receiver 
+    307            * @retval None
+    308            */
+    309          void SPDIFRX_Cmd(uint32_t SPDIFRX_State)
+    310          {
+    311            /* Check the parameters */
+    312            assert_param(IS_SPDIFRX_STATE(SPDIFRX_State));
+    313          	
+    314            /* Clear SPDIFRXEN bits */
+    315              SPDIFRX->CR &= ~(SPDIFRX_CR_SPDIFEN);
+    316            /* Set new SPDIFRXEN value */
+    317              SPDIFRX->CR |= SPDIFRX_State;
+    318          }
+    319          
+    320          /**
+    321            * @brief  Enables or disables the specified SPDIFRX Block interrupts.
+    322            * @param  SPDIFRX_IT: specifies the SPDIFRX interrupt source to be enabled or disabled. 
+    323            *          This parameter can be one of the following values:
+    324            *            @arg SPDIFRX_IT_RXNE:  RXNE interrupt enable
+    325            *            @arg SPDIFRX_IT_CSRNE: Control Buffer Ready Interrupt Enable
+    326            *            @arg SPDIFRX_IT_PERRIE: Parity error interrupt enable
+    327            *            @arg SPDIFRX_IT_OVRIE:  Overrun error Interrupt Enable 
+    328            *            @arg SPDIFRX_IT_SBLKIE: Synchronization Block Detected Interrupt Enable 
+    329            *            @arg SPDIFRX_IT_SYNCDIE: Synchronization Done
+    330            *            @arg SPDIFRX_IT_IFEIE: Serial Interface Error Interrupt Enable      
+    331            * @param  NewState: new state of the specified SPDIFRX interrupt.
+    332            *          This parameter can be: ENABLE or DISABLE.
+    333            * @retval None
+    334            */
+    335          void SPDIFRX_ITConfig(uint32_t SPDIFRX_IT, FunctionalState NewState)
+    336          { 
+    337            /* Check the parameters */
+    338            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    339            assert_param(IS_SPDIFRX_CONFIG_IT(SPDIFRX_IT));
+    340          
+    341            if (NewState != DISABLE)
+    342            {
+    343              /* Enable the selected SPDIFRX interrupt */
+    344              SPDIFRX->IMR |= SPDIFRX_IT;
+    345            }
+    346            else
+    347            {
+    348              /* Disable the selected SPDIFRX interrupt */
+    349              SPDIFRX->IMR &= ~(SPDIFRX_IT);
+    350            }
+    351          }
+    352          
+    353          /**
+    354            * @brief  Checks whether the specified SPDIFRX flag is set or not.
+    355            * @param  SPDIFRX_FLAG: specifies the SPDIFRX flag to check. 
+    356            *          This parameter can be one of the following values:
+    357            *            @arg SPDIFRX_FLAG_RXNE: Read data register not empty flag.  
+    358            *            @arg SPDIFRX_FLAG_CSRNE: The Control Buffer register is not empty flag.  
+    359            *            @arg SPDIFRX_FLAG_PERR: Parity error flag.
+    360            *            @arg SPDIFRX_FLAG_OVR: Overrun error flag.            
+    361            *            @arg SPDIFRX_FLAG_SBD: Synchronization Block Detected flag. 
+    362            *            @arg SPDIFRX_FLAG_SYNCD: Synchronization Done flag.
+    363            *            @arg SPDIFRX_FLAG_FERR: Framing error flag.
+    364            *            @arg SPDIFRX_FLAG_SERR: Synchronization error flag.
+    365            *            @arg SPDIFRX_FLAG_TERR: Time-out error flag.
+    366            * @retval The new state of SPDIFRX_FLAG (SET or RESET).
+    367            */
+    368          FlagStatus SPDIFRX_GetFlagStatus(uint32_t SPDIFRX_FLAG)
+    369          {
+    370            FlagStatus bitstatus = RESET;
+    371            
+    372            /* Check the parameters */
+    373            assert_param(IS_SPDIFRX_FLAG(SPDIFRX_FLAG));
+    374            
+    375            /* Check the status of the specified SPDIFRX flag */
+    376            if ((SPDIFRX->SR & SPDIFRX_FLAG) != (uint32_t)RESET)
+    377            {
+    378              /* SPDIFRX_FLAG is set */
+    379              bitstatus = SET;
+    380            }
+    381            else
+    382            {
+    383              /* SPDIFRX_FLAG is reset */
+    384              bitstatus = RESET;
+    385            }
+    386            /* Return the SPDIFRX_FLAG status */
+    387            return  bitstatus;
+    388          }
+    389          
+    390          /**
+    391            * @brief  Clears the specified SPDIFRX flag.
+    392            * @param  SPDIFRX_FLAG: specifies the SPDIFRX flag to check. 
+    393            *          This parameter can be one of the following values: 
+    394            *            @arg SPDIFRX_FLAG_PERR: Parity error flag.
+    395            *            @arg SPDIFRX_FLAG_OVR: Overrun error flag.            
+    396            *            @arg SPDIFRX_FLAG_SBD: Synchronization Block Detected flag. 
+    397            *            @arg SPDIFRX_FLAG_SYNCD: Synchronization Done flag.          
+    398            *  
+    399            * @retval None
+    400            */
+    401          void SPDIFRX_ClearFlag(uint32_t SPDIFRX_FLAG)
+    402          {
+    403            /* Check the parameters */
+    404            assert_param(IS_SPDIFRX_CLEAR_FLAG(SPDIFRX_FLAG));
+    405              
+    406            /* Clear the selected SPDIFRX Block flag */
+    407            SPDIFRX->IFCR |= SPDIFRX_FLAG;
+    408          }
+    409          
+    410          /**
+    411            * @brief  Checks whether the specified SPDIFRX interrupt has occurred or not.
+    412            * @param  SPDIFRX_IT: specifies the SPDIFRX interrupt source to be enabled or disabled. 
+    413            *          This parameter can be one of the following values:
+    414            *            @arg SPDIFRX_IT_RXNE:  RXNE interrupt enable
+    415            *            @arg SPDIFRX_IT_CSRNE: Control Buffer Ready Interrupt Enable
+    416            *            @arg SPDIFRX_IT_PERRIE: Parity error interrupt enable
+    417            *            @arg SPDIFRX_IT_OVRIE:  Overrun error Interrupt Enable 
+    418            *            @arg SPDIFRX_IT_SBLKIE: Synchronization Block Detected Interrupt Enable 
+    419            *            @arg SPDIFRX_IT_SYNCDIE: Synchronization Done
+    420            *            @arg SPDIFRX_IT_IFEIE: Serial Interface Error Interrupt Enable                 
+    421            * @retval The new state of SPDIFRX_IT (SET or RESET).
+    422            */
+    423          ITStatus SPDIFRX_GetITStatus(uint32_t SPDIFRX_IT)
+    424          {
+    425            ITStatus bitstatus = RESET;
+    426            uint32_t  enablestatus = 0;
+    427          
+    428            /* Check the parameters */
+    429            assert_param(IS_SPDIFRX_CONFIG_IT(SPDIFRX_IT));
+    430            
+    431            /* Get the SPDIFRX_IT enable bit status */
+    432            enablestatus = (SPDIFRX->IMR & SPDIFRX_IT) ;
+    433          
+    434            /* Check the status of the specified SPDIFRX interrupt */
+    435            if (((SPDIFRX->SR & SPDIFRX_IT) != (uint32_t)RESET) && (enablestatus != (uint32_t)RESET))
+    436            {
+    437              /* SPDIFRX_IT is set */
+    438              bitstatus = SET;
+    439            }
+    440            else
+    441            {
+    442              /* SPDIFRX_IT is reset */
+    443              bitstatus = RESET;
+    444            }
+    445            /* Return the SPDIFRX_IT status */
+    446            return bitstatus;
+    447          }
+    448          
+    449          /**
+    450            * @brief  Clears the SPDIFRX interrupt pending bit.
+    451            * @param  SAI_IT: specifies the SPDIFRX interrupt pending bit to clear. 
+    452            *          This parameter can be one of the following values:  
+    453            *            @arg SPDIFRX_IT_MUTEDET: MUTE detection interrupt.  
+    454            *            @arg SPDIFRX_IT_OVRUDR: overrun/underrun interrupt.
+    455            *            @arg SPDIFRX_IT_WCKCFG: wrong clock configuration interrupt.            
+    456            *            @arg SPDIFRX_IT_CNRDY: codec not ready interrupt. 
+    457            *            @arg SPDIFRX_IT_AFSDET: anticipated frame synchronization detection interrupt.
+    458            *            @arg SPDIFRX_IT_LFSDET: late frame synchronization detection interrupt. 
+    459            *  
+    460            * @note    FREQ (FIFO Request) flag is cleared : 
+    461            *          - When the audio block is transmitter and the FIFO is full or the FIFO   
+    462            *            has one data (one buffer mode) depending the bit FTH in the
+    463            *            SPDIFRX_xCR2 register.
+    464            *          - When the audio block is receiver and the FIFO is not empty  
+    465            *            
+    466            * @retval None
+    467            */
+    468          void SPDIFRX_ClearITPendingBit(uint32_t SPDIFRX_IT)
+    469          {
+    470            /* Check the parameters */
+    471            assert_param(IS_SPDIFRX_CLEAR_FLAG(SPDIFRX_IT));
+    472          
+    473            /* Clear the selected SPDIFRX interrupt pending bit */
+    474            SPDIFRX->IFCR |= SPDIFRX_IT; 
+    475          }
+    476          
+    477          /**
+    478            * @}
+    479            */
+    480          
+    481          /**
+    482            * @}
+    483            */ 
+    484          #endif /* STM32F446xx */
+    485          
+    486          /**
+    487            * @}
+    488            */ 
+    489          
+    490          /**
+    491            * @}
+    492            */ 
+    493          
+    494          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none

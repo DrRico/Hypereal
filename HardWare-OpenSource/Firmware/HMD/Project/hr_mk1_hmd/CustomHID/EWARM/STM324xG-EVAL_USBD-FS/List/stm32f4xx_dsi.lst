@@ -1,0 +1,1811 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dsi.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dsi.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_dsi.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_dsi.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dsi.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_dsi.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Display Serial Interface (DSI):
+      9            *           + Initialization and Configuration
+     10            *           + Data transfers management functions
+     11            *           + Low Power functions
+     12            *           + Interrupts and flags management 
+     13            *           
+     14          @verbatim
+     15          
+     16           ===================================================================
+     17                            ##### How to use this driver #####
+     18           ===================================================================
+     19           [..]
+     20          
+     21          @endverbatim  
+     22            *
+     23            ******************************************************************************
+     24            * @attention
+     25            *
+     26            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     27            *
+     28            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     29            * You may not use this file except in compliance with the License.
+     30            * You may obtain a copy of the License at:
+     31            *
+     32            *        http://www.st.com/software_license_agreement_liberty_v2
+     33            *
+     34            * Unless required by applicable law or agreed to in writing, software 
+     35            * distributed under the License is distributed on an "AS IS" BASIS, 
+     36            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     37            * See the License for the specific language governing permissions and
+     38            * limitations under the License.
+     39            *
+     40            ******************************************************************************
+     41            */ 
+     42          
+     43          /* Includes ------------------------------------------------------------------*/
+     44          #include "stm32f4xx_dsi.h"
+     45          
+     46          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     47            * @{
+     48            */
+     49          /** @addtogroup DSI
+     50            * @brief DSI driver modules
+     51            * @{
+     52            */
+     53          #if defined(STM32F469_479xx)
+     54          
+     55          /* Private types -------------------------------------------------------------*/
+     56          /* Private defines -----------------------------------------------------------*/
+     57          /** @addtogroup DSI_Private_Constants
+     58            * @{
+     59            */
+     60          #define DSI_TIMEOUT_VALUE ((uint32_t)1000)  /* 1s */
+     61          
+     62          #define DSI_ERROR_ACK_MASK (DSI_ISR0_AE0 | DSI_ISR0_AE1 | DSI_ISR0_AE2 | DSI_ISR0_AE3 | \
+     63                                      DSI_ISR0_AE4 | DSI_ISR0_AE5 | DSI_ISR0_AE6 | DSI_ISR0_AE7 | \
+     64                                      DSI_ISR0_AE8 | DSI_ISR0_AE9 | DSI_ISR0_AE10 | DSI_ISR0_AE11 | \
+     65                                      DSI_ISR0_AE12 | DSI_ISR0_AE13 | DSI_ISR0_AE14 | DSI_ISR0_AE15)
+     66          #define DSI_ERROR_PHY_MASK (DSI_ISR0_PE0 | DSI_ISR0_PE1 | DSI_ISR0_PE2 | DSI_ISR0_PE3 | DSI_ISR0_PE4)
+     67          #define DSI_ERROR_TX_MASK  DSI_ISR1_TOHSTX
+     68          #define DSI_ERROR_RX_MASK  DSI_ISR1_TOLPRX
+     69          #define DSI_ERROR_ECC_MASK (DSI_ISR1_ECCSE | DSI_ISR1_ECCME)
+     70          #define DSI_ERROR_CRC_MASK DSI_ISR1_CRCE
+     71          #define DSI_ERROR_PSE_MASK DSI_ISR1_PSE
+     72          #define DSI_ERROR_EOT_MASK DSI_ISR1_EOTPE
+     73          #define DSI_ERROR_OVF_MASK DSI_ISR1_LPWRE
+     74          #define DSI_ERROR_GEN_MASK (DSI_ISR1_GCWRE | DSI_ISR1_GPWRE | DSI_ISR1_GPTXE | DSI_ISR1_GPRDE | DSI_ISR1_GPRXE)
+     75          
+     76          #define DSI_MAX_RETURN_PKT_SIZE ((uint32_t)0x00000037) /*!< Maximum return packet configuration */
+     77          /**
+     78            * @}
+     79            */
+     80          
+     81          /* Private variables ---------------------------------------------------------*/
+     82          /* Private constants ---------------------------------------------------------*/
+     83          /* Private macros ------------------------------------------------------------*/
+     84          /* Private function prototypes -----------------------------------------------*/
+     85          static void DSI_ConfigPacketHeader(DSI_TypeDef *DSIx, uint32_t ChannelID, uint32_t DataType, uint32_t Data0, uint32_t Data1);
+     86          /* Private functions ---------------------------------------------------------*/
+     87          /* Exported functions --------------------------------------------------------*/
+     88          /** @addtogroup DSI_Exported_Functions
+     89            * @{
+     90            */
+     91          
+     92          /** @defgroup DSI_Group1 Initialization and Configuration functions
+     93           *  @brief   Initialization and Configuration functions
+     94           *
+     95          @verbatim   
+     96           ===============================================================================
+     97                          ##### Initialization and Configuration functions #####
+     98           ===============================================================================  
+     99              [..]  This section provides functions allowing to:
+    100                (+) Initialize and configure the DSI
+    101                (+) De-initialize the DSI 
+    102          
+    103          @endverbatim
+    104            * @{
+    105            */
+    106          
+    107          /**
+    108            * @brief  De-initializes the DSI peripheral registers to their default reset
+    109            *         values.
+    110            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    111            * @retval None
+    112            */
+    113          void DSI_DeInit(DSI_TypeDef *DSIx)
+    114          {  
+    115            /* Disable the DSI wrapper */
+    116            DSIx->WCR &= ~DSI_WCR_DSIEN;
+    117            
+    118            /* Disable the DSI host */
+    119            DSIx->CR &= ~DSI_CR_EN;
+    120            
+    121            /* D-PHY clock and digital disable */
+    122            DSIx->PCTLR &= ~(DSI_PCTLR_CKE | DSI_PCTLR_DEN);
+    123            
+    124            /* Turn off the DSI PLL */
+    125            DSIx->WRPCR &= ~DSI_WRPCR_PLLEN;
+    126            
+    127            /* Disable the regulator */
+    128            DSIx->WRPCR &= ~DSI_WRPCR_REGEN;
+    129            
+    130            /* Check the parameters */
+    131            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+    132            if(DSIx == DSI)
+    133            {
+    134              /* Enable DSI reset state */
+    135              RCC_APB2PeriphResetCmd(RCC_APB2Periph_DSI, ENABLE);
+    136              /* Release DSI from reset state */
+    137              RCC_APB2PeriphResetCmd(RCC_APB2Periph_DSI, DISABLE);
+    138            }
+    139          }
+    140            
+    141          /**
+    142            * @brief Deinitialize the DSIx peripheral registers to their default reset values.
+    143            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+    144            * @param DSI_InitStruct: pointer to a DSI_InitTypeDef structure that
+    145            *        contains the configuration information for the specified DSI peripheral.
+    146            * @param DSI_InitTIMStruct: pointer to a DSI_TIMTypeDef structure that
+    147            *        contains the configuration information for the specified DSI Timings.
+    148            * @retval None
+    149            */
+    150          void DSI_Init(DSI_TypeDef *DSIx,DSI_InitTypeDef* DSI_InitStruct, DSI_PLLInitTypeDef *PLLInit)
+    151          {
+    152            uint32_t unitIntervalx4 = 0;
+    153            uint32_t tempIDF = 0;
+    154            
+    155            /* Check function parameters */
+    156            assert_param(IS_DSI_PLL_NDIV(PLLInit->PLLNDIV));
+    157            assert_param(IS_DSI_PLL_IDF(PLLInit->PLLIDF));
+    158            assert_param(IS_DSI_PLL_ODF(PLLInit->PLLODF));
+    159            assert_param(IS_DSI_AUTO_CLKLANE_CONTROL(DSI_InitStruct->AutomaticClockLaneControl));
+    160            assert_param(IS_DSI_NUMBER_OF_LANES(DSI_InitStruct->NumberOfLanes));
+    161            
+    162            /**************** Turn on the regulator and enable the DSI PLL ****************/
+    163            
+    164            /* Enable the regulator */
+    165            DSIx->WRPCR |= DSI_WRPCR_REGEN;
+    166            
+    167            /* Wait until the regulator is ready */
+    168            while(DSI_GetFlagStatus(DSIx, DSI_FLAG_RRS) == RESET )
+    169            {}
+    170            
+    171            /* Set the PLL division factors */
+    172            DSIx->WRPCR &= ~(DSI_WRPCR_PLL_NDIV | DSI_WRPCR_PLL_IDF | DSI_WRPCR_PLL_ODF);
+    173            DSIx->WRPCR |= (((PLLInit->PLLNDIV)<<2) | ((PLLInit->PLLIDF)<<11) | ((PLLInit->PLLODF)<<16));
+    174            
+    175            /* Enable the DSI PLL */
+    176            DSIx->WRPCR |= DSI_WRPCR_PLLEN;
+    177            
+    178            /* Wait for the lock of the PLL */
+    179            while(DSI_GetFlagStatus(DSIx, DSI_FLAG_PLLLS) == RESET)
+    180            {}
+    181            
+    182            /*************************** Set the PHY parameters ***************************/
+    183            
+    184            /* D-PHY clock and digital enable*/
+    185            DSIx->PCTLR |= (DSI_PCTLR_CKE | DSI_PCTLR_DEN);
+    186            
+    187            /* Clock lane configuration */
+    188            DSIx->CLCR &= ~(DSI_CLCR_DPCC | DSI_CLCR_ACR);
+    189            DSIx->CLCR |= (DSI_CLCR_DPCC | DSI_InitStruct->AutomaticClockLaneControl);
+    190            
+    191            /* Configure the number of active data lanes */
+    192            DSIx->PCONFR &= ~DSI_PCONFR_NL;
+    193            DSIx->PCONFR |= DSI_InitStruct->NumberOfLanes;
+    194            
+    195            /************************ Set the DSI clock parameters ************************/
+    196            
+    197            /* Set the TX escape clock division factor */
+    198            DSIx->CCR &= ~DSI_CCR_TXECKDIV;
+    199            DSIx->CCR = DSI_InitStruct->TXEscapeCkdiv;
+    200            
+    201            /* Calculate the bit period in high-speed mode in unit of 0.25 ns (UIX4) */
+    202            /* The equation is : UIX4 = IntegerPart( (1000/F_PHY_Mhz) * 4 )          */
+    203            /* Where : F_PHY_Mhz = (NDIV * HSE_Mhz) / (IDF * ODF)                    */
+    204            tempIDF = (PLLInit->PLLIDF > 0) ? PLLInit->PLLIDF : 1;
+    205            unitIntervalx4 = (4000000 * tempIDF * (1 << PLLInit->PLLODF)) / ((HSE_VALUE/1000) * PLLInit->PLLNDIV);
+    206            
+    207            /* Set the bit period in high-speed mode */
+    208            DSIx->WPCR[0] &= ~DSI_WPCR1_UIX4;
+    209            DSIx->WPCR[0] |= unitIntervalx4;
+    210          }
+    211          
+    212          /**
+    213            * @brief Fills each DSI_InitStruct member with its default value.
+    214            * @param DSI_InitStruct: pointer to a DSI_InitTypeDef structure which will be initialized.
+    215            * @retval None
+    216            */
+    217          void DSI_StructInit(DSI_InitTypeDef* DSI_InitStruct, DSI_HOST_TimeoutTypeDef* DSI_HOST_TimeoutInitStruct)
+    218          {
+    219            /*--------------- Reset DSI init structure parameters values ---------------*/
+    220            /* Initialize the AutomaticClockLaneControl member */
+    221            DSI_InitStruct->AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
+    222            /* Initialize the NumberOfLanes member */
+    223            DSI_InitStruct->NumberOfLanes = DSI_ONE_DATA_LANE;
+    224            /* Initialize  the TX Escape clock division */
+    225            DSI_InitStruct->TXEscapeCkdiv = 0;
+    226              
+    227            /*--------------- Reset DSI timings init structure parameters values -------*/
+    228            /* Initialize the TimeoutCkdiv member */
+    229            DSI_HOST_TimeoutInitStruct->TimeoutCkdiv = 0;
+    230            /* Initialize the HighSpeedTransmissionTimeout member */
+    231            DSI_HOST_TimeoutInitStruct->HighSpeedTransmissionTimeout = 0;
+    232            /* Initialize the LowPowerReceptionTimeout member */
+    233            DSI_HOST_TimeoutInitStruct->LowPowerReceptionTimeout = 0;
+    234            /* Initialize the HighSpeedReadTimeout member */
+    235            DSI_HOST_TimeoutInitStruct->HighSpeedReadTimeout = 0;
+    236            /* Initialize the LowPowerReadTimeout member */
+    237            DSI_HOST_TimeoutInitStruct->LowPowerReadTimeout = 0;
+    238            /* Initialize the HighSpeedWriteTimeout member */
+    239            DSI_HOST_TimeoutInitStruct->HighSpeedWriteTimeout = 0;
+    240            /* Initialize the HighSpeedWritePrespMode member */
+    241            DSI_HOST_TimeoutInitStruct->HighSpeedWritePrespMode = 0;
+    242            /* Initialize the LowPowerWriteTimeout member */
+    243            DSI_HOST_TimeoutInitStruct->LowPowerWriteTimeout = 0;
+    244            /* Initialize the BTATimeout member */
+    245            DSI_HOST_TimeoutInitStruct->BTATimeout = 0;
+    246          }
+    247          
+    248          /**
+    249            * @brief  Configure the Generic interface read-back Virtual Channel ID.
+    250            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    251            * @param  VirtualChannelID: Virtual channel ID
+    252            * @retval None
+    253            */
+    254          void DSI_SetGenericVCID(DSI_TypeDef *DSIx, uint32_t VirtualChannelID)
+    255          {  
+    256            /* Update the GVCID register */
+    257            DSIx->GVCIDR &= ~DSI_GVCIDR_VCID;
+    258            DSIx->GVCIDR |= VirtualChannelID;
+    259          }
+    260          
+    261          /**
+    262            * @brief  Select video mode and configure the corresponding parameters
+    263            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    264            * @param  VidCfg: pointer to a DSI_VidCfgTypeDef structure that contains
+    265            *                 the DSI video mode configuration parameters
+    266            * @retval None
+    267            */
+    268          void DSI_ConfigVideoMode(DSI_TypeDef *DSIx, DSI_VidCfgTypeDef *VidCfg)
+    269          {  
+    270            /* Check the parameters */
+    271            assert_param(IS_DSI_COLOR_CODING(VidCfg->ColorCoding));
+    272            assert_param(IS_DSI_VIDEO_MODE_TYPE(VidCfg->Mode));
+    273            assert_param(IS_DSI_LP_COMMAND(VidCfg->LPCommandEnable));
+    274            assert_param(IS_DSI_LP_HFP(VidCfg->LPHorizontalFrontPorchEnable));
+    275            assert_param(IS_DSI_LP_HBP(VidCfg->LPHorizontalBackPorchEnable));
+    276            assert_param(IS_DSI_LP_VACTIVE(VidCfg->LPVerticalActiveEnable));
+    277            assert_param(IS_DSI_LP_VFP(VidCfg->LPVerticalFrontPorchEnable));
+    278            assert_param(IS_DSI_LP_VBP(VidCfg->LPVerticalBackPorchEnable));
+    279            assert_param(IS_DSI_LP_VSYNC(VidCfg->LPVerticalSyncActiveEnable));
+    280            assert_param(IS_DSI_FBTAA(VidCfg->FrameBTAAcknowledgeEnable));
+    281            assert_param(IS_DSI_DE_POLARITY(VidCfg->DEPolarity));
+    282            assert_param(IS_DSI_VSYNC_POLARITY(VidCfg->VSPolarity));
+    283            assert_param(IS_DSI_HSYNC_POLARITY(VidCfg->HSPolarity));
+    284            /* Check the LooselyPacked variant only in 18-bit mode */
+    285            if(VidCfg->ColorCoding == DSI_RGB666)
+    286            {
+    287              assert_param(IS_DSI_LOOSELY_PACKED(VidCfg->LooselyPacked));
+    288            }
+    289            
+    290            /* Select video mode by resetting CMDM and DSIM bits */
+    291            DSIx->MCR &= ~DSI_MCR_CMDM;
+    292            DSIx->WCFGR &= ~DSI_WCFGR_DSIM;
+    293            
+    294            /* Configure the video mode transmission type */
+    295            DSIx->VMCR &= ~DSI_VMCR_VMT;
+    296            DSIx->VMCR |= VidCfg->Mode;
+    297            
+    298            /* Configure the video packet size */
+    299            DSIx->VPCR &= ~DSI_VPCR_VPSIZE;
+    300            DSIx->VPCR |= VidCfg->PacketSize;
+    301            
+    302            /* Set the chunks number to be transmitted through the DSI link */
+    303            DSIx->VCCR &= ~DSI_VCCR_NUMC;
+    304            DSIx->VCCR |= VidCfg->NumberOfChunks;
+    305            
+    306            /* Set the size of the null packet */
+    307            DSIx->VNPCR &= ~DSI_VNPCR_NPSIZE;
+    308            DSIx->VNPCR |= VidCfg->NullPacketSize;
+    309            
+    310            /* Select the virtual channel for the LTDC interface traffic */
+    311            DSIx->LVCIDR &= ~DSI_LVCIDR_VCID;
+    312            DSIx->LVCIDR |= VidCfg->VirtualChannelID;
+    313            
+    314            /* Configure the polarity of control signals */
+    315            DSIx->LPCR &= ~(DSI_LPCR_DEP | DSI_LPCR_VSP | DSI_LPCR_HSP);
+    316            DSIx->LPCR |= (VidCfg->DEPolarity | VidCfg->VSPolarity | VidCfg->HSPolarity);
+    317            
+    318            /* Select the color coding for the host */
+    319            DSIx->LCOLCR &= ~DSI_LCOLCR_COLC;
+    320            DSIx->LCOLCR |= VidCfg->ColorCoding;
+    321              
+    322            /* Select the color coding for the wrapper */
+    323            DSIx->WCFGR &= ~DSI_WCFGR_COLMUX;
+    324            DSIx->WCFGR |= ((VidCfg->ColorCoding)<<1);
+    325            
+    326            /* Enable/disable the loosely packed variant to 18-bit configuration */
+    327            if(VidCfg->ColorCoding == DSI_RGB666)
+    328            {
+    329              DSIx->LCOLCR &= ~DSI_LCOLCR_LPE;
+    330              DSIx->LCOLCR |= VidCfg->LooselyPacked;
+    331            }
+    332            
+    333            /* Set the Horizontal Synchronization Active (HSA) in lane byte clock cycles */
+    334            DSIx->VHSACR &= ~DSI_VHSACR_HSA;
+    335            DSIx->VHSACR |= VidCfg->HorizontalSyncActive;
+    336            
+    337            /* Set the Horizontal Back Porch (HBP) in lane byte clock cycles */
+    338            DSIx->VHBPCR &= ~DSI_VHBPCR_HBP;
+    339            DSIx->VHBPCR |= VidCfg->HorizontalBackPorch;
+    340            
+    341            /* Set the total line time (HLINE=HSA+HBP+HACT+HFP) in lane byte clock cycles */
+    342            DSIx->VLCR &= ~DSI_VLCR_HLINE;
+    343            DSIx->VLCR |= VidCfg->HorizontalLine;
+    344            
+    345            /* Set the Vertical Synchronization Active (VSA) */
+    346            DSIx->VVSACR &= ~DSI_VVSACR_VSA;
+    347            DSIx->VVSACR |= VidCfg->VerticalSyncActive;
+    348            
+    349            /* Set the Vertical Back Porch (VBP)*/
+    350            DSIx->VVBPCR &= ~DSI_VVBPCR_VBP;
+    351            DSIx->VVBPCR |= VidCfg->VerticalBackPorch;
+    352            
+    353            /* Set the Vertical Front Porch (VFP)*/
+    354            DSIx->VVFPCR &= ~DSI_VVFPCR_VFP;
+    355            DSIx->VVFPCR |= VidCfg->VerticalFrontPorch;
+    356            
+    357            /* Set the Vertical Active period*/
+    358            DSIx->VVACR &= ~DSI_VVACR_VA;
+    359            DSIx->VVACR |= VidCfg->VerticalActive;
+    360            
+    361            /* Configure the command transmission mode */
+    362            DSIx->VMCR &= ~DSI_VMCR_LPCE;
+    363            DSIx->VMCR |= VidCfg->LPCommandEnable;
+    364            
+    365            /* Low power largest packet size */
+    366            DSIx->LPMCR &= ~DSI_LPMCR_LPSIZE;
+    367            DSIx->LPMCR |= ((VidCfg->LPLargestPacketSize)<<16);
+    368            
+    369            /* Low power VACT largest packet size */
+    370            DSIx->LPMCR &= ~DSI_LPMCR_VLPSIZE;
+    371            DSIx->LPMCR |= VidCfg->LPVACTLargestPacketSize;
+    372            
+    373            /* Enable LP transition in HFP period */
+    374            DSIx->VMCR &= ~DSI_VMCR_LPHFPE;
+    375            DSIx->VMCR |= VidCfg->LPHorizontalFrontPorchEnable;
+    376            
+    377            /* Enable LP transition in HBP period */
+    378            DSIx->VMCR &= ~DSI_VMCR_LPHBPE;
+    379            DSIx->VMCR |= VidCfg->LPHorizontalBackPorchEnable;
+    380            
+    381            /* Enable LP transition in VACT period */
+    382            DSIx->VMCR &= ~DSI_VMCR_LPVAE;
+    383            DSIx->VMCR |= VidCfg->LPVerticalActiveEnable;
+    384            
+    385            /* Enable LP transition in VFP period */
+    386            DSIx->VMCR &= ~DSI_VMCR_LPVFPE;
+    387            DSIx->VMCR |= VidCfg->LPVerticalFrontPorchEnable;
+    388            
+    389            /* Enable LP transition in VBP period */
+    390            DSIx->VMCR &= ~DSI_VMCR_LPVBPE;
+    391            DSIx->VMCR |= VidCfg->LPVerticalBackPorchEnable;
+    392            
+    393            /* Enable LP transition in vertical sync period */
+    394            DSIx->VMCR &= ~DSI_VMCR_LPVSAE;
+    395            DSIx->VMCR |= VidCfg->LPVerticalSyncActiveEnable;
+    396            
+    397            /* Enable the request for an acknowledge response at the end of a frame */
+    398            DSIx->VMCR &= ~DSI_VMCR_FBTAAE;
+    399            DSIx->VMCR |= VidCfg->FrameBTAAcknowledgeEnable;
+    400          }
+    401          
+    402          /**
+    403            * @brief  Select adapted command mode and configure the corresponding parameters
+    404            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    405            * @param  CmdCfg: pointer to a DSI_CmdCfgTypeDef structure that contains
+    406            *                 the DSI command mode configuration parameters
+    407            * @retval None
+    408            */
+    409          void DSI_ConfigAdaptedCommandMode(DSI_TypeDef *DSIx, DSI_CmdCfgTypeDef *CmdCfg)
+    410          {  
+    411            /* Check the parameters */
+    412            assert_param(IS_DSI_COLOR_CODING(CmdCfg->ColorCoding));
+    413            assert_param(IS_DSI_TE_SOURCE(CmdCfg->TearingEffectSource));
+    414            assert_param(IS_DSI_TE_POLARITY(CmdCfg->TearingEffectPolarity));
+    415            assert_param(IS_DSI_AUTOMATIC_REFRESH(CmdCfg->AutomaticRefresh));
+    416            assert_param(IS_DSI_VS_POLARITY(CmdCfg->VSyncPol));
+    417            assert_param(IS_DSI_TE_ACK_REQUEST(CmdCfg->TEAcknowledgeRequest));
+    418            assert_param(IS_DSI_DE_POLARITY(CmdCfg->DEPolarity));
+    419            assert_param(IS_DSI_VSYNC_POLARITY(CmdCfg->VSPolarity));
+    420            assert_param(IS_DSI_HSYNC_POLARITY(CmdCfg->HSPolarity));
+    421            
+    422            /* Select command mode by setting CMDM and DSIM bits */
+    423            DSIx->MCR |= DSI_MCR_CMDM;
+    424            DSIx->WCFGR &= ~DSI_WCFGR_DSIM;
+    425            DSIx->WCFGR |= DSI_WCFGR_DSIM;
+    426            
+    427            /* Select the virtual channel for the LTDC interface traffic */
+    428            DSIx->LVCIDR &= ~DSI_LVCIDR_VCID;
+    429            DSIx->LVCIDR |= CmdCfg->VirtualChannelID;
+    430            
+    431            /* Configure the polarity of control signals */
+    432            DSIx->LPCR &= ~(DSI_LPCR_DEP | DSI_LPCR_VSP | DSI_LPCR_HSP);
+    433            DSIx->LPCR |= (CmdCfg->DEPolarity | CmdCfg->VSPolarity | CmdCfg->HSPolarity);
+    434            
+    435            /* Select the color coding for the host */
+    436            DSIx->LCOLCR &= ~DSI_LCOLCR_COLC;
+    437            DSIx->LCOLCR |= CmdCfg->ColorCoding;
+    438              
+    439            /* Select the color coding for the wrapper */
+    440            DSIx->WCFGR &= ~DSI_WCFGR_COLMUX;
+    441            DSIx->WCFGR |= ((CmdCfg->ColorCoding)<<1);
+    442            
+    443            /* Set the total line time (HLINE=HSA+HBP+HACT+HFP) in lane byte clock cycles */
+    444            DSIx->VLCR &= ~DSI_VLCR_HLINE;
+    445            DSIx->VLCR |= CmdCfg->HorizontalLine;
+    446            
+    447            /* Configure the maximum allowed size for write memory command */
+    448            DSIx->LCCR &= ~DSI_LCCR_CMDSIZE;
+    449            DSIx->LCCR |= CmdCfg->CommandSize;
+    450            
+    451            /* Configure the tearing effect source and polarity and select the refresh mode */
+    452            DSIx->WCFGR &= ~(DSI_WCFGR_TESRC | DSI_WCFGR_TEPOL | DSI_WCFGR_AR | DSI_WCFGR_VSPOL);
+    453            DSIx->WCFGR |= (CmdCfg->TearingEffectSource | CmdCfg->TearingEffectPolarity | CmdCfg->AutomaticRefresh | CmdCfg->VSyncPol);
+    454            
+    455            /* Configure the tearing effect acknowledge request */
+    456            DSIx->CMCR &= ~DSI_CMCR_TEARE;
+    457            DSIx->CMCR |= CmdCfg->TEAcknowledgeRequest;
+    458            
+    459            /* Enable the Tearing Effect interrupt */
+    460            DSI_ITConfig(DSIx, DSI_IT_TE, ENABLE);
+    461            /* Enable the End of Refresh interrupt */
+    462            DSI_ITConfig(DSIx, DSI_IT_ER, ENABLE);  
+    463          }
+    464          
+    465          /**
+    466            * @brief  Configure command transmission mode: High-speed or Low-power
+    467            *         and enable/disable acknowledge request after packet transmission
+    468            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    469            * @param  LPCmd: pointer to a DSI_LPCmdTypeDef structure that contains
+    470            *                the DSI command transmission mode configuration parameters
+    471            * @retval None
+    472            */
+    473          void DSI_ConfigLowPowerCommand(DSI_TypeDef *DSIx, DSI_LPCmdTypeDef *LPCmd)
+    474          {
+    475            assert_param(IS_DSI_LP_GSW0P(LPCmd->LPGenShortWriteNoP));
+    476            assert_param(IS_DSI_LP_GSW1P(LPCmd->LPGenShortWriteOneP));
+    477            assert_param(IS_DSI_LP_GSW2P(LPCmd->LPGenShortWriteTwoP));
+    478            assert_param(IS_DSI_LP_GSR0P(LPCmd->LPGenShortReadNoP));
+    479            assert_param(IS_DSI_LP_GSR1P(LPCmd->LPGenShortReadOneP));
+    480            assert_param(IS_DSI_LP_GSR2P(LPCmd->LPGenShortReadTwoP));
+    481            assert_param(IS_DSI_LP_GLW(LPCmd->LPGenLongWrite));
+    482            assert_param(IS_DSI_LP_DSW0P(LPCmd->LPDcsShortWriteNoP));
+    483            assert_param(IS_DSI_LP_DSW1P(LPCmd->LPDcsShortWriteOneP));
+    484            assert_param(IS_DSI_LP_DSR0P(LPCmd->LPDcsShortReadNoP));
+    485            assert_param(IS_DSI_LP_DLW(LPCmd->LPDcsLongWrite));
+    486            assert_param(IS_DSI_LP_MRDP(LPCmd->LPMaxReadPacket));
+    487            assert_param(IS_DSI_ACK_REQUEST(LPCmd->AcknowledgeRequest));
+    488            
+    489            /* Select High-speed or Low-power for command transmission */
+    490            DSIx->CMCR &= ~(DSI_CMCR_GSW0TX |\
+    491                                      DSI_CMCR_GSW1TX |\
+    492                                      DSI_CMCR_GSW2TX |\
+    493                                      DSI_CMCR_GSR0TX |\
+    494                                      DSI_CMCR_GSR1TX |\
+    495                                      DSI_CMCR_GSR2TX |\
+    496                                      DSI_CMCR_GLWTX  |\
+    497                                      DSI_CMCR_DSW0TX |\
+    498                                      DSI_CMCR_DSW1TX |\
+    499                                      DSI_CMCR_DSR0TX |\
+    500                                      DSI_CMCR_DLWTX  |\
+    501                                      DSI_CMCR_MRDPS);
+    502            DSIx->CMCR |= (LPCmd->LPGenShortWriteNoP  |\
+    503                                     LPCmd->LPGenShortWriteOneP |\
+    504                                     LPCmd->LPGenShortWriteTwoP |\
+    505                                     LPCmd->LPGenShortReadNoP   |\
+    506                                     LPCmd->LPGenShortReadOneP  |\
+    507                                     LPCmd->LPGenShortReadTwoP  |\
+    508                                     LPCmd->LPGenLongWrite      |\
+    509                                     LPCmd->LPDcsShortWriteNoP  |\
+    510                                     LPCmd->LPDcsShortWriteOneP |\
+    511                                     LPCmd->LPDcsShortReadNoP   |\
+    512                                     LPCmd->LPDcsLongWrite      |\
+    513                                     LPCmd->LPMaxReadPacket);
+    514            
+    515            /* Configure the acknowledge request after each packet transmission */
+    516            DSIx->CMCR &= ~DSI_CMCR_ARE;
+    517            DSIx->CMCR |= LPCmd->AcknowledgeRequest;
+    518          }
+    519          
+    520          /**
+    521            * @brief  Configure the flow control parameters
+    522            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    523            * @param  FlowControl: flow control feature(s) to be enabled.
+    524            *                      This parameter can be any combination of @ref DSI_FlowControl.
+    525            * @retval None
+    526            */
+    527          void DSI_ConfigFlowControl(DSI_TypeDef *DSIx, uint32_t FlowControl)
+    528          {  
+    529            /* Check the parameters */
+    530            assert_param(IS_DSI_FLOW_CONTROL(FlowControl));
+    531            
+    532            /* Set the DSI Host Protocol Configuration Register */
+    533            DSIx->PCR &= ~DSI_FLOW_CONTROL_ALL;
+    534            DSIx->PCR |= FlowControl;
+    535          }
+    536          
+    537          /**
+    538            * @brief  Configure the DSI PHY timer parameters
+    539            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    540            * @param  PhyTimers: DSI_PHY_TimerTypeDef structure that contains
+    541            *                    the DSI PHY timing parameters
+    542            * @retval None
+    543            */
+    544          void DSI_ConfigPhyTimer(DSI_TypeDef *DSIx, DSI_PHY_TimerTypeDef *PhyTimers)
+    545          {  
+    546            /* Clock lane timer configuration */
+    547            DSIx->CLTCR &= ~(DSI_CLTCR_LP2HS_TIME | DSI_CLTCR_HS2LP_TIME);
+    548            DSIx->CLTCR |= (PhyTimers->ClockLaneLP2HSTime | ((PhyTimers->ClockLaneHS2LPTime)<<16));
+    549            
+    550            /* Data lane timer configuration */
+    551            DSIx->DLTCR &= ~(DSI_DLTCR_MRD_TIME | DSI_DLTCR_LP2HS_TIME | DSI_DLTCR_HS2LP_TIME);
+    552            DSIx->DLTCR |= (PhyTimers->DataLaneMaxReadTime | ((PhyTimers->DataLaneLP2HSTime)<<16) | ((PhyTimers->DataLaneHS2LPTime)<<24));
+    553            
+    554            /* Configure the wait period to request HS transmission after a stop state */
+    555            DSIx->PCONFR &= ~DSI_PCONFR_SW_TIME;
+    556            DSIx->PCONFR |= ((PhyTimers->StopWaitTime)<<8);
+    557          }
+    558          
+    559          /**
+    560            * @brief  Configure the DSI HOST timeout parameters
+    561            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    562            * @param  HostTimeouts: DSI_HOST_TimeoutTypeDef structure that contains
+    563            *                       the DSI host timeout parameters
+    564            * @retval None
+    565            */
+    566          void DSI_ConfigHostTimeouts(DSI_TypeDef *DSIx, DSI_HOST_TimeoutTypeDef *HostTimeouts)
+    567          {
+    568            /* Set the timeout clock division factor */
+    569            DSIx->CCR &= ~DSI_CCR_TOCKDIV;
+    570            DSIx->CCR = ((HostTimeouts->TimeoutCkdiv)<<8);
+    571            
+    572            /* High-speed transmission timeout */
+    573            DSIx->TCCR[0] &= ~DSI_TCCR1_HSTX_TOCNT;
+    574            DSIx->TCCR[0] |= ((HostTimeouts->HighSpeedTransmissionTimeout)<<16);
+    575            
+    576            /* Low-power reception timeout */
+    577            DSIx->TCCR[0] &= ~DSI_TCCR1_LPRX_TOCNT;
+    578            DSIx->TCCR[0] |= HostTimeouts->LowPowerReceptionTimeout;
+    579            
+    580            /* High-speed read timeout */
+    581            DSIx->TCCR[1] &= ~DSI_TCCR2_HSRD_TOCNT;
+    582            DSIx->TCCR[1] |= HostTimeouts->HighSpeedReadTimeout;
+    583            
+    584            /* Low-power read timeout */
+    585            DSIx->TCCR[2] &= ~DSI_TCCR3_LPRD_TOCNT;
+    586            DSIx->TCCR[2] |= HostTimeouts->LowPowerReadTimeout;
+    587            
+    588            /* High-speed write timeout */
+    589            DSIx->TCCR[3] &= ~DSI_TCCR4_HSWR_TOCNT;
+    590            DSIx->TCCR[3] |= HostTimeouts->HighSpeedWriteTimeout;
+    591            
+    592            /* High-speed write presp mode */
+    593            DSIx->TCCR[3] &= ~DSI_TCCR4_PM;
+    594            DSIx->TCCR[3] |= HostTimeouts->HighSpeedWritePrespMode;
+    595            
+    596            /* Low-speed write timeout */
+    597            DSIx->TCCR[4] &= ~DSI_TCCR5_LPWR_TOCNT;
+    598            DSIx->TCCR[4] |= HostTimeouts->LowPowerWriteTimeout;
+    599            
+    600            /* BTA timeout */
+    601            DSIx->TCCR[5] &= ~DSI_TCCR6_BTA_TOCNT;
+    602            DSIx->TCCR[5] |= HostTimeouts->BTATimeout;
+    603          }
+    604          
+    605          /**
+    606            * @brief  Start test pattern generation
+    607            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    608            * @param  Mode: Pattern generator mode
+    609            *          This parameter can be one of the following values:
+    610            *           0 : Color bars (horizontal or vertical)
+    611            *           1 : BER pattern (vertical only)
+    612            * @param  Orientation: Pattern generator orientation
+    613            *          This parameter can be one of the following values:
+    614            *           0 : Vertical color bars
+    615            *           1 : Horizontal color bars
+    616            * @retval None
+    617            */
+    618          void DSI_PatternGeneratorStart(DSI_TypeDef *DSIx, uint32_t Mode, uint32_t Orientation)
+    619          {
+    620            
+    621            /* Configure pattern generator mode and orientation */
+    622            DSIx->VMCR &= ~(DSI_VMCR_PGM | DSI_VMCR_PGO);
+    623            DSIx->VMCR |= ((Mode<<20) | (Orientation<<24));
+    624            
+    625            /* Enable pattern generator by setting PGE bit */
+    626            DSIx->VMCR |= DSI_VMCR_PGE;
+    627            
+    628          }
+    629          
+    630          /**
+    631            * @brief  Stop test pattern generation
+    632            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    633            * @retval None
+    634            */
+    635          void DSI_PatternGeneratorStop(DSI_TypeDef *DSIx)
+    636          {  
+    637            /* Disable pattern generator by clearing PGE bit */
+    638            DSIx->VMCR &= ~DSI_VMCR_PGE;
+    639          }
+    640          
+    641          /**
+    642            * @brief  Start the DSI module
+    643            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    644            *               the configuration information for the DSI.
+    645            * @retval None
+    646            */
+    647          void DSI_Start(DSI_TypeDef *DSIx)
+    648          {  
+    649            /* Enable the DSI host */
+    650            DSIx->CR |= DSI_CR_EN;
+    651            /* Enable the DSI wrapper */
+    652            DSIx->WCR |= DSI_WCR_DSIEN;
+    653          }
+    654          
+    655          /**
+    656            * @brief  Stop the DSI module
+    657            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    658            * @retval None
+    659            */
+    660          void DSI_Stop(DSI_TypeDef *DSIx)
+    661          {  
+    662            /* Disable the DSI host */
+    663            DSIx->CR &= ~DSI_CR_EN;
+    664            
+    665            /* Disable the DSI wrapper */
+    666            DSIx->WCR &= ~DSI_WCR_DSIEN;  
+    667          }
+    668          
+    669          /**
+    670            * @brief  Refresh the display in command mode
+    671            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    672            *               the configuration information for the DSI.
+    673            * @retval None
+    674            */
+    675          void DSI_Refresh(DSI_TypeDef *DSIx)
+    676          {  
+    677            /* Update the display */
+    678            DSIx->WCR |= DSI_WCR_LTDCEN;
+    679          }
+    680          
+    681          /**
+    682            * @brief  Controls the display color mode in Video mode
+    683            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    684            * @param  ColorMode: Color mode (full or 8-colors).
+    685            *                    This parameter can be any value of @ref DSI_Color_Mode
+    686            * @retval None
+    687            */
+    688          void DSI_ColorMode(DSI_TypeDef *DSIx, uint32_t ColorMode)
+    689          {  
+    690            /* Check the parameters */
+    691            assert_param(IS_DSI_COLOR_MODE(ColorMode));
+    692            
+    693            /* Update the display color mode */
+    694            DSIx->WCR &= ~DSI_WCR_COLM;
+    695            DSIx->WCR |= ColorMode;
+    696          }
+    697          
+    698          /**
+    699            * @brief  Control the display shutdown in Video mode
+    700            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    701            * @param  Shutdown: Shut-down (Display-ON or Display-OFF).
+    702            *                   This parameter can be any value of @ref DSI_ShutDown
+    703            * @retval None
+    704            */
+    705          void DSI_Shutdown(DSI_TypeDef *DSIx, uint32_t Shutdown)
+    706          {
+    707            /* Check the parameters */
+    708            assert_param(IS_DSI_SHUT_DOWN(Shutdown));
+    709            
+    710            /* Update the display Shutdown */
+    711            DSIx->WCR &= ~DSI_WCR_SHTDN;
+    712            DSIx->WCR |= Shutdown;
+    713          }
+    714          
+    715          /**
+    716            * @}
+    717            */
+    718              
+    719          /** @defgroup Data transfers management functions 
+    720           *  @brief    DSI data transfers management functions  
+    721           *
+    722          @verbatim
+    723           ===============================================================================
+    724                          #####  Data transfers management functions  #####
+    725           ===============================================================================  
+    726          @endverbatim
+    727            * @{
+    728            */
+    729            
+    730          /**
+    731            * @brief  DCS or Generic short write command
+    732            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    733            * @param  ChannelID: Virtual channel ID.
+    734            * @param  Mode: DSI short packet data type.
+    735            *               This parameter can be any value of @ref DSI_SHORT_WRITE_PKT_Data_Type.
+    736            * @param  Param1: DSC command or first generic parameter.
+    737            *                 This parameter can be any value of @ref DSI_DCS_Command or a
+    738            *                 generic command code.
+    739            * @param  Param2: DSC parameter or second generic parameter.
+    740            * @retval None
+    741            */
+    742          void DSI_ShortWrite(DSI_TypeDef *DSIx,
+    743                                           uint32_t ChannelID,
+    744                                           uint32_t Mode,
+    745                                           uint32_t Param1,
+    746                                           uint32_t Param2)
+    747          {
+    748            /* Check the parameters */
+    749            assert_param(IS_DSI_SHORT_WRITE_PACKET_TYPE(Mode));
+    750              
+    751            /* Wait for Command FIFO Empty */
+    752            while((DSIx->GPSR & DSI_GPSR_CMDFE) == 0)
+    753            {}
+    754            
+    755            /* Configure the packet to send a short DCS command with 0 or 1 parameter */
+    756            DSI_ConfigPacketHeader(DSIx,
+    757                                   ChannelID,
+    758                                   Mode,
+    759                                   Param1,
+    760                                   Param2);
+    761          }
+    762          
+    763          /**
+    764            * @brief  DCS or Generic long write command
+    765            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    766            * @param  ChannelID: Virtual channel ID.
+    767            * @param  Mode: DSI long packet data type.
+    768            *               This parameter can be any value of @ref DSI_LONG_WRITE_PKT_Data_Type.
+    769            * @param  NbParams: Number of parameters.
+    770            * @param  Param1: DSC command or first generic parameter.
+    771            *                 This parameter can be any value of @ref DSI_DCS_Command or a 
+    772            *                 generic command code
+    773            * @param  ParametersTable: Pointer to parameter values table.
+    774            * @retval None
+    775            */
+    776          void DSI_LongWrite(DSI_TypeDef *DSIx,
+    777                                          uint32_t ChannelID,
+    778                                          uint32_t Mode,
+    779                                          uint32_t NbParams,
+    780                                          uint32_t Param1,
+    781                                          uint8_t* ParametersTable)
+    782          {
+    783            uint32_t uicounter = 0;
+    784                
+    785            /* Wait for Command FIFO Empty */
+    786            while((DSIx->GPSR & DSI_GPSR_CMDFE) == 0)
+    787            {}
+    788            
+    789            /* Set the DCS code hexadecimal on payload byte 1, and the other parameters on the write FIFO command*/
+    790            while(uicounter < NbParams)
+    791            {
+    792              if(uicounter == 0x00)
+    793              {
+    794                DSIx->GPDR=(Param1 | \
+    795                                      ((*(ParametersTable+uicounter))<<8) | \
+    796                                      ((*(ParametersTable+uicounter+1))<<16) | \
+    797                                      ((*(ParametersTable+uicounter+2))<<24));
+    798                uicounter += 3;
+    799              }
+    800              else
+    801              {
+    802                DSIx->GPDR=((*(ParametersTable+uicounter)) | \
+    803                                      ((*(ParametersTable+uicounter+1))<<8) | \
+    804                                      ((*(ParametersTable+uicounter+2))<<16) | \
+    805                                      ((*(ParametersTable+uicounter+3))<<24));
+    806                uicounter+=4;
+    807              }
+    808            }
+    809            
+    810            /* Configure the packet to send a long DCS command */
+    811            DSI_ConfigPacketHeader(DSIx,
+    812                                   ChannelID,
+    813                                   Mode,
+    814                                   ((NbParams+1)&0x00FF),
+    815                                   (((NbParams+1)&0xFF00)>>8));
+    816          }
+    817          
+    818          /**
+    819            * @brief  Read command (DCS or generic)
+    820            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances
+    821            * @param  ChannelNbr: Virtual channel ID
+    822            * @param  Array: pointer to a buffer to store the payload of a read back operation.
+    823            * @param  Size: Data size to be read (in byte).
+    824            * @param  Mode: DSI read packet data type.
+    825            *               This parameter can be any value of @ref DSI_SHORT_READ_PKT_Data_Type.
+    826            * @param  DCSCmd: DCS get/read command.
+    827            * @param  ParametersTable: Pointer to parameter values table.
+    828            * @retval None
+    829            */
+    830          void DSI_Read(DSI_TypeDef *DSIx,
+    831                                         uint32_t ChannelNbr,
+    832                                         uint8_t* Array,
+    833                                         uint32_t Size,
+    834                                         uint32_t Mode,
+    835                                         uint32_t DCSCmd,
+    836                                         uint8_t* ParametersTable)
+    837          {
+    838            
+    839            /* Check the parameters */
+    840            assert_param(IS_DSI_READ_PACKET_TYPE(Mode));
+    841            
+    842            if(Size > 2)
+    843            {
+    844              /* set max return packet size */
+    845              DSI_ShortWrite(DSIx, ChannelNbr, DSI_MAX_RETURN_PKT_SIZE, ((Size)&0xFF), (((Size)>>8)&0xFF));
+    846            }
+    847            
+    848            /* Configure the packet to read command */
+    849            if (Mode == DSI_DCS_SHORT_PKT_READ)
+    850            {
+    851              DSI_ConfigPacketHeader(DSIx, ChannelNbr, Mode, DCSCmd, 0);
+    852            }
+    853            else if (Mode == DSI_GEN_SHORT_PKT_READ_P0)
+    854            {
+    855              DSI_ConfigPacketHeader(DSIx, ChannelNbr, Mode, 0, 0);
+    856            }
+    857            else if (Mode == DSI_GEN_SHORT_PKT_READ_P1)
+    858            {
+    859              DSI_ConfigPacketHeader(DSIx, ChannelNbr, Mode, ParametersTable[0], 0);
+    860            }
+    861            else if (Mode == DSI_GEN_SHORT_PKT_READ_P2)
+    862            {
+    863              DSI_ConfigPacketHeader(DSIx, ChannelNbr, Mode, ParametersTable[0], ParametersTable[1]);
+    864            }
+    865              
+    866            /* Check that the payload read FIFO is not empty */
+    867            while((DSIx->GPSR & (DSI_GPSR_RCB | DSI_GPSR_PRDFE)) != 0)
+    868            {}
+    869            
+    870            /* Get the first byte */
+    871            *((uint32_t *)Array) = (DSIx->GPDR);
+    872            if (Size > 4)
+    873            {
+    874              Size -= 4;
+    875              Array += 4;
+    876            }
+    877                
+    878            /* Get the remaining bytes if any */
+    879            while(((int)(Size)) > 0)
+    880            {
+    881              if((DSIx->GPSR & DSI_GPSR_PRDFE) == 0)
+    882              {
+    883                *((uint32_t *)Array) = (DSIx->GPDR);
+    884                Size -= 4;
+    885                Array += 4;
+    886              }   
+    887            }
+    888          }
+    889          
+    890          /**
+    891            * @brief  Generic DSI packet header configuration
+    892            * @param  DSIx: Pointer to DSI register base
+    893            * @param  ChannelID: Virtual channel ID of the header packet
+    894            * @param  DataType: Packet data type of the header packet
+    895            *                   This parameter can be any value of :
+    896            *                      @ref DSI_SHORT_WRITE_PKT_Data_Type
+    897            *                   or @ref DSI_LONG_WRITE_PKT_Data_Type
+    898            *                   or @ref DSI_SHORT_READ_PKT_Data_Type
+    899            *                   or DSI_MAX_RETURN_PKT_SIZE
+    900            * @param  Data0: Word count LSB
+    901            * @param  Data1: Word count MSB
+    902            * @retval None
+    903            */
+    904          static void DSI_ConfigPacketHeader(DSI_TypeDef *DSIx,
+    905                                             uint32_t ChannelID,
+    906                                             uint32_t DataType,
+    907                                             uint32_t Data0,
+    908                                             uint32_t Data1)
+    909          {
+    910            /* Update the DSI packet header with new information */
+    911            DSIx->GHCR = (DataType | (ChannelID<<6) | (Data0<<8) | (Data1<<16));
+    912          }
+    913            
+    914          /**
+    915            * @}
+    916            */
+    917          
+    918          /** @defgroup DSI_Group3 Low Power functions
+    919           *  @brief    DSI Low Power management functions 
+    920           *
+    921          @verbatim
+    922           ===============================================================================
+    923                             ##### DSI Low Power functions #####
+    924           ===============================================================================   
+    925          
+    926          @endverbatim
+    927            * @{
+    928            */
+    929          
+    930          /**
+    931            * @brief  Enter the ULPM (Ultra Low Power Mode) with the D-PHY PLL running
+    932            *         (only data lanes are in ULPM)
+    933            * @param  DSIx: Pointer to DSI register base
+    934            * @retval None
+    935            */
+    936          void DSI_EnterULPMData(DSI_TypeDef *DSIx)
+    937          {    
+    938            /* ULPS Request on Data Lanes */
+    939            DSIx->PUCR |= DSI_PUCR_URDL;
+    940            
+    941            
+    942            /* Wait until the D-PHY active lanes enter into ULPM */
+    943            if((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_ONE_DATA_LANE)
+    944            {
+    945              while((DSIx->PSR & DSI_PSR_UAN0) != 0)
+    946              {}
+    947            }
+    948            else if ((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_TWO_DATA_LANES)
+    949            {
+    950              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UAN1)) != 0)
+    951              {}
+    952            }
+    953          }
+    954          
+    955          /**
+    956            * @brief  Exit the ULPM (Ultra Low Power Mode) with the D-PHY PLL running
+    957            *         (only data lanes are in ULPM)
+    958            * @param  DSIx: Pointer to DSI register base
+    959            * @retval None
+    960            */
+    961          void DSI_ExitULPMData(DSI_TypeDef *DSIx)
+    962          {  
+    963            /* Exit ULPS on Data Lanes */
+    964            DSIx->PUCR |= DSI_PUCR_UEDL;
+    965            
+    966            /* Wait until all active lanes exit ULPM */
+    967            if((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_ONE_DATA_LANE)
+    968            {
+    969              while((DSIx->PSR & DSI_PSR_UAN0) != DSI_PSR_UAN0)
+    970              {}
+    971            }
+    972            else if ((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_TWO_DATA_LANES)
+    973            {
+    974              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UAN1)) != (DSI_PSR_UAN0 | DSI_PSR_UAN1))
+    975              {}
+    976            }
+    977            
+    978            /* De-assert the ULPM requests and the ULPM exit bits */
+    979            DSIx->PUCR = 0;
+    980          }
+    981          
+    982          /**
+    983            * @brief  Enter the ULPM (Ultra Low Power Mode) with the D-PHY PLL turned off
+    984            *         (both data and clock lanes are in ULPM)
+    985            * @param  DSIx: Pointer to DSI register base
+    986            * @retval None
+    987            */
+    988          void DSI_EnterULPM(DSI_TypeDef *DSIx)
+    989          {    
+    990            /* Clock lane configuration: no more HS request */
+    991            DSIx->CLCR &= ~DSI_CLCR_DPCC;
+    992            
+    993            /* Use system PLL as byte lane clock source before stopping DSIPHY clock source */
+    994            RCC_DSIClockSourceConfig(RCC_DSICLKSource_PLLR);
+    995            
+    996            /* ULPS Request on Clock and Data Lanes */
+    997            DSIx->PUCR |= (DSI_PUCR_URCL | DSI_PUCR_URDL);
+    998            
+    999            /* Wait until all active lanes exit ULPM */
+   1000            if((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_ONE_DATA_LANE)
+   1001            {
+   1002              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UANC)) != 0)
+   1003              {}
+   1004            }
+   1005            else if ((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_TWO_DATA_LANES)
+   1006            {
+   1007              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UAN1 | DSI_PSR_UANC)) != 0)
+   1008              {}
+   1009            }
+   1010            
+   1011            /* Turn off the DSI PLL */
+   1012            DSIx->WRPCR &= ~DSI_WRPCR_PLLEN;
+   1013          }
+   1014          
+   1015          /**
+   1016            * @brief  Exit the ULPM (Ultra Low Power Mode) with the D-PHY PLL turned off
+   1017            *         (both data and clock lanes are in ULPM)
+   1018            * @param  DSIx: Pointer to DSI register base
+   1019            * @retval None
+   1020            */
+   1021          void DSI_ExitULPM(DSI_TypeDef *DSIx)
+   1022          {    
+   1023            /* Turn on the DSI PLL */
+   1024            DSIx->WRPCR |= DSI_WRPCR_PLLEN;
+   1025               
+   1026            /* Wait for the lock of the PLL */
+   1027            while(DSI_GetFlagStatus(DSIx, DSI_FLAG_PLLLS) == RESET)
+   1028            {}
+   1029            
+   1030            /* Exit ULPS on Clock and Data Lanes */
+   1031            DSIx->PUCR |= (DSI_PUCR_UECL | DSI_PUCR_UEDL);
+   1032              
+   1033            /* Wait until all active lanes exit ULPM */
+   1034            if((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_ONE_DATA_LANE)
+   1035            {
+   1036              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UANC)) != (DSI_PSR_UAN0 | DSI_PSR_UANC))
+   1037              {}
+   1038            }
+   1039            else if ((DSIx->PCONFR & DSI_PCONFR_NL) == DSI_TWO_DATA_LANES)
+   1040            {
+   1041              while((DSIx->PSR & (DSI_PSR_UAN0 | DSI_PSR_UAN1 | DSI_PSR_UANC)) != (DSI_PSR_UAN0 | DSI_PSR_UAN1 | DSI_PSR_UANC))
+   1042              {}
+   1043            }
+   1044            
+   1045            /* De-assert the ULPM requests and the ULPM exit bits */
+   1046            DSIx->PUCR = 0;
+   1047            
+   1048            /* Switch the lanbyteclock source in the RCC from system PLL to D-PHY */
+   1049            RCC_DSIClockSourceConfig(RCC_DSICLKSource_PHY);
+   1050            
+   1051            /* Restore clock lane configuration to HS */
+   1052            DSIx->CLCR |= DSI_CLCR_DPCC;
+   1053          }
+   1054          
+   1055          /**
+   1056            * @brief  Set Slew-Rate And Delay Tuning
+   1057            * @param  DSIx: Pointer to DSI register base
+   1058            * @param  CommDelay: Communication delay to be adjusted.
+   1059            *                    This parameter can be any value of @ref DSI_Communication_Delay
+   1060            * @param  Lane: select between clock or data lanes.
+   1061            *               This parameter can be any value of @ref DSI_Lane_Group
+   1062            * @param  Value: Custom value of the slew-rate or delay
+   1063            * @retval None
+   1064            */
+   1065          void DSI_SetSlewRateAndDelayTuning(DSI_TypeDef *DSIx, uint32_t CommDelay, uint32_t Lane, uint32_t Value)
+   1066          {  
+   1067            /* Check function parameters */
+   1068            assert_param(IS_DSI_COMMUNICATION_DELAY(CommDelay));
+   1069            assert_param(IS_DSI_LANE_GROUP(Lane));
+   1070            
+   1071            switch(CommDelay)
+   1072            {
+   1073            case DSI_SLEW_RATE_HSTX:
+   1074              if(Lane == DSI_CLOCK_LANE)
+   1075              {
+   1076                /* High-Speed Transmission Slew Rate Control on Clock Lane */
+   1077                DSIx->WPCR[1] &= ~DSI_WPCR2_HSTXSRCCL;
+   1078                DSIx->WPCR[1] |= Value<<16;
+   1079              }
+   1080              else if(Lane == DSI_DATA_LANES)
+   1081              {
+   1082                /* High-Speed Transmission Slew Rate Control on Data Lanes */
+   1083                DSIx->WPCR[1] &= ~DSI_WPCR2_HSTXSRCDL;
+   1084                DSIx->WPCR[1] |= Value<<18;
+   1085              }
+   1086              break;
+   1087            case DSI_SLEW_RATE_LPTX:
+   1088              if(Lane == DSI_CLOCK_LANE)
+   1089              {
+   1090                /* Low-Power transmission Slew Rate Compensation on Clock Lane */
+   1091                DSIx->WPCR[1] &= ~DSI_WPCR2_LPSRCCL;
+   1092                DSIx->WPCR[1] |= Value<<6;
+   1093              }
+   1094              else if(Lane == DSI_DATA_LANES)
+   1095              {
+   1096                /* Low-Power transmission Slew Rate Compensation on Data Lanes */
+   1097                DSIx->WPCR[1] &= ~DSI_WPCR2_LPSRCDL;
+   1098                DSIx->WPCR[1] |= Value<<8;
+   1099              }
+   1100              break;
+   1101            case DSI_HS_DELAY:
+   1102              if(Lane == DSI_CLOCK_LANE)
+   1103              {
+   1104                /* High-Speed Transmission Delay on Clock Lane */
+   1105                DSIx->WPCR[1] &= ~DSI_WPCR2_HSTXDCL;
+   1106                DSIx->WPCR[1] |= Value;
+   1107              }
+   1108              else if(Lane == DSI_DATA_LANES)
+   1109              {
+   1110                /* High-Speed Transmission Delay on Data Lanes */
+   1111                DSIx->WPCR[1] &= ~DSI_WPCR2_HSTXDDL;
+   1112                DSIx->WPCR[1] |= Value<<2;
+   1113              }
+   1114              break;
+   1115            default:
+   1116              break;
+   1117            }
+   1118          }
+   1119          
+   1120          /**
+   1121            * @brief  Low-Power Reception Filter Tuning
+   1122            * @param  DSIx: Pointer to DSI register base
+   1123            * @param  Frequency: cutoff frequency of low-pass filter at the input of LPRX
+   1124            * @retval None
+   1125            */
+   1126          void DSI_SetLowPowerRXFilter(DSI_TypeDef *DSIx, uint32_t Frequency)
+   1127          {  
+   1128            /* Low-Power RX low-pass Filtering Tuning */
+   1129            DSIx->WPCR[1] &= ~DSI_WPCR2_LPRXFT;
+   1130            DSIx->WPCR[1] |= Frequency<<25;
+   1131          }
+   1132          
+   1133          /**
+   1134            * @brief  Activate an additional current path on all lanes to meet the SDDTx parameter
+   1135            *         defined in the MIPI D-PHY specification
+   1136            * @param  hdsi: pointer to a DSI_HandleTypeDef structure that contains
+   1137            *               the configuration information for the DSI.
+   1138            * @param  State: ENABLE or DISABLE
+   1139            * @retval None
+   1140            */
+   1141          void DSI_SetSDD(DSI_TypeDef *DSIx, FunctionalState State)
+   1142          {  
+   1143            /* Check function parameters */
+   1144            assert_param(IS_FUNCTIONAL_STATE(State));
+   1145            
+   1146            /* Activate/Disactivate additional current path on all lanes */
+   1147            DSIx->WPCR[1] &= ~DSI_WPCR2_SDDC;
+   1148            DSIx->WPCR[1] |= State<<12;
+   1149          }
+   1150          
+   1151          /**
+   1152            * @brief  Custom lane pins configuration
+   1153            * @param  DSIx: Pointer to DSI register base
+   1154            * @param  CustomLane: Function to be applyed on selected lane.
+   1155            *                     This parameter can be any value of @ref DSI_CustomLane
+   1156            * @param  Lane: select between clock or data lane 0 or data lane 1.
+   1157            *               This parameter can be any value of @ref DSI_Lane_Select
+   1158            * @param  State: ENABLE or DISABLE
+   1159            * @retval None
+   1160            */
+   1161          void DSI_SetLanePinsConfiguration(DSI_TypeDef *DSIx, uint32_t CustomLane, uint32_t Lane, FunctionalState State)
+   1162          {
+   1163            /* Check function parameters */
+   1164            assert_param(IS_DSI_CUSTOM_LANE(CustomLane));
+   1165            assert_param(IS_DSI_LANE(Lane));
+   1166            assert_param(IS_FUNCTIONAL_STATE(State));
+   1167            
+   1168            switch(CustomLane)
+   1169            {
+   1170            case DSI_SWAP_LANE_PINS:
+   1171              if(Lane == DSI_CLOCK_LANE)
+   1172              {
+   1173                /* Swap pins on clock lane */
+   1174                DSIx->WPCR[0] &= ~DSI_WPCR1_SWCL;
+   1175                DSIx->WPCR[0] |= (State<<6);
+   1176              }
+   1177              else if(Lane == DSI_DATA_LANE0)
+   1178              {
+   1179                /* Swap pins on data lane 0 */
+   1180                DSIx->WPCR[0] &= ~DSI_WPCR1_SWDL0;
+   1181                DSIx->WPCR[0] |= (State<<7);
+   1182              }
+   1183              else if(Lane == DSI_DATA_LANE1)
+   1184              {
+   1185                /* Swap pins on data lane 1 */
+   1186                DSIx->WPCR[0] &= ~DSI_WPCR1_SWDL1;
+   1187                DSIx->WPCR[0] |= (State<<8);
+   1188              }
+   1189              break;
+   1190            case DSI_INVERT_HS_SIGNAL:
+   1191              if(Lane == DSI_CLOCK_LANE)
+   1192              {
+   1193                /* Invert HS signal on clock lane */
+   1194                DSIx->WPCR[0] &= ~DSI_WPCR1_HSICL;
+   1195                DSIx->WPCR[0] |= (State<<9);
+   1196              }
+   1197              else if(Lane == DSI_DATA_LANE0)
+   1198              {
+   1199                /* Invert HS signal on data lane 0 */
+   1200                DSIx->WPCR[0] &= ~DSI_WPCR1_HSIDL0;
+   1201                DSIx->WPCR[0] |= (State<<10);
+   1202              }
+   1203              else if(Lane == DSI_DATA_LANE1)
+   1204              {
+   1205                /* Invert HS signal on data lane 1 */
+   1206                DSIx->WPCR[0] &= ~DSI_WPCR1_HSIDL1;
+   1207                DSIx->WPCR[0] |= (State<<11);
+   1208              }
+   1209              break;
+   1210            default:
+   1211              break;
+   1212            }
+   1213          }
+   1214          
+   1215          /**
+   1216            * @brief  Set custom timing for the PHY
+   1217            * @param  DSIx: Pointer to DSI register base
+   1218            * @param  Timing: PHY timing to be adjusted.
+   1219            *                 This parameter can be any value of @ref DSI_PHY_Timing
+   1220            * @param  State: ENABLE or DISABLE
+   1221            * @param  Value: Custom value of the timing
+   1222            * @retval None
+   1223            */
+   1224          void DSI_SetPHYTimings(DSI_TypeDef *DSIx, uint32_t Timing, FunctionalState State, uint32_t Value)
+   1225          {  
+   1226            /* Check function parameters */
+   1227            assert_param(IS_DSI_PHY_TIMING(Timing));
+   1228            assert_param(IS_FUNCTIONAL_STATE(State));
+   1229            
+   1230            switch(Timing)
+   1231            {
+   1232            case DSI_TCLK_POST:
+   1233              /* Enable/Disable custom timing setting */
+   1234              DSIx->WPCR[0] &= ~DSI_WPCR1_TCLKPOSTEN;
+   1235              DSIx->WPCR[0] |= (State<<27);
+   1236              
+   1237              if(State)
+   1238              {
+   1239                /* Set custom value */
+   1240                DSIx->WPCR[4] &= ~DSI_WPCR5_TCLKPOST;
+   1241                DSIx->WPCR[4] |= Value;
+   1242              }
+   1243              
+   1244              break;
+   1245            case DSI_TLPX_CLK:
+   1246              /* Enable/Disable custom timing setting */
+   1247              DSIx->WPCR[0] &= ~DSI_WPCR1_TLPXCEN;
+   1248              DSIx->WPCR[0] |= (State<<26);
+   1249              
+   1250              if(State)
+   1251              {
+   1252                /* Set custom value */
+   1253                DSIx->WPCR[3] &= ~DSI_WPCR4_TLPXC;
+   1254                DSIx->WPCR[3] |= Value;
+   1255              }
+   1256              
+   1257              break;
+   1258            case DSI_THS_EXIT:
+   1259              /* Enable/Disable custom timing setting */
+   1260              DSIx->WPCR[0] &= ~DSI_WPCR1_THSEXITEN;
+   1261              DSIx->WPCR[0] |= (State<<25);
+   1262              
+   1263              if(State)
+   1264              {
+   1265                /* Set custom value */
+   1266                DSIx->WPCR[3] &= ~DSI_WPCR4_THSEXIT;
+   1267                DSIx->WPCR[3] |= Value;
+   1268              }
+   1269              
+   1270              break;
+   1271            case DSI_TLPX_DATA:
+   1272              /* Enable/Disable custom timing setting */
+   1273              DSIx->WPCR[0] &= ~DSI_WPCR1_TLPXDEN;
+   1274              DSIx->WPCR[0] |= (State<<24);
+   1275              
+   1276              if(State)
+   1277              {
+   1278                /* Set custom value */
+   1279                DSIx->WPCR[3] &= ~DSI_WPCR4_TLPXD;
+   1280                DSIx->WPCR[3] |= Value;
+   1281              }
+   1282              
+   1283              break;
+   1284            case DSI_THS_ZERO:
+   1285              /* Enable/Disable custom timing setting */
+   1286              DSIx->WPCR[0] &= ~DSI_WPCR1_THSZEROEN;
+   1287              DSIx->WPCR[0] |= (State<<23);
+   1288              
+   1289              if(State)
+   1290              {
+   1291                /* Set custom value */
+   1292                DSIx->WPCR[3] &= ~DSI_WPCR4_THSZERO;
+   1293                DSIx->WPCR[3] |= Value;
+   1294              }
+   1295              
+   1296              break;
+   1297            case DSI_THS_TRAIL:
+   1298              /* Enable/Disable custom timing setting */
+   1299              DSIx->WPCR[0] &= ~DSI_WPCR1_THSTRAILEN;
+   1300              DSIx->WPCR[0] |= (State<<22);
+   1301              
+   1302              if(State)
+   1303              {
+   1304                /* Set custom value */
+   1305                DSIx->WPCR[2] &= ~DSI_WPCR3_THSTRAIL;
+   1306                DSIx->WPCR[2] |= Value;
+   1307              }
+   1308              
+   1309              break;
+   1310            case DSI_THS_PREPARE:
+   1311              /* Enable/Disable custom timing setting */
+   1312              DSIx->WPCR[0] &= ~DSI_WPCR1_THSPREPEN;
+   1313              DSIx->WPCR[0] |= (State<<21);
+   1314              
+   1315              if(State)
+   1316              {
+   1317                /* Set custom value */
+   1318                DSIx->WPCR[2] &= ~DSI_WPCR3_THSPREP;
+   1319                DSIx->WPCR[2] |= Value;
+   1320              }
+   1321              
+   1322              break;
+   1323            case DSI_TCLK_ZERO:
+   1324              /* Enable/Disable custom timing setting */
+   1325              DSIx->WPCR[0] &= ~DSI_WPCR1_TCLKZEROEN;
+   1326              DSIx->WPCR[0] |= (State<<20);
+   1327              
+   1328              if(State)
+   1329              {
+   1330                /* Set custom value */
+   1331                DSIx->WPCR[2] &= ~DSI_WPCR3_TCLKZERO;
+   1332                DSIx->WPCR[2] |= Value;
+   1333              }
+   1334              
+   1335              break;
+   1336            case DSI_TCLK_PREPARE:
+   1337              /* Enable/Disable custom timing setting */
+   1338              DSIx->WPCR[0] &= ~DSI_WPCR1_TCLKPREPEN;
+   1339              DSIx->WPCR[0] |= (State<<19);
+   1340              
+   1341              if(State)
+   1342              {
+   1343                /* Set custom value */
+   1344                DSIx->WPCR[2] &= ~DSI_WPCR3_TCLKPREP;
+   1345                DSIx->WPCR[2] |= Value;
+   1346              }
+   1347              
+   1348              break;
+   1349            default:
+   1350              break;
+   1351            }
+   1352          }
+   1353          
+   1354          /**
+   1355            * @brief  Force the Clock/Data Lane in TX Stop Mode
+   1356            * @param  DSIx: Pointer to DSI register base
+   1357            * @param  Lane: select between clock or data lanes.
+   1358            *               This parameter can be any value of @ref DSI_Lane_Group
+   1359            * @param  State: ENABLE or DISABLE
+   1360            * @retval None
+   1361            */
+   1362          void DSI_ForceTXStopMode(DSI_TypeDef *DSIx, uint32_t Lane, FunctionalState State)
+   1363          {
+   1364            /* Check function parameters */
+   1365            assert_param(IS_DSI_LANE_GROUP(Lane));
+   1366            assert_param(IS_FUNCTIONAL_STATE(State));
+   1367            
+   1368            if(Lane == DSI_CLOCK_LANE)
+   1369            {
+   1370              /* Force/Unforce the Clock Lane in TX Stop Mode */
+   1371              DSIx->WPCR[0] &= ~DSI_WPCR1_FTXSMCL;
+   1372              DSIx->WPCR[0] |= (State<<12);
+   1373            }
+   1374            else if(Lane == DSI_DATA_LANES)
+   1375            {
+   1376              /* Force/Unforce the Data Lanes in TX Stop Mode */
+   1377              DSIx->WPCR[0] &= ~DSI_WPCR1_FTXSMDL;
+   1378              DSIx->WPCR[0] |= (State<<13);
+   1379            }
+   1380          }
+   1381          
+   1382          /**
+   1383            * @brief  Forces LP Receiver in Low-Power Mode
+   1384            * @param  hdsi: pointer to a DSI_HandleTypeDef structure that contains
+   1385            *               the configuration information for the DSI.
+   1386            * @param  State: ENABLE or DISABLE
+   1387            * @retval None
+   1388            */
+   1389          void DSI_ForceRXLowPower(DSI_TypeDef *DSIx, FunctionalState State)
+   1390          {  
+   1391            /* Check function parameters */
+   1392            assert_param(IS_FUNCTIONAL_STATE(State));
+   1393            
+   1394            /* Force/Unforce LP Receiver in Low-Power Mode */
+   1395            DSIx->WPCR[1] &= ~DSI_WPCR2_FLPRXLPM;
+   1396            DSIx->WPCR[1] |= State<<22;
+   1397          }
+   1398          
+   1399          /**
+   1400            * @brief  Force Data Lanes in RX Mode after a BTA
+   1401            * @param  hdsi: pointer to a DSI_HandleTypeDef structure that contains
+   1402            *               the configuration information for the DSI.
+   1403            * @param  State: ENABLE or DISABLE
+   1404            * @retval None
+   1405            */
+   1406          void DSI_ForceDataLanesInRX(DSI_TypeDef *DSIx, FunctionalState State)
+   1407          {  
+   1408            /* Check function parameters */
+   1409            assert_param(IS_FUNCTIONAL_STATE(State));
+   1410            
+   1411            /* Force Data Lanes in RX Mode */
+   1412            DSIx->WPCR[0] &= ~DSI_WPCR1_TDDL;
+   1413            DSIx->WPCR[0] |= State<<16;
+   1414          }
+   1415          
+   1416          /**
+   1417            * @brief  Enable a pull-down on the lanes to prevent from floating states when unused
+   1418            * @param  hdsi: pointer to a DSI_HandleTypeDef structure that contains
+   1419            *               the configuration information for the DSI.
+   1420            * @param  State: ENABLE or DISABLE
+   1421            * @retval None
+   1422            */
+   1423          void DSI_SetPullDown(DSI_TypeDef *DSIx, FunctionalState State)
+   1424          {  
+   1425            /* Check function parameters */
+   1426            assert_param(IS_FUNCTIONAL_STATE(State));
+   1427            
+   1428            /* Enable/Disable pull-down on lanes */
+   1429            DSIx->WPCR[0] &= ~DSI_WPCR1_PDEN;
+   1430            DSIx->WPCR[0] |= State<<18;
+   1431          }
+   1432          
+   1433          /**
+   1434            * @brief  Switch off the contention detection on data lanes
+   1435            * @param  hdsi: pointer to a DSI_HandleTypeDef structure that contains
+   1436            *               the configuration information for the DSI.
+   1437            * @param  State: ENABLE or DISABLE
+   1438            * @retval None
+   1439            */
+   1440          void DSI_SetContentionDetectionOff(DSI_TypeDef *DSIx, FunctionalState State)
+   1441          {  
+   1442            /* Check function parameters */
+   1443            assert_param(IS_FUNCTIONAL_STATE(State));
+   1444            
+   1445            /* Contention Detection on Data Lanes OFF */
+   1446            DSIx->WPCR[0] &= ~DSI_WPCR1_CDOFFDL;
+   1447            DSIx->WPCR[0] |= State<<14;
+   1448          }
+   1449          
+   1450          /**
+   1451            * @}
+   1452            */
+   1453          
+   1454          /** @defgroup DSI_Group4 Interrupts and flags management functions
+   1455            *  @brief   Interrupts and flags management functions
+   1456            *
+   1457          @verbatim   
+   1458           ===============================================================================
+   1459                      ##### Interrupts and flags management functions #####
+   1460           ===============================================================================  
+   1461           
+   1462           [..] This section provides a set of functions allowing to configure the DSI Interrupts 
+   1463                sources and check or clear the flags or pending bits status.
+   1464                The user should identify which mode will be used in his application to manage 
+   1465                the communication: Polling mode or Interrupt mode. 
+   1466              
+   1467           *** Polling Mode ***
+   1468           ====================
+   1469          [..] In Polling Mode, the DSI communication can be managed by 8 flags:
+   1470            (#) DSI_FLAG_TE : Tearing Effect Interrupt Flag
+   1471            (#) DSI_FLAG_ER : End of Refresh Interrupt Flag
+   1472            (#) DSI_FLAG_BUSY : Busy Flag
+   1473            (#) DSI_FLAG_PLLLS : PLL Lock Status              
+   1474            (#) DSI_FLAG_PLLL : PLL Lock Interrupt Flag
+   1475            (#) DSI_FLAG_PLLU : PLL Unlock Interrupt Flag
+   1476            (#) DSI_FLAG_RRS: Regulator Ready Status.
+   1477            (#) DSI_FLAG_RR: Regulator Ready Interrupt Flag.
+   1478          
+   1479          
+   1480           [..] In this Mode it is advised to use the following functions:
+   1481             (+) FlagStatus DSI_GetFlagStatus(DSI_TypeDef* DSIx, uint32_t DSI_FLAG);
+   1482             (+) void DSI_ClearFlag(DSI_TypeDef* DSIx, uint32_t DSI_FLAG);
+   1483          
+   1484           *** Interrupt Mode ***
+   1485           ======================
+   1486           [..] In Interrupt Mode, the SPI communication can be managed by 3 interrupt sources
+   1487                and 7 pending bits: 
+   1488             (+) Pending Bits:
+   1489                 (##) DSI_IT_TE : Tearing Effect Interrupt Flag
+   1490                 (##) DSI_IT_ER : End of Refresh Interrupt Flag
+   1491                 (##) DSI_IT_PLLL : PLL Lock Interrupt Flag           
+   1492                 (##) DSI_IT_PLLU : PLL Unlock Interrupt Flag
+   1493                 (##) DSI_IT_RR: Regulator Ready Interrupt Flag.
+   1494          
+   1495             (+) Interrupt Source:
+   1496                 (##) DSI_IT_TE : Tearing Effect Interrupt Enable
+   1497                 (##) DSI_IT_ER : End of Refresh Interrupt Enable
+   1498                 (##) DSI_IT_PLLL : PLL Lock Interrupt Enable         
+   1499                 (##) DSI_IT_PLLU : PLL Unlock Interrupt Enable
+   1500                 (##) DSI_IT_RR: Regulator Ready Interrupt Enable
+   1501          
+   1502           [..] In this Mode it is advised to use the following functions:
+   1503             (+) void DSI_ITConfig(DSI_TypeDef* DSIx, uint32_t DSI_IT, FunctionalState NewState);
+   1504             (+) ITStatus DSI_GetITStatus(DSI_TypeDef* DSIx, uint32_t DSI_IT);
+   1505             (+) void DSI_ClearITPendingBit(DSI_TypeDef* DSIx, uint32_t DSI_IT);
+   1506          
+   1507          @endverbatim
+   1508            * @{
+   1509            */
+   1510          
+   1511          /**
+   1512            * @brief Enables or disables the specified DSI interrupts.
+   1513            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1514            * @param DSI_IT: specifies the DSI interrupt sources to be enabled or disabled. 
+   1515            *          This parameter can be any combination of the following values:
+   1516            *            @arg DSI_IT_TE  : Tearing Effect Interrupt
+   1517            *            @arg DSI_IT_ER  : End of Refresh Interrupt
+   1518            *            @arg DSI_IT_PLLL: PLL Lock Interrupt
+   1519            *            @arg DSI_IT_PLLU: PLL Unlock Interrupt
+   1520            *            @arg DSI_IT_RR  : Regulator Ready Interrupt
+   1521            * @param  NewState: new state of the specified DSI interrupt.
+   1522            *          This parameter can be: ENABLE or DISABLE.
+   1523            * @retval None
+   1524            */
+   1525          void DSI_ITConfig(DSI_TypeDef* DSIx, uint32_t DSI_IT, FunctionalState NewState)
+   1526          {
+   1527            /* Check the parameters */
+   1528            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+   1529            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1530            assert_param(IS_DSI_IT(DSI_IT));
+   1531          
+   1532            if(NewState != DISABLE)
+   1533            {
+   1534              /* Enable the selected DSI interrupt */
+   1535              DSIx->WIER |= DSI_IT;
+   1536            }
+   1537            else
+   1538            {
+   1539              /* Disable the selected DSI interrupt */
+   1540              DSIx->WIER &= ~DSI_IT;
+   1541            }
+   1542          }
+   1543          
+   1544          /**
+   1545            * @brief Checks whether the specified DSI flag is set or not.
+   1546            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1547            * @param DSI_FLAG: specifies the SPI flag to be checked. 
+   1548            *          This parameter can be one of the following values:
+   1549            *            @arg DSI_FLAG_TE   : Tearing Effect Interrupt Flag 
+   1550            *            @arg DSI_FLAG_ER   : End of Refresh Interrupt Flag 
+   1551            *            @arg DSI_FLAG_BUSY : Busy Flag
+   1552            *            @arg DSI_FLAG_PLLLS: PLL Lock Status
+   1553            *            @arg DSI_FLAG_PLLL : PLL Lock Interrupt Flag
+   1554            *            @arg DSI_FLAG_PLLU : PLL Unlock Interrupt Flag
+   1555            *            @arg DSI_FLAG_RRS  : Regulator Ready Flag
+   1556            *            @arg DSI_FLAG_RR   : Regulator Ready Interrupt Flag 
+   1557            * @retval The new state of DSI_FLAG (SET or RESET).
+   1558            */
+   1559          FlagStatus DSI_GetFlagStatus(DSI_TypeDef* DSIx, uint16_t DSI_FLAG)
+   1560          {
+   1561            FlagStatus bitstatus = RESET;
+   1562            /* Check the parameters */
+   1563            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+   1564            assert_param(IS_DSI_GET_FLAG(DSI_FLAG));
+   1565            
+   1566            /* Check the status of the specified DSI flag */
+   1567            if((DSIx->WISR & DSI_FLAG) != (uint32_t)RESET)
+   1568            {
+   1569              /* DSI_FLAG is set */
+   1570              bitstatus = SET;
+   1571            }
+   1572            else
+   1573            {
+   1574              /* DSI_FLAG is reset */
+   1575              bitstatus = RESET;
+   1576            }
+   1577            /* Return the DSI_FLAG status */
+   1578            return  bitstatus;
+   1579          }
+   1580          
+   1581          /**
+   1582            * @brief Clears the specified DSI flag.
+   1583            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1584            * @param DSI_FLAG: specifies the SPI flag to be cleared. 
+   1585            *          This parameter can be one of the following values:
+   1586            *            @arg DSI_FLAG_TE   : Tearing Effect Interrupt Flag 
+   1587            *            @arg DSI_FLAG_ER   : End of Refresh Interrupt Flag 
+   1588            *            @arg DSI_FLAG_PLLL : PLL Lock Interrupt Flag
+   1589            *            @arg DSI_FLAG_PLLU : PLL Unlock Interrupt Flag
+   1590            *            @arg DSI_FLAG_RR   : Regulator Ready Interrupt Flag  
+   1591            * @retval None
+   1592            */
+   1593          void DSI_ClearFlag(DSI_TypeDef* DSIx, uint16_t DSI_FLAG)
+   1594          {
+   1595            /* Check the parameters */
+   1596            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+   1597            assert_param(IS_DSI_CLEAR_FLAG(DSI_FLAG));
+   1598              
+   1599            /* Clear the selected DSI flag */
+   1600            DSIx->WIFCR = (uint32_t)DSI_FLAG;
+   1601          }
+   1602          
+   1603          /**
+   1604            * @brief Checks whether the specified DSIx interrupt has occurred or not.
+   1605            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1606            * @param DSI_IT: specifies the DSI interrupt sources to be checked. 
+   1607            *          This parameter can be one of the following values:
+   1608            *            @arg DSI_IT_TE  : Tearing Effect Interrupt
+   1609            *            @arg DSI_IT_ER  : End of Refresh Interrupt
+   1610            *            @arg DSI_IT_PLLL: PLL Lock Interrupt
+   1611            *            @arg DSI_IT_PLLU: PLL Unlock Interrupt
+   1612            *            @arg DSI_IT_RR  : Regulator Ready Interrupt 
+   1613            * @retval The new state of SPI_I2S_IT (SET or RESET).
+   1614            */
+   1615          ITStatus DSI_GetITStatus(DSI_TypeDef* DSIx, uint32_t DSI_IT)
+   1616          {
+   1617            ITStatus bitstatus = RESET;
+   1618            uint32_t enablestatus = 0;
+   1619          
+   1620            /* Check the parameters */
+   1621            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+   1622            assert_param(IS_DSI_IT(DSI_IT));
+   1623          
+   1624            /* Get the DSI_IT enable bit status */
+   1625            enablestatus = (DSIx->WIER & DSI_IT);
+   1626          
+   1627            /* Check the status of the specified SPI interrupt */
+   1628            if (((DSIx->WISR & DSI_IT) != (uint32_t)RESET) && enablestatus)
+   1629            {
+   1630              /* DSI_IT is set */
+   1631              bitstatus = SET;
+   1632            }
+   1633            else
+   1634            {
+   1635              /* DSI_IT is reset */
+   1636              bitstatus = RESET;
+   1637            }
+   1638            
+   1639            /* Return the DSI_IT status */
+   1640            return bitstatus;
+   1641          }
+   1642          
+   1643          /**
+   1644            * @brief Clears the DSIx interrupt pending bit.
+   1645            * @param DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1646            * @param DSI_IT: specifies the DSI interrupt sources to be cleared. 
+   1647            *        This parameter can be one of the following values:
+   1648            *            @arg DSI_IT_TE  : Tearing Effect Interrupt
+   1649            *            @arg DSI_IT_ER  : End of Refresh Interrupt
+   1650            *            @arg DSI_IT_PLLL: PLL Lock Interrupt
+   1651            *            @arg DSI_IT_PLLU: PLL Unlock Interrupt
+   1652            *            @arg DSI_IT_RR  : Regulator Ready Interrupt
+   1653            * @retval None
+   1654            */
+   1655          void DSI_ClearITPendingBit(DSI_TypeDef* DSIx, uint32_t DSI_IT)
+   1656          {
+   1657            /* Check the parameters */
+   1658            assert_param(IS_DSI_ALL_PERIPH(DSIx));
+   1659            assert_param(IS_DSI_IT(DSI_IT));
+   1660          
+   1661            /* Clear the selected DSI interrupt pending bit */
+   1662            DSIx->WIFCR = (uint32_t)DSI_IT;
+   1663          }
+   1664          
+   1665          /**
+   1666            * @brief  Enable the error monitor flags 
+   1667            * @param  DSIx: To select the DSIx peripheral, where x can be the different DSI instances 
+   1668            * @param  ActiveErrors: indicates which error interrupts will be enabled.
+   1669            *                      This parameter can be any combination of @ref DSI_Error_Data_Type.
+   1670            * @retval None 
+   1671            */
+   1672          void DSI_ConfigErrorMonitor(DSI_TypeDef *DSIx, uint32_t ActiveErrors)
+   1673          {
+   1674            DSIx->IER[0] = 0;
+   1675            DSIx->IER[1] = 0;
+   1676              
+   1677            if(ActiveErrors & DSI_ERROR_ACK)
+   1678            {
+   1679              /* Enable the interrupt generation on selected errors */
+   1680              DSIx->IER[0] |= DSI_ERROR_ACK_MASK;
+   1681            }
+   1682            
+   1683            if(ActiveErrors & DSI_ERROR_PHY)
+   1684            {
+   1685              /* Enable the interrupt generation on selected errors */
+   1686              DSIx->IER[0] |= DSI_ERROR_PHY_MASK;
+   1687            }
+   1688            
+   1689            if(ActiveErrors & DSI_ERROR_TX)
+   1690            {
+   1691              /* Enable the interrupt generation on selected errors */
+   1692              DSIx->IER[1] |= DSI_ERROR_TX_MASK;
+   1693            }
+   1694            
+   1695            if(ActiveErrors & DSI_ERROR_RX)
+   1696            {
+   1697              /* Enable the interrupt generation on selected errors */
+   1698              DSIx->IER[1] |= DSI_ERROR_RX_MASK;
+   1699            }
+   1700            
+   1701            if(ActiveErrors & DSI_ERROR_ECC)
+   1702            {
+   1703              /* Enable the interrupt generation on selected errors */
+   1704              DSIx->IER[1] |= DSI_ERROR_ECC_MASK;
+   1705            }
+   1706            
+   1707            if(ActiveErrors & DSI_ERROR_CRC)
+   1708            {
+   1709              /* Enable the interrupt generation on selected errors */
+   1710              DSIx->IER[1] |= DSI_ERROR_CRC_MASK;
+   1711            }
+   1712            
+   1713            if(ActiveErrors & DSI_ERROR_PSE)
+   1714            {
+   1715              /* Enable the interrupt generation on selected errors */
+   1716              DSIx->IER[1] |= DSI_ERROR_PSE_MASK;
+   1717            }
+   1718            
+   1719            if(ActiveErrors & DSI_ERROR_EOT)
+   1720            {
+   1721              /* Enable the interrupt generation on selected errors */
+   1722              DSIx->IER[1] |= DSI_ERROR_EOT_MASK;
+   1723            }
+   1724            
+   1725            if(ActiveErrors & DSI_ERROR_OVF)
+   1726            {
+   1727              /* Enable the interrupt generation on selected errors */
+   1728              DSIx->IER[1] |= DSI_ERROR_OVF_MASK;
+   1729            }
+   1730            
+   1731            if(ActiveErrors & DSI_ERROR_GEN)
+   1732            {
+   1733              /* Enable the interrupt generation on selected errors */
+   1734              DSIx->IER[1] |= DSI_ERROR_GEN_MASK;
+   1735            }
+   1736          }
+   1737          
+   1738          /**
+   1739            * @}
+   1740            */
+   1741          
+   1742          /**
+   1743            * @}
+   1744            */
+   1745          #endif /* STM32F469_479xx */  
+   1746          /**
+   1747            * @}
+   1748            */
+   1749          
+   1750          /**
+   1751            * @}
+   1752            */
+   1753          
+   1754          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none

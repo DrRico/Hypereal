@@ -1,0 +1,480 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:45
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\wireless_phase_control.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\wireless_phase_control.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\wireless_phase_control.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\wireless_phase_control.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\wireless_phase_control.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    wireless_phase_control.c
+      4            * @author  Hypereal Team
+      5            * @version V1.2.0
+      6            * @date    19-September-2016
+      7            * @brief   This file provides firmware functions to configure timing about wireless of General-purpose timers.
+      8            ******************************************************************************
+      9          
+     10            */ 
+     11          /* Includes ------------------------------------------------------------------*/ 
+     12          #include "stm32f4xx_tim.h"
+     13          #include "stdio.h"
+     14          #include "hr_mk1_config.h"
+     15          
+     16          /* Private define ------------------------------------------------------------*/
+     17          #define hz_30_time      350000
+     18          
+     19          /* Private variables ---------------------------------------------------------*/
+     20          const uint16_t wp_time_line_point[WP_PHASE_STAGE_NUM] = WP_TIME_LINE;
+     21          const float wp_time_line_scale = WP_TIME_LINE_SCALE; 
+     22          
+     23          uint32_t wp_time_line_comp[WP_PHASE_STAGE_NUM];
+     24          uint8_t currunt_wireless_phase;
+     25          uint8_t wireless_phase_flag;
+     26          uint16_t scan_num = 0;
+     27          
+     28          uint32_t wireless_attached_count_down = 0;
+     29          
+     30          uint8_t last_sync_flag = 0;
+     31          uint8_t light_a_sync_flag = 0;
+     32          uint8_t light_b_sync_flag = 0;
+     33          uint8_t light_a_sync_flag_last = 0;
+     34          uint8_t light_b_sync_flag_last = 0;
+     35          
+     36          uint32_t tim5_cpy;
+     37          signed int tim5_diff = 0;
+     38          float tim5_adj = 0;
+     39          
+     40          uint32_t tim5_arr = hz_30_time;
+     41          uint8_t hz_30_timmer_overflow_flag = 0;
+     42          
+     43          extern uint32_t systick_count_l;
+     44          
+     45          void (*wp_callback[WP_PHASE_STAGE_NUM])();
+     46          
+     47          /* Private function prototypes -----------------------------------------------*/
+     48          
+     49          /**
+     50            * @brief  TIM2,TIM14 configuration.
+     51            * @param  None
+     52            * @retval None
+     53            */
+     54          void phase_timmer_init()
+     55          {
+     56          	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+     57          	NVIC_InitTypeDef NVIC_InitStructure;
+     58          
+     59          	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2|RCC_APB1Periph_TIM14,ENABLE);
+     60          	
+     61          	TIM_TimeBaseStructure.TIM_Period = 0xffffffff;
+     62          	TIM_TimeBaseStructure.TIM_Prescaler = 7;
+     63          	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+     64          	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  
+     65          	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);              //timer about process time
+     66          	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);             //timer about between interrupt and deal data
+     67          	
+     68                  /*configure TIM2 IRQ*/
+     69          	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+     70          	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+     71          	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;   
+     72          	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;   
+     73          
+     74          	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+     75          	NVIC_Init(&NVIC_InitStructure);
+     76          	
+     77          	return;
+     78          }
+     79          
+     80          /**
+     81            * @brief  TIM5 configuration.
+     82            * @param  None
+     83            * @retval None
+     84            */
+     85          void hz_30_timmer_init()
+     86          {
+     87          	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+     88                  
+     89                  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5,ENABLE);
+     90          
+     91          	TIM_TimeBaseStructure.TIM_Period = hz_30_time;
+     92          	TIM_TimeBaseStructure.TIM_Prescaler = 7;
+     93          	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+     94          	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  
+     95          	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;  
+     96          	
+     97          	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure);
+     98          
+     99          	TIM_SetCounter(TIM5,hz_30_time/2);
+    100          	
+    101          	return;
+    102          }
+    103          
+    104          /**
+    105            * @brief  clear flag about timer.
+    106            * @param  None
+    107            * @retval None
+    108            */
+    109          void wp_callback_test0()
+    110          {
+    111          	LED0(1);
+    112          		
+    113          	if (light_a_sync_flag || light_b_sync_flag)
+    114          	{
+    115                      last_sync_flag = 1;
+    116          	}
+    117          	
+    118          	light_a_sync_flag_last = light_a_sync_flag;
+    119          	light_b_sync_flag_last = light_b_sync_flag;
+    120          	
+    121          	light_a_sync_flag = 0;
+    122          	light_b_sync_flag = 0;
+    123          }
+    124          
+    125          /**
+    126            * @brief  timer a cycle in 30Hz   .
+    127            * @param  None
+    128            * @retval None
+    129            */
+    130          void hz_30_timmer_sync()
+    131          {
+    132          	tim5_cpy = TIM5->CNT;
+    133          	TIM5->CNT = hz_30_time/2;
+    134          	TIM_Cmd(TIM5,ENABLE);    	
+    135          	
+    136          	if (tim5_cpy >(hz_30_time/2))
+    137          	{
+    138                      tim5_diff = tim5_cpy - (hz_30_time/2);
+    139          	}
+    140          	else if (tim5_cpy<=(hz_30_time/2))
+    141          	{
+    142                      tim5_diff = -(hz_30_time/2 - tim5_cpy);
+    143          	}
+    144          	else
+    145          	{
+    146                      asm("nop");
+    147          	}
+    148          
+    149          	tim5_adj = tim5_adj * 0.9f + tim5_diff*0.1f;
+    150          	tim5_arr = hz_30_time + tim5_adj;
+    151          
+    152          	TIM5->ARR = tim5_arr;
+    153          	
+    154          }
+    155          
+    156          /**
+    157            * @brief  TIM5 configuration.
+    158            * @param  None
+    159            * @retval None
+    160            */
+    161          void wireless_phase_control_scan_num_push(uint8_t num_in)
+    162          {
+    163          		
+    164          	if (num_in<(scan_num&0x00ff))
+    165          	{
+    166          		scan_num = (((scan_num>>8)+1)<<8) + num_in;
+    167          	}
+    168          	else
+    169          	{
+    170          		scan_num = (scan_num &0xff00) + num_in;
+    171          	}
+    172          	
+    173          	if (wireless_attached_count_down == 0)
+    174          	{
+    175          		scan_num &= 0x00ff;
+    176          	}
+    177          	wireless_attached_count_down = 5000;
+    178          	
+    179          	return;
+    180          }
+    181          
+    182          /**
+    183            * @brief  configure callback.
+    184            * @param  None
+    185            * @retval None
+    186            */
+    187          void wireless_phase_control_init()
+    188          {
+    189          	for (int i=0;i<WP_PHASE_STAGE_NUM;i++)
+    190          	{
+    191          		wp_time_line_comp[i] = (uint32_t)(wp_time_line_point[i] * wp_time_line_scale);
+    192          		wp_callback[i] = NULL;
+    193          	}
+    194          	
+    195          	/* timmer init */
+    196          	phase_timmer_init();
+    197          	hz_30_timmer_init();
+    198          	
+    199          	/* wp_status init */
+    200          	currunt_wireless_phase = WP_IDLE;
+    201          	
+    202          	wp_callback[0]  = wp_callback_test0;
+    203                  wp_callback[1]  = NULL;
+    204          	wp_callback[2]  = wp_callback_bx;
+    205          	wp_callback[3]  = wp_callback_hmc5883;
+    206          	wp_callback[6]  = wp_callback_hmc5883_ptr_flush;
+    207          	wp_callback[5]  = wp_callback_by;
+    208          	wp_callback[7]  = wp_callback_ax;
+    209          	wp_callback[10] = wp_callback_ay;
+    210          	
+    211          	return;
+    212          }
+    213          
+    214          /**
+    215            * @brief  clear TIM14
+    216            * @param  None
+    217            * @retval None
+    218            */
+    219          void wireless_phase_control_sync()
+    220          {
+    221          	TIM_SetCounter(TIM14,0);
+    222          	TIM_ClearFlag(TIM14,TIM_FLAG_Update);
+    223          	TIM_Cmd(TIM14,ENABLE);    
+    224          }
+    225          
+    226          /**
+    227            * @brief  timer about receive wireless data from lighthouse A
+    228            * @param  None
+    229            * @retval None
+    230            */
+    231          void wireless_phase_control_run()
+    232          {
+    233          	uint32_t phase_offset;
+    234          	
+    235          	LED0(0);
+    236          	
+    237          	asm("CPSID I");
+    238          	
+    239          	TIM_Cmd(TIM2,DISABLE);	
+    240          	TIM_Cmd(TIM14,DISABLE);
+    241          	
+    242          	if ((wp_time_line_comp[WP_LIGHT_A] > WP_SYNC_DELAY + TIM_GetCounter(TIM14)) && !(TIM_GetFlagStatus(TIM14,TIM_FLAG_Update) == SET))
+    243          	{
+    244                         /*+ tim5_diff_buf*/
+    245                        phase_offset = (wp_time_line_comp[WP_LIGHT_A] - WP_SYNC_DELAY - TIM_GetCounter(TIM14));
+    246                        currunt_wireless_phase = WP_LIGHT_A;	
+    247                        
+    248                                TIM2->ARR = phase_offset;
+    249                                
+    250                                TIM_ClearFlag(TIM2,TIM_FLAG_Update);   
+    251                                TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);   
+    252                                TIM_SetCounter(TIM2,0);
+    253                                TIM_Cmd(TIM2,ENABLE);   	
+    254                                
+    255                                light_a_sync_flag = 1;
+    256          	}
+    257          	else
+    258          	{
+    259                        asm("nop");
+    260                        currunt_wireless_phase = WP_IDLE;
+    261          	}
+    262          	
+    263          	asm("CPSIE I");
+    264          	
+    265          	TIM_ClearFlag(TIM14,TIM_FLAG_Update);
+    266          }
+    267          
+    268          /**
+    269            * @brief  timer about receive wireless data from lighthouse B
+    270            * @param  None
+    271            * @retval None
+    272            */
+    273          void wireless_phase_control_run_from_light_b()
+    274          {
+    275          	uint32_t phase_offset;
+    276          	
+    277          	asm("CPSID I");
+    278          	
+    279          	TIM_Cmd(TIM2,DISABLE);	
+    280          	TIM_Cmd(TIM14,DISABLE);
+    281          	
+    282          	if ((wp_time_line_comp[WP_LIGHT_B] > WP_SYNC_DELAY + TIM_GetCounter(TIM14)) && !(TIM_GetFlagStatus(TIM14,TIM_FLAG_Update) == SET))
+    283          	{
+    284            
+    285                        phase_offset = (wp_time_line_comp[WP_LIGHT_B] - WP_SYNC_DELAY - TIM_GetCounter(TIM14));
+    286                        currunt_wireless_phase = WP_LIGHT_B;	
+    287                        
+    288                                TIM2->ARR = phase_offset;
+    289                                
+    290                                TIM_ClearFlag(TIM2,TIM_FLAG_Update);  
+    291                                TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);   
+    292                                TIM_SetCounter(TIM2,0);
+    293                                TIM_Cmd(TIM2,ENABLE);    
+    294                                
+    295                                light_b_sync_flag = 1;
+    296          	}
+    297          	else
+    298          	{
+    299                        asm("nop");
+    300                        currunt_wireless_phase = WP_IDLE;
+    301          	}
+    302          	
+    303          	asm("CPSIE I");
+    304          	
+    305          	TIM_ClearFlag(TIM14,TIM_FLAG_Update);
+    306          }
+    307          
+    308          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   hz_30_timmer_init
+        24   -> RCC_APB1PeriphClockCmd
+        24   -> TIM_SetCounter
+        24   -> TIM_TimeBaseInit
+      24   hz_30_timmer_sync
+        24   -> TIM_Cmd
+        24   -> __aeabi_f2uiz
+        24   -> __aeabi_fadd
+        24   -> __aeabi_fmul
+        24   -> __aeabi_i2f
+      24   phase_timmer_init
+        24   -> NVIC_Init
+        24   -> NVIC_PriorityGroupConfig
+        24   -> RCC_APB1PeriphClockCmd
+        24   -> TIM_TimeBaseInit
+      24   wireless_phase_control_init
+        24   -> __aeabi_f2uiz
+        24   -> __aeabi_fmul
+        24   -> __aeabi_ui2f
+        24   -> hz_30_timmer_init
+        24   -> phase_timmer_init
+      16   wireless_phase_control_run
+        16   -> GPIO_ResetBits
+         0   -> TIM_ClearFlag
+        16   -> TIM_ClearFlag
+        16   -> TIM_Cmd
+        16   -> TIM_GetCounter
+        16   -> TIM_GetFlagStatus
+        16   -> TIM_ITConfig
+        16   -> TIM_SetCounter
+      16   wireless_phase_control_run_from_light_b
+         0   -> TIM_ClearFlag
+        16   -> TIM_ClearFlag
+        16   -> TIM_Cmd
+        16   -> TIM_GetCounter
+        16   -> TIM_GetFlagStatus
+        16   -> TIM_ITConfig
+        16   -> TIM_SetCounter
+       0   wireless_phase_control_scan_num_push
+       8   wireless_phase_control_sync
+         8   -> TIM_ClearFlag
+         0   -> TIM_Cmd
+         8   -> TIM_SetCounter
+       8   wp_callback_test0
+         8   -> GPIO_SetBits
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable10
+       4  ??DataTable10_1
+       4  ??DataTable10_10
+       4  ??DataTable10_11
+       4  ??DataTable10_12
+       4  ??DataTable10_13
+       4  ??DataTable10_14
+       4  ??DataTable10_15
+       4  ??DataTable10_16
+       4  ??DataTable10_17
+       4  ??DataTable10_18
+       4  ??DataTable10_19
+       4  ??DataTable10_2
+       4  ??DataTable10_20
+       4  ??DataTable10_3
+       4  ??DataTable10_4
+       4  ??DataTable10_5
+       4  ??DataTable10_6
+       4  ??DataTable10_7
+       4  ??DataTable10_8
+       4  ??DataTable10_9
+      12  ?Subroutine0
+      10  ?Subroutine1
+      10  ?Subroutine2
+      20  ?Subroutine3
+      12  ?Subroutine4
+       6  ?Subroutine5
+      10  ?Subroutine6
+      96  currunt_wireless_phase
+          last_sync_flag
+          light_a_sync_flag
+          light_b_sync_flag
+          light_a_sync_flag_last
+          light_b_sync_flag_last
+          wp_callback
+          wp_time_line_comp
+      56  hz_30_timmer_init
+       1  hz_30_timmer_overflow_flag
+      78  hz_30_timmer_sync
+      94  phase_timmer_init
+       8  scan_num
+          wireless_attached_count_down
+      16  tim5_cpy
+          tim5_diff
+          tim5_adj
+          tim5_arr
+      90  wireless_phase_control_init
+      96  wireless_phase_control_run
+      88  wireless_phase_control_run_from_light_b
+      46  wireless_phase_control_scan_num_push
+      32  wireless_phase_control_sync
+       1  wireless_phase_flag
+      38  wp_callback_test0
+      24  wp_time_line_point
+       4  wp_time_line_scale
+
+ 
+ 106 bytes in section .bss
+  16 bytes in section .data
+   4 bytes in section .rodata
+ 806 bytes in section .text
+ 
+ 806 bytes of CODE  memory
+   4 bytes of CONST memory
+ 122 bytes of DATA  memory
+
+Errors: none
+Warnings: 1

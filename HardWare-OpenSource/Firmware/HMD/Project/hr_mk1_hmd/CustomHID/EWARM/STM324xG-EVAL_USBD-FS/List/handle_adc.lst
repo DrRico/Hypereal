@@ -1,0 +1,373 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        20/Sep/2016  16:25:22
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\handle_adc.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\handle_adc.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\handle_adc.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\handle_adc.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\handle_adc.c
+      1          #include "hr_mk1_config.h"
+      2          
+      3          #ifndef HMD
+      4          
+      5          #include  "string.h"
+      6          #include  "stm32f4xx_gpio.h"
+      7          #include  "stm32f4xx_rcc.h"
+      8          #include  "stm32f4xx_adc.h"
+      9          #include  "stm32f4xx_dma.h"
+     10          
+     11          #include  "handle_adc.h"
+     12          
+     13          void ReConfig_DMA2_Stream4(void);
+     14          void ReConfig_DMA2_Stream3(void);
+     15          void ReConfig_DMA2_Stream1(void);
+     16          
+     17          void ADC_CommonInit_Local(void)
+     18          {
+     19              ADC_CommonInitTypeDef  ADC_CommonInitStructure;
+     20              
+     21              /* ADC Common设置 */
+     22              ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;                     // 独立模式
+     23              ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles; // 多重模式下使用
+     24              ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;      // 多重模式下使用
+     25              ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div4;                  // 4分频, 21MHz 
+     26              ADC_CommonInit(&ADC_CommonInitStructure);
+     27          }
+     28          
+     29          /* Config ADCx, 
+     30           * @ mode: 
+     31           *        0: 软件触发
+     32           *        1: timer1 触发
+     33           */
+     34          void ADCx_Init(ADC_TypeDef *ADC_x, uint8_t ADC_Channel_A, uint8_t ADC_Channel_B, uint8_t ADC_Channel_C, uint8_t mode)
+     35          {
+     36          
+     37              ADC_InitTypeDef  ADC_InitStructure;
+     38              NVIC_InitTypeDef NVIC_InitStructure;
+     39              
+     40              uint32_t         RCC_APB2Periph = 0;
+     41              uint8_t          ChannelNum = 0;
+     42          
+     43              if (ADC_x == ADC1)
+     44                  RCC_APB2Periph = RCC_APB2Periph_ADC1;
+     45              else if (ADC_x == ADC2)
+     46                  RCC_APB2Periph = RCC_APB2Periph_ADC2;
+     47              else if (ADC_x == ADC3)
+     48                  RCC_APB2Periph = RCC_APB2Periph_ADC3;
+     49              else {
+     50                    HandleDebug_Printf("ADCx_Init: ADC_x must be one of ADC1, ADC2, ADC3\r\n");
+     51                    while(1){}
+     52              }
+     53              
+     54              /* 有效 channel 数目 */
+     55              if (ADC_Channel_A < ADC_Channel_None) ChannelNum ++;
+     56              if (ADC_Channel_B < ADC_Channel_None) ChannelNum ++;
+     57              if (ADC_Channel_C < ADC_Channel_None) ChannelNum ++;
+     58              
+     59              /* ADC 时钟使能 */
+     60              RCC_APB2PeriphClockCmd(RCC_APB2Periph, ENABLE);
+     61              
+     62              /* ADC 复位 */
+     63              RCC_APB2PeriphResetCmd(RCC_APB2Periph,ENABLE);
+     64              RCC_APB2PeriphResetCmd(RCC_APB2Periph,DISABLE);
+     65          
+     66              /* ADC 设置 */
+     67              ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b; // 12位精度
+     68              ADC_InitStructure.ADC_ScanConvMode = ENABLE;           // 扫描模式，扫描多个通道
+     69              ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;    // 外部触发不支持连续转换模式
+     70              ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right; // 数据右对齐	
+     71              ADC_InitStructure.ADC_NbrOfConversion = ChannelNum;    // 转换通道个数
+     72              if (0 == mode) {
+     73                  /* 软件触发 */
+     74                  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+     75              }
+     76              else if (1 == mode) {
+     77                  /* 事件触发 */
+     78                  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T3_TRGO;
+     79                  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_Rising;
+     80              }else {
+     81                  HandleDebug_Printf("ADCx_Init: mode must be 0 or 1\r\n");
+     82                  while(1) {}
+     83              }
+     84              ADC_Init(ADC_x, &ADC_InitStructure);
+     85              
+     86              /* ADC中断设置 */
+     87              NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQn;             // ADC1,2,3通用中断
+     88              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; // 抢占优先级1
+     89              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x02;      // 从优先级2
+     90              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+     91              NVIC_Init(&NVIC_InitStructure);
+     92              /* 每组通道转换之后产生一个中断 */
+     93              // ADC_EOCOnEachRegularChannelCmd(ADC_x, ENABLE);
+     94              /* 使能OVR中断 */
+     95              ADC_ITConfig(ADC_x, ADC_IT_OVR, ENABLE);
+     96              
+     97              /* 使用 DMA */
+     98              ADC_DMACmd(ADC_x, ENABLE);
+     99              
+    100              /* ADC 通道设置, 采样周期 480 cycle*/
+    101              ChannelNum = 1;
+    102              if (ADC_Channel_A < ADC_Channel_None)
+    103                  ADC_RegularChannelConfig(ADC_x, ADC_Channel_A, ChannelNum++, ADC_SampleTime_480Cycles);
+    104              if (ADC_Channel_B < ADC_Channel_None)
+    105                  ADC_RegularChannelConfig(ADC_x, ADC_Channel_B, ChannelNum++, ADC_SampleTime_480Cycles);
+    106              if (ADC_Channel_C < ADC_Channel_None)
+    107                  ADC_RegularChannelConfig(ADC_x, ADC_Channel_C, ChannelNum++, ADC_SampleTime_480Cycles);
+    108          }
+    109          
+    110          void ADC_IRQHandler(void)
+    111          {    
+    112              if(SET == ADC_GetFlagStatus(ADC1, ADC_FLAG_OVR))
+    113              {
+    114                  /* 重新初始化 DMA2_Stream4, Channel 0 */
+    115                  ReConfig_DMA2_Stream4();
+    116                  
+    117                  ADC_ClearFlag(ADC1, ADC_FLAG_OVR);
+    118                  ADC_ClearITPendingBit(ADC1, ADC_IT_OVR);
+    119              }
+    120              
+    121              if(SET == ADC_GetFlagStatus(ADC2, ADC_FLAG_OVR))
+    122              {
+    123                  /* 重新初始化 DMA2, Stream 3, Channel 1 */
+    124                  ReConfig_DMA2_Stream3();
+    125                  ADC_ClearFlag(ADC2, ADC_FLAG_OVR);
+    126                  ADC_ClearITPendingBit(ADC2, ADC_IT_OVR);
+    127              }
+    128              
+    129              if(SET == ADC_GetFlagStatus(ADC3, ADC_FLAG_OVR))
+    130              {
+    131                  /* 重新初始化 DMA2, Stream 1, Channel 2 */
+    132                  ReConfig_DMA2_Stream1();
+    133                  ADC_ClearFlag(ADC3, ADC_FLAG_OVR);
+    134                  ADC_ClearITPendingBit(ADC3, ADC_IT_OVR);
+    135              }
+    136          }
+    137          
+    138          void DMA2_Stream1_IRQHandler(void)
+    139          {
+    140              /* 重新初始化 DMA2, Stream 1, Channel 2 */
+    141              ReConfig_DMA2_Stream1();
+    142          }
+    143          
+    144          void DMA2_Stream3_IRQHandler(void)
+    145          {
+    146              /* 重新初始化 DMA2, Stream 3, Channel 1 */
+    147              ReConfig_DMA2_Stream3();
+    148          }
+    149          
+    150          void DMA2_Stream4_IRQHandler(void)
+    151          {
+    152              /* 重新初始化 DMA2_Stream4, Channel 0 */
+    153              ReConfig_DMA2_Stream4();
+    154          }
+    155          
+    156          /* Config DMAx, 
+    157           * @ mode: 
+    158           *        0: 外设数据长度16位，存储器数据长度32位
+    159           *        1: 外设数据长度16位，存储器数据长度16位
+    160           */
+    161          void DMAx_Config(DMA_TypeDef *DMAx, DMA_Stream_TypeDef *DMAx_Streamy,
+    162                           uint32_t DMA_Channel_n, ADC_TypeDef *ADC_x, uint32_t MemoryBaseAddr, 
+    163                           uint8_t DMAx_Streamy_IRQn, uint8_t mode)
+    164          {
+    165              DMA_InitTypeDef  DMA_InitStructure;
+    166              NVIC_InitTypeDef NVIC_InitStructure;
+    167              
+    168              /* DMA 时钟使能 */
+    169              if (DMAx == DMA1)
+    170                  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,ENABLE);
+    171              else if (DMAx == DMA2)
+    172                  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2,ENABLE);
+    173              else {
+    174                  HandleDebug_Printf("DMAx_Config: DMAx must be DMA1 or DMA2\r\n");
+    175                  while (1) {}
+    176              }
+    177              
+    178              /* DMA寄存器清零 */
+    179              DMA_DeInit(DMAx_Streamy);
+    180              
+    181              /* 等待DMA可配置 */
+    182              while (DMA_GetCmdStatus(DMAx_Streamy) != DISABLE){}
+    183          
+    184              /* 配置 DMA Stream */
+    185              DMA_InitStructure.DMA_Channel = DMA_Channel_n;
+    186              DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&(ADC_x->DR);          // DMA外设传输地址
+    187              DMA_InitStructure.DMA_Memory0BaseAddr = MemoryBaseAddr;                     // DMA存储器传输地址
+    188              DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+    189              DMA_InitStructure.DMA_BufferSize = 2;                                       // 数据传输量,外设流控时无影响
+    190              DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;            // 外设非增量模式
+    191              DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;                     // 存储器非增量模式
+    192              DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;                               // 循环模式,外设流控下无所谓。
+    193              DMA_InitStructure.DMA_Priority = DMA_Priority_High;                         // 高优先级
+    194              DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    195              DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
+    196              DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+    197              DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;    
+    198              if (0 == mode)
+    199              {   /* 外设数据长度16位,存储器数据长度:32位 */
+    200                  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+    201                  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+    202              } 
+    203              else if (1 == mode) {
+    204                  /* 外设数据长度16位,存储器数据长度:16位 */
+    205                  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+    206                  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+    207              }
+    208          
+    209              DMA_Init(DMAx_Streamy, &DMA_InitStructure);
+    210              
+    211              /* 设置DMA外设流控 */
+    212              DMA_FlowControllerConfig(DMAx_Streamy, DMA_FlowCtrl_Peripheral);
+    213              
+    214              /* 使能DMA传输错误中断和FIFO错误中断 */
+    215              DMA_ITConfig(DMAx_Streamy, DMA_IT_TE|DMA_IT_FE, ENABLE);
+    216              
+    217              /* DMA中断设置 */
+    218              NVIC_InitStructure.NVIC_IRQChannel = DMAx_Streamy_IRQn;
+    219              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; // 抢占优先级
+    220              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x03;      // 从优先级
+    221              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    222              NVIC_Init(&NVIC_InitStructure);
+    223          }
+    224          
+    225          void TIM3_Int_Init(u16 arr,u16 psc)
+    226          {
+    227              TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+    228              
+    229              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
+    230              
+    231              TIM_TimeBaseInitStructure.TIM_Period = arr; /* 自动重装载值 */
+    232              TIM_TimeBaseInitStructure.TIM_Prescaler=psc;/* 定时器分频 */
+    233              TIM_TimeBaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up;
+    234              TIM_TimeBaseInitStructure.TIM_ClockDivision=TIM_CKD_DIV1; 
+    235          	
+    236              TIM_TimeBaseInit(TIM3,&TIM_TimeBaseInitStructure);
+    237              
+    238              /* 选择更新事件作为触发输出，用于触发ADC1, ADC2*/
+    239              TIM_SelectOutputTrigger(TIM3, TIM_TRGOSource_Update);
+    240              
+    241              TIM_Cmd(TIM3,ENABLE);
+    242          }
+    243          
+    244          void TrigerADC(ADC_TypeDef* ADC_x) {
+    245              ADC_SoftwareStartConv(ADC_x);
+    246          }
+    247          
+    248          #endif
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   ADC_CommonInit_Local
+        24   -> ADC_CommonInit
+      16   ADC_IRQHandler
+        16   -> ADC_ClearFlag
+         0   -> ADC_ClearITPendingBit
+        16   -> ADC_ClearITPendingBit
+        16   -> ADC_GetFlagStatus
+        16   -> ReConfig_DMA2_Stream1
+        16   -> ReConfig_DMA2_Stream3
+        16   -> ReConfig_DMA2_Stream4
+      64   ADCx_Init
+        64   -> ADC_DMACmd
+        64   -> ADC_ITConfig
+        64   -> ADC_Init
+        64   -> ADC_RegularChannelConfig
+        64   -> NVIC_Init
+        64   -> RCC_APB2PeriphClockCmd
+        64   -> RCC_APB2PeriphResetCmd
+       0   DMA2_Stream1_IRQHandler
+         0   -> ReConfig_DMA2_Stream1
+       0   DMA2_Stream3_IRQHandler
+         0   -> ReConfig_DMA2_Stream3
+       0   DMA2_Stream4_IRQHandler
+         0   -> ReConfig_DMA2_Stream4
+      80   DMAx_Config
+        80   -> DMA_DeInit
+        80   -> DMA_FlowControllerConfig
+        80   -> DMA_GetCmdStatus
+        80   -> DMA_ITConfig
+        80   -> DMA_Init
+        80   -> NVIC_Init
+        80   -> RCC_AHB1PeriphClockCmd
+      24   TIM3_Int_Init
+        24   -> RCC_APB1PeriphClockCmd
+        24   -> TIM_Cmd
+        24   -> TIM_SelectOutputTrigger
+        24   -> TIM_TimeBaseInit
+       0   TrigerADC
+         0   -> ADC_SoftwareStartConv
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable3
+       4  ??DataTable3_1
+       4  ??DataTable3_2
+       4  ??DataTable3_3
+       4  ??DataTable3_4
+       4  ??DataTable3_5
+      16  ?Subroutine0
+      12  ?Subroutine1
+       8  ?Subroutine2
+       8  ?Subroutine3
+      28  ADC_CommonInit_Local
+      90  ADC_IRQHandler
+     242  ADCx_Init
+       4  DMA2_Stream1_IRQHandler
+       4  DMA2_Stream3_IRQHandler
+       4  DMA2_Stream4_IRQHandler
+     174  DMAx_Config
+      58  TIM3_Int_Init
+       4  TrigerADC
+
+ 
+ 676 bytes in section .text
+ 
+ 676 bytes of CODE memory
+
+Errors: none
+Warnings: none

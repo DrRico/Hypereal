@@ -1,0 +1,994 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:44
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_Device_Library\Core\src\usbd_req.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_Device_Library\Core\src\usbd_req.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\usbd_req.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\usbd_req.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_Device_Library\Core\src\usbd_req.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    usbd_req.c
+      4            * @author  MCD Application Team
+      5            * @version V1.2.0
+      6            * @date    09-November-2015
+      7            * @brief   This file provides the standard USB requests following chapter 9.
+      8            ******************************************************************************
+      9            * @attention
+     10            *
+     11            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     12            *
+     13            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     14            * You may not use this file except in compliance with the License.
+     15            * You may obtain a copy of the License at:
+     16            *
+     17            *        http://www.st.com/software_license_agreement_liberty_v2
+     18            *
+     19            * Unless required by applicable law or agreed to in writing, software 
+     20            * distributed under the License is distributed on an "AS IS" BASIS, 
+     21            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     22            * See the License for the specific language governing permissions and
+     23            * limitations under the License.
+     24            *
+     25            ******************************************************************************
+     26            */ 
+     27          
+     28          /* Includes ------------------------------------------------------------------*/
+     29          #include "usbd_req.h"
+     30          #include "usbd_ioreq.h"
+     31          #include "usbd_desc.h"
+     32          
+     33          
+     34          /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
+     35            * @{
+     36            */
+     37          
+     38          
+     39          /** @defgroup USBD_REQ 
+     40            * @brief USB standard requests module
+     41            * @{
+     42            */ 
+     43          
+     44          /** @defgroup USBD_REQ_Private_TypesDefinitions
+     45            * @{
+     46            */ 
+     47          /**
+     48            * @}
+     49            */ 
+     50          
+     51          
+     52          /** @defgroup USBD_REQ_Private_Defines
+     53            * @{
+     54            */ 
+     55          
+     56          /**
+     57            * @}
+     58            */ 
+     59          
+     60          
+     61          /** @defgroup USBD_REQ_Private_Macros
+     62            * @{
+     63            */ 
+     64          /**
+     65            * @}
+     66            */ 
+     67          
+     68          
+     69          /** @defgroup USBD_REQ_Private_Variables
+     70            * @{
+     71            */ 
+     72          extern __IO USB_OTG_DCTL_TypeDef SET_TEST_MODE;
+     73          
+     74          #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
+     75            #if defined ( __ICCARM__ ) /*!< IAR Compiler */
+     76              #pragma data_alignment=4   
+     77            #endif
+     78          #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */  
+     79          __ALIGN_BEGIN uint32_t USBD_ep_status __ALIGN_END  = 0; 
+     80          
+     81          #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
+     82            #if defined ( __ICCARM__ ) /*!< IAR Compiler */
+     83              #pragma data_alignment=4   
+     84            #endif
+     85          #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
+     86          __ALIGN_BEGIN uint32_t  USBD_default_cfg __ALIGN_END  = 0;
+     87          
+     88          #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
+     89            #if defined ( __ICCARM__ ) /*!< IAR Compiler */
+     90              #pragma data_alignment=4   
+     91            #endif
+     92          #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
+     93          __ALIGN_BEGIN uint32_t  USBD_cfg_status __ALIGN_END  = 0;  
+     94          
+     95          /**
+     96            * @}
+     97            */ 
+     98          
+     99          
+    100          /** @defgroup USBD_REQ_Private_FunctionPrototypes
+    101            * @{
+    102            */ 
+    103          static void USBD_GetDescriptor(USB_OTG_CORE_HANDLE  *pdev, 
+    104                                         USB_SETUP_REQ *req);
+    105          
+    106          static void USBD_SetAddress(USB_OTG_CORE_HANDLE  *pdev, 
+    107                                      USB_SETUP_REQ *req);
+    108          
+    109          static void USBD_SetConfig(USB_OTG_CORE_HANDLE  *pdev, 
+    110                                     USB_SETUP_REQ *req);
+    111          
+    112          static void USBD_GetConfig(USB_OTG_CORE_HANDLE  *pdev, 
+    113                                     USB_SETUP_REQ *req);
+    114          
+    115          static void USBD_GetStatus(USB_OTG_CORE_HANDLE  *pdev, 
+    116                                     USB_SETUP_REQ *req);
+    117          
+    118          static void USBD_SetFeature(USB_OTG_CORE_HANDLE  *pdev, 
+    119                                      USB_SETUP_REQ *req);
+    120          
+    121          static void USBD_ClrFeature(USB_OTG_CORE_HANDLE  *pdev, 
+    122                                      USB_SETUP_REQ *req);
+    123          
+    124          static uint8_t USBD_GetLen(uint8_t *buf);
+    125          /**
+    126            * @}
+    127            */ 
+    128          
+    129          
+    130          /** @defgroup USBD_REQ_Private_Functions
+    131            * @{
+    132            */ 
+    133          
+    134          
+    135          /**
+    136          * @brief  USBD_StdDevReq
+    137          *         Handle standard usb device requests
+    138          * @param  pdev: device instance
+    139          * @param  req: usb request
+    140          * @retval status
+    141          */
+    142          USBD_Status  USBD_StdDevReq (USB_OTG_CORE_HANDLE  *pdev, USB_SETUP_REQ  *req)
+    143          {
+    144            USBD_Status ret = USBD_OK;  
+    145            
+    146            switch (req->bRequest) 
+    147            {
+    148            case USB_REQ_GET_DESCRIPTOR: 
+    149              
+    150              USBD_GetDescriptor (pdev, req) ;
+    151              break;
+    152              
+    153            case USB_REQ_SET_ADDRESS:                      
+    154              USBD_SetAddress(pdev, req);
+    155              break;
+    156              
+    157            case USB_REQ_SET_CONFIGURATION:                    
+    158              USBD_SetConfig (pdev , req);
+    159              break;
+    160              
+    161            case USB_REQ_GET_CONFIGURATION:                 
+    162              USBD_GetConfig (pdev , req);
+    163              break;
+    164              
+    165            case USB_REQ_GET_STATUS:                                  
+    166              USBD_GetStatus (pdev , req);
+    167              break;
+    168              
+    169              
+    170            case USB_REQ_SET_FEATURE:   
+    171              USBD_SetFeature (pdev , req);    
+    172              break;
+    173              
+    174            case USB_REQ_CLEAR_FEATURE:                                   
+    175              USBD_ClrFeature (pdev , req);
+    176              break;
+    177              
+    178            default:  
+    179              USBD_CtlError(pdev , req);
+    180              break;
+    181            }
+    182            
+    183            return ret;
+    184          }
+    185          
+    186          /**
+    187          * @brief  USBD_StdItfReq
+    188          *         Handle standard usb interface requests
+    189          * @param  pdev: USB OTG device instance
+    190          * @param  req: usb request
+    191          * @retval status
+    192          */
+    193          USBD_Status  USBD_StdItfReq (USB_OTG_CORE_HANDLE  *pdev, USB_SETUP_REQ  *req)
+    194          {
+    195            USBD_Status ret = USBD_OK; 
+    196            
+    197            switch (pdev->dev.device_status) 
+    198            {
+    199            case USB_OTG_CONFIGURED:
+    200              
+    201              if (LOBYTE(req->wIndex) <= USBD_ITF_MAX_NUM) 
+    202              {
+    203                pdev->dev.class_cb->Setup (pdev, req); 
+    204                
+    205                if((req->wLength == 0)&& (ret == USBD_OK))
+    206                {
+    207                   USBD_CtlSendStatus(pdev);
+    208                }
+    209              } 
+    210              else 
+    211              {                                               
+    212                 USBD_CtlError(pdev , req);
+    213              }
+    214              break;
+    215              
+    216            default:
+    217               USBD_CtlError(pdev , req);
+    218              break;
+    219            }
+    220            return ret;
+    221          }
+    222          
+    223          /**
+    224          * @brief  USBD_StdEPReq
+    225          *         Handle standard usb endpoint requests
+    226          * @param  pdev: USB OTG device instance
+    227          * @param  req: usb request
+    228          * @retval status
+    229          */
+    230          USBD_Status  USBD_StdEPReq (USB_OTG_CORE_HANDLE  *pdev, USB_SETUP_REQ  *req)
+    231          {
+    232            
+    233            uint8_t   ep_addr;
+    234            USBD_Status ret = USBD_OK; 
+    235            
+    236            ep_addr  = LOBYTE(req->wIndex);   
+    237          
+    238            /* Check the class specific requests before going to standard request */
+    239            if ((req->bmRequest & USB_REQ_TYPE_MASK) == USB_REQ_TYPE_CLASS)
+    240            {
+    241              pdev->dev.class_cb->Setup (pdev, req);
+    242              return ret;
+    243            }
+    244          
+    245            switch (req->bRequest) 
+    246            {  
+    247            case USB_REQ_SET_FEATURE :
+    248              
+    249              switch (pdev->dev.device_status) 
+    250              {
+    251              case USB_OTG_ADDRESSED:          
+    252                if ((ep_addr != 0x00) && (ep_addr != 0x80)) 
+    253                {
+    254                  DCD_EP_Stall(pdev , ep_addr);
+    255                }
+    256                break;	
+    257                
+    258              case USB_OTG_CONFIGURED:   
+    259                if (req->wValue == USB_FEATURE_EP_HALT)
+    260                {
+    261                  if ((ep_addr != 0x00) && (ep_addr != 0x80)) 
+    262                  { 
+    263                    DCD_EP_Stall(pdev , ep_addr);
+    264                    
+    265                  }
+    266                }
+    267                pdev->dev.class_cb->Setup (pdev, req);   
+    268                USBD_CtlSendStatus(pdev);
+    269                
+    270                break;
+    271                
+    272              default:                         
+    273                USBD_CtlError(pdev , req);
+    274                break;    
+    275              }
+    276              break;
+    277              
+    278            case USB_REQ_CLEAR_FEATURE :
+    279              
+    280              switch (pdev->dev.device_status) 
+    281              {
+    282              case USB_OTG_ADDRESSED:          
+    283                if ((ep_addr != 0x00) && (ep_addr != 0x80)) 
+    284                {
+    285                  DCD_EP_Stall(pdev , ep_addr);
+    286                }
+    287                break;	
+    288                
+    289              case USB_OTG_CONFIGURED:   
+    290                if (req->wValue == USB_FEATURE_EP_HALT)
+    291                {
+    292                  if ((ep_addr != 0x00) && (ep_addr != 0x80)) 
+    293                  {        
+    294                    DCD_EP_ClrStall(pdev , ep_addr);
+    295                    pdev->dev.class_cb->Setup (pdev, req);
+    296                  }
+    297                  USBD_CtlSendStatus(pdev);
+    298                }
+    299                break;
+    300                
+    301              default:                         
+    302                 USBD_CtlError(pdev , req);
+    303                break;    
+    304              }
+    305              break;
+    306              
+    307            case USB_REQ_GET_STATUS:                  
+    308              switch (pdev->dev.device_status) 
+    309              {
+    310              case USB_OTG_ADDRESSED:          
+    311                if ((ep_addr != 0x00) && (ep_addr != 0x80)) 
+    312                {
+    313                  DCD_EP_Stall(pdev , ep_addr);
+    314                }
+    315                break;	
+    316                
+    317              case USB_OTG_CONFIGURED:         
+    318                
+    319                
+    320                if ((ep_addr & 0x80)== 0x80)
+    321                {
+    322                  if(pdev->dev.in_ep[ep_addr & 0x7F].is_stall)
+    323                  {
+    324                    USBD_ep_status = 0x0001;     
+    325                  }
+    326                  else
+    327                  {
+    328                    USBD_ep_status = 0x0000;  
+    329                  }
+    330                }
+    331                else if ((ep_addr & 0x80)== 0x00)
+    332                {
+    333                  if(pdev->dev.out_ep[ep_addr].is_stall)
+    334                  {
+    335                    USBD_ep_status = 0x0001;     
+    336                  }
+    337                  
+    338                  else 
+    339                  {
+    340                    USBD_ep_status = 0x0000;     
+    341                  }      
+    342                }
+    343                
+    344                else
+    345                {
+    346                  /* Do Nothing */
+    347                }
+    348                
+    349                USBD_CtlSendData (pdev,
+    350                                  (uint8_t *)&USBD_ep_status,
+    351                                  2);
+    352                break;
+    353                
+    354              default:                         
+    355                 USBD_CtlError(pdev , req);
+    356                break;
+    357              }
+    358              break;
+    359              
+    360            default:
+    361              break;
+    362            }
+    363            return ret;
+    364          }
+    365          /**
+    366          * @brief  USBD_GetDescriptor
+    367          *         Handle Get Descriptor requests
+    368          * @param  pdev: device instance
+    369          * @param  req: usb request
+    370          * @retval status
+    371          */
+    372          static void USBD_GetDescriptor(USB_OTG_CORE_HANDLE  *pdev, 
+    373                                         USB_SETUP_REQ *req)
+    374          {
+    375            uint16_t len;
+    376            uint8_t *pbuf;
+    377            len = req->wLength ;
+    378              
+    379            switch (req->wValue >> 8)
+    380            {
+    381          #if (USBD_LPM_ENABLED == 1)
+    382            case USB_DESC_TYPE_BOS:
+    383              pbuf = pdev->pDesc->GetBOSDescriptor(pdev->dev_speed, &len);
+    384              break;
+    385          #endif
+    386            case USB_DESC_TYPE_DEVICE:
+    387              pbuf = pdev->dev.usr_device->GetDeviceDescriptor(pdev->cfg.speed, &len);
+    388              break;
+    389              
+    390            case USB_DESC_TYPE_CONFIGURATION:
+    391                pbuf   = (uint8_t *)pdev->dev.class_cb->GetConfigDescriptor(pdev->cfg.speed, &len);
+    392          #ifdef USB_OTG_HS_CORE
+    393              if((pdev->cfg.speed == USB_OTG_SPEED_FULL )&&
+    394                 (pdev->cfg.phy_itface  == USB_OTG_ULPI_PHY))
+    395              {
+    396                pbuf   = (uint8_t *)pdev->dev.class_cb->GetOtherConfigDescriptor(pdev->cfg.speed, &len);
+    397              }
+    398          #endif  
+    399              pbuf[1] = USB_DESC_TYPE_CONFIGURATION;
+    400              pdev->dev.pConfig_descriptor = pbuf;    
+    401              break;
+    402              
+    403            case USB_DESC_TYPE_STRING:
+    404              switch ((uint8_t)(req->wValue))
+    405              {
+    406              case USBD_IDX_LANGID_STR:
+    407               pbuf = pdev->dev.usr_device->GetLangIDStrDescriptor(pdev->cfg.speed, &len);        
+    408                break;
+    409                
+    410              case USBD_IDX_MFC_STR:
+    411                pbuf = pdev->dev.usr_device->GetManufacturerStrDescriptor(pdev->cfg.speed, &len);
+    412                break;
+    413                
+    414              case USBD_IDX_PRODUCT_STR:
+    415                pbuf = pdev->dev.usr_device->GetProductStrDescriptor(pdev->cfg.speed, &len);
+    416                break;
+    417                
+    418              case USBD_IDX_SERIAL_STR:
+    419                pbuf = pdev->dev.usr_device->GetSerialStrDescriptor(pdev->cfg.speed, &len);
+    420                break;
+    421                
+    422              case USBD_IDX_CONFIG_STR:
+    423                pbuf = pdev->dev.usr_device->GetConfigurationStrDescriptor(pdev->cfg.speed, &len);
+    424                break;
+    425                
+    426              case USBD_IDX_INTERFACE_STR:
+    427                pbuf = pdev->dev.usr_device->GetInterfaceStrDescriptor(pdev->cfg.speed, &len);
+    428                break;
+    429                
+    430              default:
+    431          #ifdef USB_SUPPORT_USER_STRING_DESC
+    432                pbuf = pdev->dev.class_cb->GetUsrStrDescriptor(pdev->cfg.speed, (req->wValue) , &len);
+    433                break;
+    434          #else      
+    435                 USBD_CtlError(pdev , req);
+    436                return;
+    437          #endif /* USBD_CtlError(pdev , req)*/      
+    438              }
+    439              break;
+    440            case USB_DESC_TYPE_DEVICE_QUALIFIER:                   
+    441          #ifdef USB_OTG_HS_CORE
+    442              if(pdev->cfg.speed == USB_OTG_SPEED_HIGH  )   
+    443              {
+    444                
+    445                pbuf   = (uint8_t *)pdev->dev.class_cb->GetConfigDescriptor(pdev->cfg.speed, &len);
+    446                      
+    447                USBD_DeviceQualifierDesc[4]= pbuf[14];
+    448                USBD_DeviceQualifierDesc[5]= pbuf[15];
+    449                USBD_DeviceQualifierDesc[6]= pbuf[16];
+    450                
+    451                pbuf = USBD_DeviceQualifierDesc;
+    452                len  = USB_LEN_DEV_QUALIFIER_DESC;
+    453                break;
+    454              }
+    455              else
+    456              {
+    457                USBD_CtlError(pdev , req);
+    458                return;
+    459              }
+    460          #else
+    461                USBD_CtlError(pdev , req);
+    462                return;
+    463          #endif    
+    464          
+    465            case USB_DESC_TYPE_OTHER_SPEED_CONFIGURATION:
+    466          #ifdef USB_OTG_HS_CORE   
+    467              
+    468              if(pdev->cfg.speed == USB_OTG_SPEED_HIGH  )   
+    469              {
+    470                pbuf   = (uint8_t *)pdev->dev.class_cb->GetOtherConfigDescriptor(pdev->cfg.speed, &len);
+    471                pbuf[1] = USB_DESC_TYPE_OTHER_SPEED_CONFIGURATION;
+    472                break; 
+    473              }
+    474              else
+    475              {
+    476                USBD_CtlError(pdev , req);
+    477                return;
+    478              }
+    479          #else
+    480                USBD_CtlError(pdev , req);
+    481                return;
+    482          #endif     
+    483            default: 
+    484               USBD_CtlError(pdev , req);
+    485              return;
+    486            }
+    487            
+    488            if((len != 0)&& (req->wLength != 0))
+    489            {
+    490              
+    491              len = MIN(len , req->wLength);
+    492              
+    493              USBD_CtlSendData (pdev, 
+    494                                pbuf,
+    495                                len);
+    496            }
+    497            
+    498          }
+    499          
+    500          /**
+    501          * @brief  USBD_SetAddress
+    502          *         Set device address
+    503          * @param  pdev: device instance
+    504          * @param  req: usb request
+    505          * @retval status
+    506          */
+    507          static void USBD_SetAddress(USB_OTG_CORE_HANDLE  *pdev, 
+    508                                      USB_SETUP_REQ *req)
+    509          {
+    510            uint8_t  dev_addr; 
+    511            
+    512            if ((req->wIndex == 0) && (req->wLength == 0)) 
+    513            {
+    514              dev_addr = (uint8_t)(req->wValue) & 0x7F;     
+    515              
+    516              if (pdev->dev.device_status == USB_OTG_CONFIGURED) 
+    517              {
+    518                USBD_CtlError(pdev , req);
+    519              } 
+    520              else 
+    521              {
+    522                pdev->dev.device_address = dev_addr;
+    523                DCD_EP_SetAddress(pdev, dev_addr);               
+    524                USBD_CtlSendStatus(pdev);                         
+    525                
+    526                if (dev_addr != 0) 
+    527                {
+    528                  pdev->dev.device_status  = USB_OTG_ADDRESSED;
+    529                } 
+    530                else 
+    531                {
+    532                  pdev->dev.device_status  = USB_OTG_DEFAULT; 
+    533                }
+    534              }
+    535            } 
+    536            else 
+    537            {
+    538               USBD_CtlError(pdev , req);                        
+    539            } 
+    540          }
+    541          
+    542          /**
+    543          * @brief  USBD_SetConfig
+    544          *         Handle Set device configuration request
+    545          * @param  pdev: device instance
+    546          * @param  req: usb request
+    547          * @retval status
+    548          */
+    549          static void USBD_SetConfig(USB_OTG_CORE_HANDLE  *pdev, 
+    550                                     USB_SETUP_REQ *req)
+    551          {
+    552            
+    553            static uint8_t  cfgidx;
+    554            
+    555            cfgidx = (uint8_t)(req->wValue);                 
+    556            
+    557            if (cfgidx > USBD_CFG_MAX_NUM ) 
+    558            {            
+    559               USBD_CtlError(pdev , req);                              
+    560            } 
+    561            else 
+    562            {
+    563              switch (pdev->dev.device_status) 
+    564              {
+    565              case USB_OTG_ADDRESSED:
+    566                if (cfgidx) 
+    567                {                                			   							   							   				
+    568                  pdev->dev.device_config = cfgidx;
+    569                  pdev->dev.device_status = USB_OTG_CONFIGURED;
+    570                  USBD_SetCfg(pdev , cfgidx);
+    571                  USBD_CtlSendStatus(pdev);
+    572                }
+    573                else 
+    574                {
+    575                   USBD_CtlSendStatus(pdev);
+    576                }
+    577                break;
+    578                
+    579              case USB_OTG_CONFIGURED:
+    580                if (cfgidx == 0) 
+    581                {                           
+    582                  pdev->dev.device_status = USB_OTG_ADDRESSED;
+    583                  pdev->dev.device_config = cfgidx;          
+    584                  USBD_ClrCfg(pdev , cfgidx);
+    585                  USBD_CtlSendStatus(pdev);
+    586                  
+    587                } 
+    588                else  if (cfgidx != pdev->dev.device_config) 
+    589                {
+    590                  /* Clear old configuration */
+    591                  USBD_ClrCfg(pdev , pdev->dev.device_config);
+    592                  
+    593                  /* set new configuration */
+    594                  pdev->dev.device_config = cfgidx;
+    595                  USBD_SetCfg(pdev , cfgidx);
+    596                  USBD_CtlSendStatus(pdev);
+    597                }
+    598                else
+    599                {
+    600                  USBD_CtlSendStatus(pdev);
+    601                }
+    602                break;
+    603                
+    604              default:					
+    605                 USBD_CtlError(pdev , req);                     
+    606                break;
+    607              }
+    608            }
+    609          }
+    610          
+    611          /**
+    612          * @brief  USBD_GetConfig
+    613          *         Handle Get device configuration request
+    614          * @param  pdev: device instance
+    615          * @param  req: usb request
+    616          * @retval status
+    617          */
+    618          static void USBD_GetConfig(USB_OTG_CORE_HANDLE  *pdev, 
+    619                                     USB_SETUP_REQ *req)
+    620          {
+    621           
+    622            if (req->wLength != 1) 
+    623            {                   
+    624               USBD_CtlError(pdev , req);
+    625            }
+    626            else 
+    627            {
+    628              switch (pdev->dev.device_status )  
+    629              {
+    630              case USB_OTG_ADDRESSED:                     
+    631                
+    632                USBD_CtlSendData (pdev, 
+    633                                  (uint8_t *)&USBD_default_cfg,
+    634                                  1);
+    635                break;
+    636                
+    637              case USB_OTG_CONFIGURED:                   
+    638                
+    639                USBD_CtlSendData (pdev, 
+    640                                  &pdev->dev.device_config,
+    641                                  1);
+    642                break;
+    643                
+    644              default:
+    645                 USBD_CtlError(pdev , req);
+    646                break;
+    647              }
+    648            }
+    649          }
+    650          
+    651          /**
+    652          * @brief  USBD_GetStatus
+    653          *         Handle Get Status request
+    654          * @param  pdev: device instance
+    655          * @param  req: usb request
+    656          * @retval status
+    657          */
+    658          static void USBD_GetStatus(USB_OTG_CORE_HANDLE  *pdev, 
+    659                                     USB_SETUP_REQ *req)
+    660          {
+    661            
+    662              
+    663            switch (pdev->dev.device_status) 
+    664            {
+    665            case USB_OTG_ADDRESSED:
+    666            case USB_OTG_CONFIGURED:
+    667              
+    668          #ifdef USBD_SELF_POWERED
+    669              USBD_cfg_status = USB_CONFIG_SELF_POWERED;                                    
+    670          #else
+    671              USBD_cfg_status = 0x00;                                    
+    672          #endif
+    673                                
+    674              if (pdev->dev.DevRemoteWakeup) 
+    675              {
+    676                USBD_cfg_status |= USB_CONFIG_REMOTE_WAKEUP;                                
+    677              }
+    678              
+    679              USBD_CtlSendData (pdev, 
+    680                                (uint8_t *)&USBD_cfg_status,
+    681                                2);
+    682              break;
+    683              
+    684            default :
+    685              USBD_CtlError(pdev , req);                        
+    686              break;
+    687            }
+    688          }
+    689          
+    690          
+    691          /**
+    692          * @brief  USBD_SetFeature
+    693          *         Handle Set device feature request
+    694          * @param  pdev: device instance
+    695          * @param  req: usb request
+    696          * @retval status
+    697          */
+    698          static void USBD_SetFeature(USB_OTG_CORE_HANDLE  *pdev, 
+    699                                      USB_SETUP_REQ *req)
+    700          {
+    701          
+    702            USB_OTG_DCTL_TypeDef     dctl;
+    703            uint8_t test_mode = 0;
+    704           
+    705            if (req->wValue == USB_FEATURE_REMOTE_WAKEUP)
+    706            {
+    707              pdev->dev.DevRemoteWakeup = 1;  
+    708              pdev->dev.class_cb->Setup (pdev, req);   
+    709              USBD_CtlSendStatus(pdev);
+    710            }
+    711          
+    712            else if ((req->wValue == USB_FEATURE_TEST_MODE) && 
+    713                     ((req->wIndex & 0xFF) == 0))
+    714            {
+    715              dctl.d32 = USB_OTG_READ_REG32(&pdev->regs.DREGS->DCTL);
+    716              
+    717              test_mode = req->wIndex >> 8;
+    718              switch (test_mode) 
+    719              {
+    720              case 1: /* TEST_J */
+    721                dctl.b.tstctl = 1;
+    722                break;
+    723                
+    724              case 2: /* TEST_K */	
+    725                dctl.b.tstctl = 2;
+    726                break;
+    727                
+    728              case 3: /* TEST_SE0_NAK */
+    729                dctl.b.tstctl = 3;
+    730                break;
+    731                
+    732              case 4: /* TEST_PACKET */
+    733                dctl.b.tstctl = 4;
+    734                break;
+    735                
+    736              case 5: /* TEST_FORCE_ENABLE */
+    737                dctl.b.tstctl = 5;
+    738                break;
+    739                
+    740              default :
+    741                dctl.b.tstctl = 1;
+    742                break;
+    743              }
+    744              SET_TEST_MODE = dctl;
+    745              pdev->dev.test_mode = 1;
+    746              USBD_CtlSendStatus(pdev);
+    747            }
+    748            else
+    749            {
+    750              /* Do Nothing */
+    751            }
+    752          }
+    753          
+    754          
+    755          /**
+    756          * @brief  USBD_ClrFeature
+    757          *         Handle clear device feature request
+    758          * @param  pdev: device instance
+    759          * @param  req: usb request
+    760          * @retval status
+    761          */
+    762          static void USBD_ClrFeature(USB_OTG_CORE_HANDLE  *pdev, 
+    763                                      USB_SETUP_REQ *req)
+    764          {
+    765            switch (pdev->dev.device_status)
+    766            {
+    767            case USB_OTG_ADDRESSED:
+    768            case USB_OTG_CONFIGURED:
+    769              if (req->wValue == USB_FEATURE_REMOTE_WAKEUP) 
+    770              {
+    771                pdev->dev.DevRemoteWakeup = 0; 
+    772                pdev->dev.class_cb->Setup (pdev, req);   
+    773                USBD_CtlSendStatus(pdev);
+    774              }
+    775              break;
+    776              
+    777            default :
+    778               USBD_CtlError(pdev , req);
+    779              break;
+    780            }
+    781          }
+    782          
+    783          /**
+    784          * @brief  USBD_ParseSetupRequest 
+    785          *         Copy buffer into setup structure
+    786          * @param  pdev: device instance
+    787          * @param  req: usb request
+    788          * @retval None
+    789          */
+    790          
+    791          void USBD_ParseSetupRequest( USB_OTG_CORE_HANDLE  *pdev,
+    792                                      USB_SETUP_REQ *req)
+    793          {
+    794            req->bmRequest     = *(uint8_t *)  (pdev->dev.setup_packet);
+    795            req->bRequest      = *(uint8_t *)  (pdev->dev.setup_packet +  1);
+    796            req->wValue        = SWAPBYTE      (pdev->dev.setup_packet +  2);
+    797            req->wIndex        = SWAPBYTE      (pdev->dev.setup_packet +  4);
+    798            req->wLength       = SWAPBYTE      (pdev->dev.setup_packet +  6);
+    799            
+    800            pdev->dev.in_ep[0].ctl_data_len = req->wLength  ;
+    801            pdev->dev.device_state = USB_OTG_EP0_SETUP;
+    802          }
+    803          
+    804          /**
+    805          * @brief  USBD_CtlError 
+    806          *         Handle USB low level Error
+    807          * @param  pdev: device instance
+    808          * @param  req: usb request
+    809          * @retval None
+    810          */
+    811          
+    812          void USBD_CtlError( USB_OTG_CORE_HANDLE  *pdev,
+    813                                      USB_SETUP_REQ *req)
+    814          {
+    815            
+    816            DCD_EP_Stall(pdev , 0x80);
+    817            DCD_EP_Stall(pdev , 0);
+    818            USB_OTG_EP0_OutStart(pdev);  
+    819          }
+    820          
+    821          
+    822          /**
+    823            * @brief  USBD_GetString
+    824            *         Convert Ascii string into unicode one
+    825            * @param  desc : descriptor buffer
+    826            * @param  unicode : Formatted string buffer (unicode)
+    827            * @param  len : descriptor length
+    828            * @retval None
+    829            */
+    830          void USBD_GetString(uint8_t *desc, uint8_t *unicode, uint16_t *len)
+    831          {
+    832            uint8_t idx = 0;
+    833            
+    834            if (desc != NULL) 
+    835            {
+    836              *len =  USBD_GetLen(desc) * 2 + 2;    
+    837              unicode[idx++] = *len;
+    838              unicode[idx++] =  USB_DESC_TYPE_STRING;
+    839              
+    840              while (*desc != NULL) 
+    841              {
+    842                unicode[idx++] = *desc++;
+    843                unicode[idx++] =  0x00;
+    844              }
+    845            } 
+    846          }
+    847          
+    848          /**
+    849            * @brief  USBD_GetLen
+    850            *         return the string length
+    851             * @param  buf : pointer to the ascii string buffer
+    852            * @retval string length
+    853            */
+    854          static uint8_t USBD_GetLen(uint8_t *buf)
+    855          {
+    856              uint8_t  len = 0;
+    857          
+    858              while (*buf != NULL) 
+    859              {
+    860                  len++;
+    861                  buf++;
+    862              }
+    863          
+    864              return len;
+    865          }
+    866          /**
+    867            * @}
+    868            */ 
+    869          
+    870          
+    871          /**
+    872            * @}
+    873            */ 
+    874          
+    875          
+    876          /**
+    877            * @}
+    878            */ 
+    879          
+    880          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   USBD_CtlError
+         8   -> DCD_EP_Stall
+         0   -> USB_OTG_EP0_OutStart
+      24   USBD_GetDescriptor
+        24   -- Indirect call
+        24   -> USBD_CtlError
+        24   -> USBD_CtlSendData
+      12   USBD_GetString
+       8   USBD_ParseSetupRequest
+      16   USBD_StdDevReq
+        16   -- Indirect call
+        16   -> DCD_EP_SetAddress
+        16   -> USBD_ClrCfg
+        16   -> USBD_CtlError
+        16   -> USBD_CtlSendData
+        16   -> USBD_CtlSendStatus
+        16   -> USBD_GetDescriptor
+        16   -> USBD_SetCfg
+      16   USBD_StdEPReq
+        16   -- Indirect call
+        16   -> DCD_EP_ClrStall
+        16   -> DCD_EP_Stall
+        16   -> USBD_CtlError
+        16   -> USBD_CtlSendData
+        16   -> USBD_CtlSendStatus
+      16   USBD_StdItfReq
+        16   -- Indirect call
+        16   -> USBD_CtlError
+        16   -> USBD_CtlSendStatus
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_2
+       6  ?Subroutine0
+      12  ?Subroutine1
+      28  USBD_CtlError
+     198  USBD_GetDescriptor
+      68  USBD_GetString
+      60  USBD_ParseSetupRequest
+     364  USBD_StdDevReq
+     196  USBD_StdEPReq
+      50  USBD_StdItfReq
+       4  USBD_ep_status
+      12  cfgidx
+          USBD_cfg_status
+          USBD_default_cfg
+
+ 
+  16 bytes in section .bss
+ 994 bytes in section .text
+ 
+ 994 bytes of CODE memory
+  16 bytes of DATA memory
+
+Errors: none
+Warnings: none

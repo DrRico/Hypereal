@@ -1,0 +1,515 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        18/Sep/2016  14:55:07
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\tc358870.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\tc358870.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\tc358870.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\tc358870.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\tc358870.c
+      1          #include  "usbd_customhid_core.h"
+      2          #include  "usbd_usr.h"
+      3          #include  "usbd_desc.h"
+      4          #include  "usbd_trans.h"
+      5          #include "tc358870.h"
+      6          #include "hr_mk1_config.h"
+      7          
+      8          static void delay_us(unsigned int t) {
+      9          	unsigned int i;
+     10          	while (t--) {
+     11          		for (i = 0; i < 50; i++)
+     12          			asm("nop");
+     13          	}
+     14          }
+     15          
+     16          static void delay_ms(unsigned int t) {
+     17          	while (t--)
+     18          		delay_us(1000);
+     19          }
+     20          uint8_t tc358870_sync = 0;
+     21          
+     22          static void I2C_Write(uint8_t id, uint16_t address, uint16_t data) {
+     23          	I2C_GenerateSTART(TC358870_I2Cx, ENABLE);
+     24          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_MODE_SELECT))
+     25          		;
+     26          	I2C_Send7bitAddress(TC358870_I2Cx, id, I2C_Direction_Transmitter);
+     27          	while (!I2C_CheckEvent(TC358870_I2Cx,
+     28          	I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
+     29          		;
+     30          	I2C_SendData(TC358870_I2Cx, address >> 8);
+     31          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     32          		;
+     33          	I2C_SendData(TC358870_I2Cx, address);
+     34          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     35          		;
+     36          	I2C_SendData(TC358870_I2Cx, data);
+     37          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     38          		;
+     39          	I2C_SendData(TC358870_I2Cx, data >> 8);
+     40          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     41          		;
+     42          	I2C_GenerateSTOP(TC358870_I2Cx, ENABLE);
+     43          }
+     44          static void I2C_WriteByte(uint8_t id, uint16_t address, uint8_t data) {
+     45          	I2C_GenerateSTART(TC358870_I2Cx, ENABLE);
+     46          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_MODE_SELECT))
+     47          		;
+     48          	I2C_Send7bitAddress(TC358870_I2Cx, id, I2C_Direction_Transmitter);
+     49          	while (!I2C_CheckEvent(TC358870_I2Cx,
+     50          	I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
+     51          		;
+     52          	I2C_SendData(TC358870_I2Cx, address >> 8);
+     53          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     54          		;
+     55          	I2C_SendData(TC358870_I2Cx, address);
+     56          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     57          		;
+     58          	I2C_SendData(TC358870_I2Cx, data);
+     59          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     60          		;
+     61          	I2C_GenerateSTOP(TC358870_I2Cx, ENABLE);
+     62          }
+     63          static unsigned short I2C_Read(unsigned char id, unsigned short read_address) {
+     64          	unsigned short temp;
+     65          
+     66          	I2C_AcknowledgeConfig(TC358870_I2Cx, ENABLE);
+     67          	while (I2C_GetFlagStatus(TC358870_I2Cx, I2C_FLAG_BUSY))
+     68          		;
+     69          	I2C_GenerateSTART(TC358870_I2Cx, ENABLE);
+     70          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_MODE_SELECT))
+     71          		;
+     72          	I2C_Send7bitAddress(TC358870_I2Cx, id, I2C_Direction_Transmitter);
+     73          	while (!I2C_CheckEvent(TC358870_I2Cx,
+     74          	I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED))
+     75          		;
+     76          	I2C_Cmd(TC358870_I2Cx, ENABLE);
+     77          	I2C_SendData(TC358870_I2Cx, read_address >> 8);
+     78          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     79          		;
+     80          	I2C_SendData(TC358870_I2Cx, read_address);
+     81          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_TRANSMITTED))
+     82          		;
+     83          	I2C_GenerateSTART(TC358870_I2Cx, ENABLE);
+     84          	while (!I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_MODE_SELECT))
+     85          		;
+     86          	I2C_Send7bitAddress(TC358870_I2Cx, id, I2C_Direction_Receiver);
+     87          	while (!I2C_CheckEvent(TC358870_I2Cx,
+     88          	I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))
+     89          		;
+     90          	while (!(I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_RECEIVED)))
+     91          		;
+     92          	temp = I2C_ReceiveData(TC358870_I2Cx);
+     93          	I2C_AcknowledgeConfig(TC358870_I2Cx, DISABLE);
+     94          	I2C_GenerateSTOP(TC358870_I2Cx, ENABLE);
+     95          	while (!(I2C_CheckEvent(TC358870_I2Cx, I2C_EVENT_MASTER_BYTE_RECEIVED)))
+     96          		;
+     97          	temp |= (uint16_t) I2C_ReceiveData(TC358870_I2Cx) << 8;
+     98          	I2C_AcknowledgeConfig(TC358870_I2Cx, ENABLE);
+     99          	return temp;
+    100          }
+    101          static void mcoInit(){
+    102              GPIO_InitTypeDef GPIO_InitStructure;
+    103          	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);//使能GPIOA的时钟
+    104              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8; //选择管脚号
+    105              GPIO_InitStructure.GPIO_Speed =GPIO_Speed_100MHz;// 设置管脚的速度为100M
+    106              GPIO_InitStructure.GPIO_Mode =GPIO_Mode_AF; //设置管脚位复用功能
+    107              GPIO_InitStructure.GPIO_OType= GPIO_OType_PP;//设置管脚位推完输出
+    108              GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化管脚
+    109          
+    110              GPIO_PinAFConfig(GPIOA,GPIO_PinSource8,GPIO_AF_MCO);//打开GPIOA_Pin_9的MCO功能
+    111              RCC_MCO1Config(RCC_MCO1Source_PLLCLK, RCC_MCO1Div_4);//设置GPIOA_Pin_8输出外部高速晶振HSE的频率
+    112          }     
+    113          void tc358870Init() {
+    114              I2C_DMACmd(TC358870_I2Cx,DISABLE);        
+    115          	u16 data = 0;
+    116          	GPIO_InitTypeDef GPIO_InitStructure;
+    117              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+    118              RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+    119          	   
+    120          
+    121          	GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_I2C2);
+    122          	GPIO_PinAFConfig(GPIOB, GPIO_PinSource9, GPIO_AF_I2C2);
+    123          
+    124          	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
+    125          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    126          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    127          	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+    128          	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    129          	GPIO_Init(GPIOB, &GPIO_InitStructure);
+    130          
+    131          	GPIO_InitStructure.GPIO_Pin = LCD_RESET_PIN_0;
+    132          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    133          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    134          	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    135          	GPIO_Init(LCD_RESET_GPIO_0, &GPIO_InitStructure);
+    136          
+    137          	GPIO_InitStructure.GPIO_Pin = TC358870_IRQ_PIN;
+    138          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    139          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    140          	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+    141          	GPIO_Init(TC358870_IRQ_GPIO, &GPIO_InitStructure);
+    142          	//GPIO_SetBits(LCD_RESET_GPIO_0,LCD_RESET_PIN_0);
+    143          #ifdef TC358870_RESET_PIN
+    144          	GPIO_InitStructure.GPIO_Pin = TC358870_RESET_PIN;
+    145          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    146          	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    147          	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    148          	GPIO_Init(LCD_RESET_GPIO_0, &GPIO_InitStructure);
+    149          	GPIO_ResetBits(TC358870_RESET_GPIO, TC358870_RESET_PIN);
+    150          	mcoInit();
+    151          	delay_ms(100);
+    152          	delay_ms(100);
+    153          	GPIO_SetBits(TC358870_RESET_GPIO, TC358870_RESET_PIN);
+    154          #endif
+    155          	GPIO_ResetBits(LCD_RESET_GPIO_0, LCD_RESET_PIN_0);
+    156          //    Waitx1ms(100);
+    157          //    GPIO_SetBits(LCD_RESET_GPIO_0,LCD_RESET_PIN_0);//拉起屏的Reset
+    158          //    Waitx1ms(500);
+    159          //
+    160          	I2C_InitTypeDef I2C_InitStructure;
+    161          
+    162          	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+    163          	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+    164          	I2C_InitStructure.I2C_OwnAddress1 = 0x30;
+    165          	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+    166          	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+    167          	I2C_InitStructure.I2C_ClockSpeed = 100000;//100000;
+    168          
+    169          	I2C_Cmd(TC358870_I2Cx, ENABLE);
+    170          	I2C_Init(TC358870_I2Cx, &I2C_InitStructure);
+    171          	I2C_AcknowledgeConfig(TC358870_I2Cx, ENABLE);
+    172          
+    173          	while (data != 0x4700)
+    174          		data = I2C_Read(HMC5883RAddr, 0x0000);
+    175          
+    176          	I2C_Write(HMC5883WAddr, 0x0084, 0x1234);
+    177          	while (data != 0x1234)
+    178          		data = I2C_Read(HMC5883RAddr, 0x0084);
+    179          	
+    180          	
+    181          	screenInit_HDMI_1080();
+    182              I2C_DMACmd(TC358870_I2Cx,ENABLE);        
+    183          }
+    184          #define Waitx1us delay_us
+    185          #define Waitx1ms delay_ms
+    186          
+    187          void i2c1_uh2d_write8(uint16_t addr, uint8_t data) {
+    188          	I2C_WriteByte(HMC5883WAddr, addr, data);
+    189          }
+    190          uint8_t i2c1_uh2d_read8(uint16_t addr) {
+    191          	return I2C_Read(HMC5883RAddr, addr);
+    192          }
+    193          void i2c1_uh2d_write16(uint16_t addr, uint16_t data) {
+    194          	I2C_Write(HMC5883WAddr, addr, data);
+    195          }
+    196          void i2c1_uh2d_write16_2(uint16_t addr, uint8_t reg, uint16_t data) {
+    197          	i2c1_uh2d_write16(0x0504, (data << 8 | reg));
+    198          }
+    199          void i2c1_uh2d_write32(uint16_t addr, uint32_t data) {
+    200          	I2C_Write(HMC5883WAddr, addr, data);
+    201          	I2C_Write(HMC5883WAddr, addr + 2, data >> 16);
+    202          }
+    203          
+    204          
+    205          uint8_t dcsCmds[][50] = { { 0xff, 120 }, //
+    206          		{ 0x23, 0, 0xfe, 0x07 }, //
+    207          		{ 0x23, 0, 0x00, 0xEC }, //
+    208          		{ 0x23, 0, 0x0B, 0xEC }, //
+    209          		{ 0x23, 0, 0x16, 0xEC }, //
+    210          		{ 0x23, 0, 0x21, 0xEC }, //
+    211          		{ 0x23, 0, 0x2D, 0xEC }, //
+    212          		{ 0x23, 0, 0xA9, 0xBA }, //
+    213          		{ 0x23, 0, 0xAB, 0x06 }, //
+    214          		{ 0x23, 0, 0xBB, 0x84 }, //
+    215          		{ 0x23, 0, 0xBC, 0x1C }, //
+    216          		{ 0x23, 0, 0xfe, 0x08 }, //
+    217          		{ 0x23, 0, 0x07, 0x1A }, //
+    218          		{ 0x23, 0, 0xfe, 0x0A }, //
+    219          		{ 0x23, 0, 0x2a, 0x1b }, //
+    220          		{ 0x23, 0, 0xfe, 0x0d }, //
+    221          		{ 0x23, 0, 0x02, 0x65 }, //
+    222          		{ 0x23, 0, 0x4d, 0x41 }, //
+    223          		{ 0x23, 0, 0x4b, 0x0f }, //
+    224          		{ 0x23, 0, 0x53, 0xfe }, //
+    225          		{ 0x23, 0, 0xfe, 0x00 }, //
+    226          		{ 0x23, 0, 0xc2, 0x03 }, //
+    227          		{ 0x23, 0, 0x51, 0x9f }, //
+    228          		{ 0x05, 0, 0x11, 0x0 },  //13, 0.5609535
+    229          		{ 0xff, 255 },  //{0x05,0,0x29,0x0},
+    230          		{0x05,0,0x29,0x0},
+    231          	//	{ 0xff, 200 },  //{0xff,120},
+    232          		{ 0x0 } };
+    233          
+    234          
+    235          //
+    236          //uint8_t dcsCmds[][50] = { { 0xff, 120 }, //
+    237          //		{ 0x23, 0, 0xfe, 0x08 }, //
+    238          //		{ 0x23, 0, 0x07, 0x1A }, //
+    239          //		{ 0x23, 0, 0xfe, 0x00 }, //
+    240          //		{ 0x23, 0, 0xc2, 0x03 }, //
+    241          //		{ 0x23, 0, 0x51, 0x7f }, //
+    242          //		{ 0x05, 0, 0x11, 0x0 },  //13, 0.5609535
+    243          ////		{ 0xff, 200 },  //{0x05,0,0x29,0x0},
+    244          ////		{0x05,0,0x29,0x0},
+    245          //		{ 0xff, 200 },  //{0xff,120},
+    246          //		{ 0x0 } };
+    247          
+    248          void amoledInit() {
+    249          	for (int i = 0; dcsCmds[i][0]; i++) {
+    250          		switch (dcsCmds[i][0]) {
+    251          		case 0x05:
+    252          		case 0x15:
+    253          		case 0x23:
+    254          			i2c1_uh2d_write16(0x0504, dcsCmds[i][0]); // DCSCMD_Q
+    255          			i2c1_uh2d_write16(0x0504,
+    256          					dcsCmds[i][2] | ((uint16_t) dcsCmds[i][3] << 8)); // DCSCMD_Q
+    257          			break;
+    258          		case 0x29:
+    259          		case 0x39:
+    260          			i2c1_uh2d_write16(0x0504, 0x8000 | dcsCmds[i][0]); // DCSCMD_Q
+    261          			i2c1_uh2d_write16(0x0504, dcsCmds[i][1]);
+    262          			for (int j = 0; j < dcsCmds[i][1]; j += 2) {
+    263          				i2c1_uh2d_write16(0x0504,
+    264          						(uint16_t) (dcsCmds[i][j + 1 + 2] << 8)
+    265          								| dcsCmds[i][j + 2]);
+    266          			}
+    267          			break;
+    268          		case 0xff:
+    269          			Waitx1ms(dcsCmds[i][1]);
+    270          			break;
+    271          		}
+    272          			Waitx1ms(1);
+    273          	}
+    274          }
+    275          
+    276          void screenInit_HDMI_1080() {
+    277          #include "auo_dual_90hz_audio_42M.c"
+    278          }
+    279          
+    280          void checkSync() {
+    281          	uint8_t c = 0; // SYS_STATUS
+    282          	if (!GPIO_ReadInputDataBit(TC358870_IRQ_GPIO, TC358870_IRQ_PIN)) {
+    283          		return;
+    284          	}
+    285              I2C_DMACmd(TC358870_I2Cx,DISABLE);    
+    286          	c = i2c1_uh2d_read8(0x8520); // Sequence: Check bit7 of 8x8520
+    287          	i2c1_uh2d_write8(0x850B, 0xFF); // MISC_INT
+    288          	i2c1_uh2d_write16(0x0014, 0x0FBF); // IntStatus
+    289          	if (tc358870_sync) {
+    290          		if (c & 0x80){
+    291          			return;
+    292          		}
+    293          		GPIO_ResetBits(LCD_RESET_GPIO_0, LCD_RESET_PIN_0);
+    294          //		uint32_t delay = 1000000;
+    295          //		while (delay--);
+    296          		tc358870Init();
+    297          	//	screenInit_HDMI_1080();
+    298          		tc358870_sync = 0;
+    299          	} else if (c & 0x80) {
+    300          
+    301          		GPIO_SetBits(LCD_RESET_GPIO_0, LCD_RESET_PIN_0);
+    302          		Waitx1ms(1000);
+    303          		amoledInit();
+    304          		// Start Video TX
+    305          		i2c1_uh2d_write16(0x0004, 0x0C37); // ConfCtl0
+    306          		i2c1_uh2d_write16(0x0006, 0x0000); // ConfCtl1
+    307          		// Command Transmission After Video Start.
+    308          		i2c1_uh2d_write32(0x0110, 0x00000006); // MODE_CONFIG
+    309          		i2c1_uh2d_write32(0x0310, 0x00000006); // MODE_CONFIG
+    310          		tc358870_sync = 1;
+    311          		Waitx1ms(10);
+    312          	//	i2c1_uh2d_write16(0x0504, 0x05); // DCSCMD_Q
+    313          	//	i2c1_uh2d_write16(0x0504, 0x11); // DCSCMD_Q
+    314          		Waitx1ms(200);
+    315          	//	i2c1_uh2d_write16(0x0504, 0x05); // DCSCMD_Q
+    316          	//	i2c1_uh2d_write16(0x0504, 0x29); // DCSCMD_Q
+    317          	//	Waitx1ms(100);
+    318          	}
+    319          }
+    320          uint8_t isHdmiSync() {
+    321          	return tc358870_sync;
+    322          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   I2C_Read
+        24   -> I2C_AcknowledgeConfig
+        24   -> I2C_CheckEvent
+        24   -> I2C_Cmd
+        24   -> I2C_GenerateSTART
+        24   -> I2C_GenerateSTOP
+        24   -> I2C_GetFlagStatus
+        24   -> I2C_ReceiveData
+        24   -> I2C_Send7bitAddress
+        24   -> I2C_SendData
+      24   I2C_Write
+        24   -> I2C_CheckEvent
+        24   -> I2C_GenerateSTART
+         0   -> I2C_GenerateSTOP
+        24   -> I2C_Send7bitAddress
+        24   -> I2C_SendData
+      24   amoledInit
+        24   -> delay_ms
+        24   -> i2c1_uh2d_write16
+      16   checkSync
+        16   -> GPIO_ReadInputDataBit
+        16   -> GPIO_ResetBits
+        16   -> GPIO_SetBits
+        16   -> I2C_DMACmd
+        16   -> amoledInit
+         0   -> delay_ms
+        16   -> delay_ms
+        16   -> i2c1_uh2d_read8
+        16   -> i2c1_uh2d_write16
+        16   -> i2c1_uh2d_write32
+        16   -> i2c1_uh2d_write8
+        16   -> tc358870Init
+       8   delay_ms
+         8   -> delay_us
+       0   delay_us
+       8   i2c1_uh2d_read8
+         8   -> I2C_Read
+       0   i2c1_uh2d_write16
+         0   -> I2C_Write
+       0   i2c1_uh2d_write16_2
+         0   -> i2c1_uh2d_write16
+      16   i2c1_uh2d_write32
+         0   -> I2C_Write
+        16   -> I2C_Write
+      24   i2c1_uh2d_write8
+        24   -> I2C_CheckEvent
+        24   -> I2C_GenerateSTART
+         0   -> I2C_GenerateSTOP
+        24   -> I2C_Send7bitAddress
+        24   -> I2C_SendData
+       0   isHdmiSync
+      40   screenInit_HDMI_1080
+        40   -> delay_ms
+        40   -> i2c1_uh2d_write16
+        40   -> i2c1_uh2d_write32
+         0   -> i2c1_uh2d_write8
+        40   -> i2c1_uh2d_write8
+      48   tc358870Init
+        48   -> GPIO_Init
+        48   -> GPIO_PinAFConfig
+        48   -> GPIO_ResetBits
+        48   -> GPIO_SetBits
+        48   -> I2C_AcknowledgeConfig
+        48   -> I2C_Cmd
+        48   -> I2C_DMACmd
+        48   -> I2C_Init
+        48   -> I2C_Read
+        48   -> I2C_Write
+        48   -> RCC_AHB1PeriphClockCmd
+        48   -> RCC_APB1PeriphClockCmd
+        48   -> RCC_MCO1Config
+        48   -> delay_ms
+        48   -> screenInit_HDMI_1080
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable4
+       4  ??DataTable4_1
+       4  ??DataTable4_2
+       4  ??DataTable4_3
+       4  ??DataTable4_4
+       4  ??DataTable4_5
+       4  ??DataTable4_6
+       4  ??DataTable4_7
+       4  ??DataTable4_8
+       4  ??DataTable4_9
+       4  ??DataTable7
+       4  ??DataTable7_1
+       4  ??DataTable7_2
+       4  ??DataTable7_3
+       4  ??DataTable7_4
+       4  ??DataTable7_5
+       4  ??DataTable7_6
+       4  ??DataTable7_7
+       4  ??DataTable7_8
+      10  ?Subroutine0
+       4  ?Subroutine1
+      28  ?Subroutine10
+      10  ?Subroutine11
+       4  ?Subroutine12
+      10  ?Subroutine13
+      10  ?Subroutine14
+       8  ?Subroutine2
+       8  ?Subroutine3
+       6  ?Subroutine4
+       8  ?Subroutine5
+       8  ?Subroutine6
+       6  ?Subroutine7
+       8  ?Subroutine8
+       8  ?Subroutine9
+     192  I2C_Read
+     118  I2C_Write
+     126  amoledInit
+     160  checkSync
+    1352  dcsCmds
+      24  delay_ms
+      18  delay_us
+      14  i2c1_uh2d_read8
+       6  i2c1_uh2d_write16
+      12  i2c1_uh2d_write16_2
+      26  i2c1_uh2d_write32
+      84  i2c1_uh2d_write8
+       6  isHdmiSync
+    3892  screenInit_HDMI_1080
+     344  tc358870Init
+       1  tc358870_sync
+
+ 
+     1 byte  in section .bss
+ 1 352 bytes in section .data
+ 5 234 bytes in section .text
+ 
+ 5 234 bytes of CODE memory
+ 1 353 bytes of DATA memory
+
+Errors: none
+Warnings: none

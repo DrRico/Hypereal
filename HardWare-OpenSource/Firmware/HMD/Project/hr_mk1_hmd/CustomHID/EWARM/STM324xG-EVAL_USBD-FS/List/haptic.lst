@@ -1,0 +1,154 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        20/Sep/2016  10:15:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\haptic.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\haptic.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\haptic.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\haptic.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\haptic.c
+      1          #include "stm32f4xx.h"
+      2          #include "timer.h"
+      3          #include "haptic.h"
+      4          
+      5          uint32_t tim_cnt = 0;
+      6          
+      7          volatile uint8_t haptic_busy = 0;
+      8          
+      9          haptic_unit_t *haptic_buf = 0;
+     10          uint32_t haptic_buflen = 0;
+     11          
+     12          void Haptic_init()
+     13          {
+     14          	haptic_timer_init();
+     15          	
+     16          	return;
+     17          }
+     18          
+     19          /*
+     20          duty_cycle      仅当使用IPhone振动器有效，PWM波的占空比，经测试，对于Iphone而言最佳范围为0.55-1，<0.55基本不振
+     21          freq            仅当使用ALPS振动器有效，0为不振，1为160Hz，2为320Hz
+     22          ms              振动时长
+     23          */
+     24          void TriggerHapticPulse(double duty_cycle, uint8_t freq, uint32_t ms)
+     25          {
+     26          #if defined USE_IPHONE
+     27              timer_set(duty_cycle, ms);
+     28          #elif defined USE_ALPS
+     29              freq_set(freq, ms);
+     30          #endif
+     31              haptic_busy = 1;
+     32          }
+     33                  
+     34          void TriggerHapticPlay(haptic_unit_t *p, uint32_t length)
+     35          {
+     36              haptic_buflen = length;
+     37              haptic_buf = p;
+     38              haptic_busy = 1;
+     39          }
+     40          
+     41          void TIM4_IRQHandler(void)
+     42          {
+     43              if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET)
+     44              {
+     45                  TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+     46          
+     47                  if(tim_cnt > 0)
+     48                  {
+     49                      tim_cnt--;
+     50                  }
+     51                  else if(haptic_busy)
+     52                  {
+     53                      if(haptic_buflen)
+     54                      {
+     55                          TriggerHapticPulse(haptic_buf->duty_cycle, haptic_buf->freq, haptic_buf->ms);
+     56                          haptic_buf++;
+     57                          haptic_buflen--;
+     58                      }
+     59                      else
+     60                      {
+     61                          TriggerHapticPulse(0, 0, 0);
+     62                          haptic_busy = 0;
+     63                      }
+     64                  }
+     65              }
+     66          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   Haptic_init
+         0   -> haptic_timer_init
+      16   TIM4_IRQHandler
+        16   -> TIM_ClearITPendingBit
+        16   -> TIM_GetITStatus
+        16   -> TriggerHapticPulse
+       0   TriggerHapticPlay
+       8   TriggerHapticPulse
+         8   -> freq_set
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  Haptic_init
+      86  TIM4_IRQHandler
+      12  TriggerHapticPlay
+      18  TriggerHapticPulse
+      16  haptic_busy
+          tim_cnt
+          haptic_buf
+          haptic_buflen
+
+ 
+  16 bytes in section .bss
+ 128 bytes in section .text
+ 
+ 128 bytes of CODE memory
+  16 bytes of DATA memory
+
+Errors: none
+Warnings: none

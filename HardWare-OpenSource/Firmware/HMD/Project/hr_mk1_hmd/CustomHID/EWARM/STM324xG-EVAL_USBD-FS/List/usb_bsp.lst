@@ -1,0 +1,413 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:42
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usb_bsp.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usb_bsp.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\usb_bsp.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\usb_bsp.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\usb_bsp.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    usb_bsp.c
+      4            * @author  MCD Application Team
+      5            * @version V1.2.0
+      6            * @date    09-November-2015
+      7            * @brief   This file is responsible to offer board support package and is 
+      8            *          configurable by user.
+      9            ******************************************************************************
+     10            * @attention
+     11            *
+     12            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     13            *
+     14            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     15            * You may not use this file except in compliance with the License.
+     16            * You may obtain a copy of the License at:
+     17            *
+     18            *        http://www.st.com/software_license_agreement_liberty_v2
+     19            *
+     20            * Unless required by applicable law or agreed to in writing, software 
+     21            * distributed under the License is distributed on an "AS IS" BASIS, 
+     22            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     23            * See the License for the specific language governing permissions and
+     24            * limitations under the License.
+     25            *
+     26            ******************************************************************************
+     27            */ 
+     28          
+     29          /* Includes ------------------------------------------------------------------*/
+     30          #include "usb_bsp.h"
+     31          
+     32          /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
+     33          * @{
+     34          */
+     35          
+     36          /** @defgroup USB_BSP
+     37          * @brief This file is responsible to offer board support package
+     38          * @{
+     39          */ 
+     40          
+     41          /** @defgroup USB_BSP_Private_Defines
+     42          * @{
+     43          */ 
+     44          /**
+     45          * @}
+     46          */ 
+     47          
+     48          
+     49          /** @defgroup USB_BSP_Private_TypesDefinitions
+     50          * @{
+     51          */ 
+     52          /**
+     53          * @}
+     54          */ 
+     55          
+     56          
+     57          
+     58          
+     59          
+     60          /** @defgroup USB_BSP_Private_Macros
+     61          * @{
+     62          */ 
+     63          /**
+     64          * @}
+     65          */ 
+     66          
+     67          /** @defgroup USBH_BSP_Private_Variables
+     68          * @{
+     69          */ 
+     70          
+     71          /**
+     72          * @}
+     73          */ 
+     74          
+     75          /** @defgroup USBH_BSP_Private_FunctionPrototypes
+     76          * @{
+     77          */ 
+     78          /**
+     79          * @}
+     80          */ 
+     81          
+     82          /** @defgroup USB_BSP_Private_Functions
+     83          * @{
+     84          */ 
+     85          
+     86          
+     87          /**
+     88          * @brief  USB_OTG_BSP_Init
+     89          *         Initializes BSP configurations
+     90          * @param  None
+     91          * @retval None
+     92          */
+     93          
+     94          void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
+     95          {
+     96          #ifndef USE_STM3210C_EVAL
+     97            GPIO_InitTypeDef GPIO_InitStructure;    
+     98          #endif
+     99          
+    100          #ifdef USE_STM3210C_EVAL
+    101          
+    102            RCC_OTGFSCLKConfig(RCC_OTGFSCLKSource_PLLVCO_Div3);
+    103            RCC_AHBPeriphClockCmd(RCC_AHBPeriph_OTG_FS, ENABLE) ;
+    104          
+    105          #else /* USE_STM322xG_EVAL */ 
+    106            
+    107          #ifdef USE_USB_OTG_FS 
+    108            
+    109            RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOA , ENABLE);  
+    110            
+    111            /* Configure SOF ID DM DP Pins */
+    112            GPIO_InitStructure.GPIO_Pin = 
+    113              GPIO_Pin_11 | 
+    114                GPIO_Pin_12;
+    115            
+    116            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    117            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    118            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    119            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+    120            GPIO_Init(GPIOA, &GPIO_InitStructure);  
+    121            
+    122          	/*
+    123            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+    124          
+    125          	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    126            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    127            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    128            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+    129            GPIO_Init(GPIOA, &GPIO_InitStructure);  
+    130          	*/
+    131          	
+    132            //GPIO_PinAFConfig(GPIOA,GPIO_PinSource8,GPIO_AF_OTG1_FS) ;
+    133            GPIO_PinAFConfig(GPIOA,GPIO_PinSource11,GPIO_AF_OTG1_FS) ; 
+    134            GPIO_PinAFConfig(GPIOA,GPIO_PinSource12,GPIO_AF_OTG1_FS) ;
+    135            
+    136            RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+    137            RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_OTG_FS, ENABLE) ; 
+    138          #else /* USE_USB_OTG_HS */
+    139          
+    140          #ifdef USE_ULPI_PHY /* ULPI */
+    141            RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | 
+    142                                   RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOH | 
+    143                                     RCC_AHB1Periph_GPIOI, ENABLE);    
+    144            
+    145            
+    146            GPIO_PinAFConfig(GPIOA,GPIO_PinSource3, GPIO_AF_OTG2_HS) ; /* D0  */
+    147            GPIO_PinAFConfig(GPIOA,GPIO_PinSource5, GPIO_AF_OTG2_HS) ; /* CLK */
+    148            GPIO_PinAFConfig(GPIOB,GPIO_PinSource0, GPIO_AF_OTG2_HS) ; /* D1  */
+    149            GPIO_PinAFConfig(GPIOB,GPIO_PinSource1, GPIO_AF_OTG2_HS) ; /* D2  */
+    150            GPIO_PinAFConfig(GPIOB,GPIO_PinSource5, GPIO_AF_OTG2_HS) ; /* D7  */
+    151            GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_OTG2_HS) ; /* D3  */
+    152            GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_OTG2_HS) ; /* D4  */
+    153            GPIO_PinAFConfig(GPIOB,GPIO_PinSource12,GPIO_AF_OTG2_HS) ; /* D5  */
+    154            GPIO_PinAFConfig(GPIOB,GPIO_PinSource13,GPIO_AF_OTG2_HS) ; /* D6  */
+    155            GPIO_PinAFConfig(GPIOH,GPIO_PinSource4, GPIO_AF_OTG2_HS) ; /* NXT */
+    156            GPIO_PinAFConfig(GPIOI,GPIO_PinSource11,GPIO_AF_OTG2_HS) ; /* DIR */
+    157            GPIO_PinAFConfig(GPIOC,GPIO_PinSource0, GPIO_AF_OTG2_HS) ; /* STP */
+    158            
+    159            /* CLK */
+    160            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 ; 
+    161            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    162            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    163            GPIO_Init(GPIOA, &GPIO_InitStructure);  
+    164            
+    165            /* D0  */
+    166            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3  ; 
+    167            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    168            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    169            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    170            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+    171            GPIO_Init(GPIOA, &GPIO_InitStructure);  
+    172            
+    173            
+    174            
+    175            /* D1 D2 D3 D4 D5 D6 D7 */
+    176            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1  |
+    177              GPIO_Pin_5 | GPIO_Pin_10 | 
+    178                GPIO_Pin_11| GPIO_Pin_12 | 
+    179                  GPIO_Pin_13 ;
+    180            
+    181            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    182            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    183            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    184            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+    185            GPIO_Init(GPIOB, &GPIO_InitStructure);  
+    186            
+    187            
+    188            /* STP */
+    189            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0  ;
+    190            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    191            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    192            GPIO_Init(GPIOC, &GPIO_InitStructure);  
+    193            
+    194            /* NXT */
+    195            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    196            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    197            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    198            GPIO_Init(GPIOH, &GPIO_InitStructure);  
+    199            
+    200            
+    201            /* DIR */
+    202            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 ; 
+    203            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    204            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    205            GPIO_Init(GPIOI, &GPIO_InitStructure);  
+    206            
+    207            
+    208            RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_OTG_HS | 
+    209                                   RCC_AHB1Periph_OTG_HS_ULPI, ENABLE) ;    
+    210             
+    211            #else
+    212            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB , ENABLE);
+    213            
+    214            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | 
+    215                                          GPIO_Pin_14 | 
+    216                                          GPIO_Pin_15;
+    217            
+    218            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    219            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    220            GPIO_Init(GPIOB, &GPIO_InitStructure);  
+    221            
+    222            GPIO_PinAFConfig(GPIOB,GPIO_PinSource12, GPIO_AF_OTG2_FS) ; 
+    223            GPIO_PinAFConfig(GPIOB,GPIO_PinSource14,GPIO_AF_OTG2_FS) ; 
+    224            GPIO_PinAFConfig(GPIOB,GPIO_PinSource15,GPIO_AF_OTG2_FS) ;
+    225            
+    226            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    227            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    228            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    229            GPIO_Init(GPIOB, &GPIO_InitStructure);  
+    230          
+    231            /* USB OTG HS ULPI clock Disabled*/
+    232            RCC_AHB1PeriphClockLPModeCmd(RCC_AHB1Periph_OTG_HS_ULPI, DISABLE);  
+    233            
+    234            RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_OTG_HS, ENABLE) ;  
+    235            #endif /* USE_ULPI_PHY */
+    236            
+    237           #endif /* USB_OTG_HS */
+    238          #endif /* USE_STM3210C_EVAL */
+    239            /* enable the PWR clock */
+    240            RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);   
+    241            
+    242            /* Configure the Tamper button in EXTI mode */
+    243            
+    244            /* Configure Tamper EXTI line to generate an interrupt on rising & falling edges */ 
+    245          
+    246          	/* Clear the Tamper EXTI line pending bit */
+    247          }
+    248          /**
+    249          * @brief  USB_OTG_BSP_EnableInterrupt
+    250          *         Enable USB Global interrupt
+    251          * @param  None
+    252          * @retval None
+    253          */
+    254          void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
+    255          {
+    256            NVIC_InitTypeDef NVIC_InitStructure; 
+    257            
+    258            NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    259          #ifdef USE_USB_OTG_HS   
+    260            NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_IRQn;
+    261          #else
+    262            NVIC_InitStructure.NVIC_IRQChannel = OTG_FS_IRQn;  
+    263          #endif
+    264            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    265            NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    266            NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    267            NVIC_Init(&NVIC_InitStructure);  
+    268          #ifdef USB_OTG_HS_DEDICATED_EP1_ENABLED
+    269            NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    270            NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_OUT_IRQn;
+    271            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    272            NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    273            NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    274            NVIC_Init(&NVIC_InitStructure);  
+    275            
+    276            NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    277            NVIC_InitStructure.NVIC_IRQChannel = OTG_HS_EP1_IN_IRQn;
+    278            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    279            NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    280            NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    281            NVIC_Init(&NVIC_InitStructure);   
+    282          #endif
+    283            
+    284          }
+    285          /**
+    286          * @brief  USB_OTG_BSP_uDelay
+    287          *         This function provides delay time in micro sec
+    288          * @param  usec : Value of delay required in micro sec
+    289          * @retval None
+    290          */
+    291          void USB_OTG_BSP_uDelay (const uint32_t usec)
+    292          {
+    293            uint32_t count = 0;
+    294            const uint32_t utime = (120 * usec / 7);
+    295            do
+    296            {
+    297              if ( ++count > utime )
+    298              {
+    299                return ;
+    300              }
+    301            }
+    302            while (1);
+    303          }
+    304          
+    305          
+    306          /**
+    307          * @brief  USB_OTG_BSP_mDelay
+    308          *          This function provides delay time in milli sec
+    309          * @param  msec : Value of delay required in milli sec
+    310          * @retval None
+    311          */
+    312          void USB_OTG_BSP_mDelay (const uint32_t msec)
+    313          {
+    314            USB_OTG_BSP_uDelay(msec * 1000);   
+    315          }
+    316          /**
+    317          * @}
+    318          */ 
+    319          
+    320          /**
+    321          * @}
+    322          */ 
+    323          
+    324          /**
+    325          * @}
+    326          */
+    327          
+    328          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   USB_OTG_BSP_EnableInterrupt
+         8   -> NVIC_Init
+         8   -> NVIC_PriorityGroupConfig
+      16   USB_OTG_BSP_Init
+        16   -> GPIO_Init
+        16   -> GPIO_PinAFConfig
+        16   -> RCC_AHB1PeriphClockCmd
+        16   -> RCC_AHB2PeriphClockCmd
+        16   -> RCC_APB1PeriphClockCmd
+        16   -> RCC_APB2PeriphClockCmd
+       0   USB_OTG_BSP_mDelay
+         0   -> USB_OTG_BSP_uDelay
+       0   USB_OTG_BSP_uDelay
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable0
+      42  USB_OTG_BSP_EnableInterrupt
+      94  USB_OTG_BSP_Init
+       8  USB_OTG_BSP_mDelay
+      20  USB_OTG_BSP_uDelay
+
+ 
+ 168 bytes in section .text
+ 
+ 168 bytes of CODE memory
+
+Errors: none
+Warnings: none

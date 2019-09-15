@@ -1,0 +1,520 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:41
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\stm32fxxx_it.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\stm32fxxx_it.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32fxxx_it.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32fxxx_it.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\stm32fxxx_it.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32fxxx_it.c
+      4            * @author  Hypereal Team
+      5            * @version V1.2.0
+      6            * @date    19-September-2015
+      7            * @brief   Main Interrupt Service Routines.
+      8            *          This file provides all exceptions handler and peripherals interrupt
+      9            *          service routine.
+     10            ******************************************************************************
+     11            */ 
+     12          
+     13          /* Includes ------------------------------------------------------------------*/
+     14          #include "stm32fxxx_it.h"
+     15          #include "wireless_phase_control.h"
+     16          #include "led.h"
+     17          #include "hmc5883l.h"
+     18          #include "hr_mk1_config.h"
+     19          /* Private typedef -----------------------------------------------------------*/
+     20          /* Private define ------------------------------------------------------------*/
+     21          
+     22          /* Private macro -------------------------------------------------------------*/
+     23          /* Private variables ---------------------------------------------------------*/
+     24          extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
+     25          extern uint32_t USBD_OTG_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
+     26          #ifdef USB_OTG_HS_DEDICATED_EP1_ENABLED 
+     27          extern uint32_t USBD_OTG_EP1IN_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
+     28          extern uint32_t USBD_OTG_EP1OUT_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
+     29          #endif
+     30          extern uint8_t hmc5883_flush_flag;
+     31          extern uint32_t wireless_attached_count_down;
+     32          extern uint8_t HMC5883_RX_BUF[];
+     33          
+     34          extern uint32_t wp_time_line_comp[];
+     35          extern uint8_t last_sync_flag; 
+     36          
+     37          unsigned int systick_flag = 0;
+     38          uint32_t systick_count_l = 0;
+     39          uint32_t systick_count_h = 0;
+     40          
+     41          uint8_t systick_2ms_first_flag = 0;
+     42          uint8_t systick_2ms_second_flag = 0;
+     43          
+     44          uint8_t s1_flag = 0;
+     45          uint8_t s1_count = 0;
+     46          
+     47          uint8_t exti3_flag = 0;
+     48          
+     49          /* Private function prototypes -----------------------------------------------*/
+     50          
+     51          /******************************************************************************/
+     52          /*             Cortex-M Processor Exceptions Handlers                         */
+     53          /******************************************************************************/
+     54          /**
+     55            * @brief  This function handles SysTick Handler.
+     56            * @param  None
+     57            * @retval None
+     58            */
+     59          void SysTick_Handler(void)
+     60          {
+     61              if (systick_count_l % 2)
+     62              {
+     63                  systick_2ms_first_flag = 1;
+     64              }
+     65              else
+     66              {
+     67                  systick_2ms_second_flag = 1;
+     68              }
+     69          
+     70              systick_flag = 1;
+     71              systick_count_l ++;
+     72              if (!systick_count_l)
+     73                              systick_count_h ++;
+     74              
+     75              if (wireless_attached_count_down)
+     76              {
+     77                  wireless_attached_count_down --;
+     78              }
+     79              
+     80              if (s1_count != (systick_count_l>>10))
+     81              {
+     82                  s1_count = systick_count_l>>10;
+     83                  s1_flag = 1;
+     84              }
+     85              
+     86              return;
+     87          }
+     88          
+     89          /**
+     90          * @brief   This function handles NMI exception.
+     91          * @param  None
+     92          * @retval None
+     93          */
+     94          void NMI_Handler(void)
+     95          {
+     96          }
+     97          
+     98          /**
+     99          * @brief  This function handles Hard Fault exception.
+    100          * @param  None
+    101          * @retval None
+    102          */
+    103          void HardFault_Handler(void)
+    104          {
+    105            /* Go to infinite loop when Hard Fault exception occurs */
+    106            while (1)
+    107            {
+    108            }
+    109          }
+    110          
+    111          /**
+    112          * @brief  This function handles Memory Manage exception.
+    113          * @param  None
+    114          * @retval None
+    115          */
+    116          void MemManage_Handler(void)
+    117          {
+    118            /* Go to infinite loop when Memory Manage exception occurs */
+    119            while (1)
+    120            {
+    121            }
+    122          }
+    123          
+    124          /**
+    125          * @brief  This function handles Bus Fault exception.
+    126          * @param  None
+    127          * @retval None
+    128          */
+    129          void BusFault_Handler(void)
+    130          {
+    131            /* Go to infinite loop when Bus Fault exception occurs */
+    132            while (1)
+    133            {
+    134            }
+    135          }
+    136          
+    137          /**
+    138          * @brief  This function handles Usage Fault exception.
+    139          * @param  None
+    140          * @retval None
+    141          */
+    142          void UsageFault_Handler(void)
+    143          {
+    144            /* Go to infinite loop when Usage Fault exception occurs */
+    145            while (1)
+    146            {
+    147            }
+    148          }
+    149          
+    150          /**
+    151          * @brief  This function handles SVCall exception.
+    152          * @param  None
+    153          * @retval None
+    154          */
+    155          void SVC_Handler(void)
+    156          {
+    157          }
+    158          
+    159          /**
+    160          * @brief  This function handles Debug Monitor exception.
+    161          * @param  None
+    162          * @retval None
+    163          */
+    164          void DebugMon_Handler(void)
+    165          {
+    166          }
+    167          
+    168          /**
+    169          * @brief  This function handles PendSVC exception.
+    170          * @param  None
+    171          * @retval None
+    172          */
+    173          void PendSV_Handler(void)
+    174          {
+    175          }
+    176          
+    177          /**
+    178          * @brief  This function handles EXTI3_IRQ Handler.
+    179          * @param  None
+    180          * @retval None
+    181          */
+    182          void EXTI3_IRQHandler(void)
+    183          {
+    184          
+    185          	if ((currunt_wireless_phase == WP_IDLE) )
+    186          	{
+    187          		wireless_phase_control_sync();
+    188          		hz_30_timmer_sync();	
+    189          	}
+    190          	else if (currunt_wireless_phase == WP_LIGHT_A)
+    191          	{
+    192          		wireless_phase_control_sync();
+    193          		hz_30_timmer_sync();	
+    194          	}
+    195          	else if (currunt_wireless_phase == WP_LIGHT_B)
+    196          	{
+    197          		wireless_phase_control_sync();
+    198          	}
+    199          	
+    200          	EXTI_ClearITPendingBit(EXTI_Line3);	
+    201          
+    202          	exti3_flag = 1;
+    203          }
+    204          
+    205          /**
+    206          * @brief  This function handles EXTI15_10_IRQ Handler.
+    207          * @param  None
+    208          * @retval None
+    209          */
+    210          #ifdef USE_STM3210C_EVAL 
+    211          void EXTI9_5_IRQHandler(void)
+    212          #else
+    213          void EXTI15_10_IRQHandler(void)
+    214          #endif
+    215          {
+    216          }
+    217          
+    218          /**
+    219          * @brief  This function handles TIM2_IRQ Handler.
+    220          * @param  None
+    221          * @retval None
+    222          */
+    223          void TIM2_IRQHandler()
+    224          {
+    225              if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
+    226              {
+    227                  if (currunt_wireless_phase) 
+    228                  {
+    229                        currunt_wireless_phase = (currunt_wireless_phase + 1)%WP_PHASE_STAGE_NUM;
+    230                        TIM2->ARR = wp_time_line_comp[currunt_wireless_phase] -1;
+    231                        wireless_phase_flag = currunt_wireless_phase;
+    232                        
+    233                        if (!(wp_callback[currunt_wireless_phase] == NULL))
+    234                        {
+    235                                (*wp_callback[(currunt_wireless_phase)])();
+    236                        }
+    237                  }
+    238                  else
+    239                  {
+    240                        if (last_sync_flag)
+    241                        {
+    242                                currunt_wireless_phase = (currunt_wireless_phase+1)%WP_PHASE_STAGE_NUM;
+    243                                TIM2->ARR = wp_time_line_comp[currunt_wireless_phase] -1;
+    244                                wireless_phase_flag = currunt_wireless_phase;
+    245                                
+    246                                if (!(wp_callback[currunt_wireless_phase] == NULL))
+    247                                {
+    248                                        (*wp_callback[(currunt_wireless_phase)])();
+    249                                }
+    250                                
+    251                                last_sync_flag = 0;
+    252                                scan_num ++;
+    253                        }
+    254                        else
+    255                        {
+    256                                TIM_Cmd(TIM2,DISABLE);
+    257                        }
+    258                  }
+    259                  
+    260                  TIM_ClearITPendingBit(TIM2,TIM_FLAG_Update);
+    261                  TIM_ClearFlag(TIM2,TIM_FLAG_Update);
+    262              }
+    263          }
+    264          
+    265          /**
+    266            * @brief  This function handles ADCx DMA IRQHandler Handler.
+    267            * @param  None
+    268            * @retval None
+    269            */
+    270          void ADCx_DMA_IRQHandler(void)
+    271          {  
+    272          }
+    273          
+    274          
+    275          /**
+    276          * @brief  This function handles OTG_HS Handler.
+    277          * @param  None
+    278          * @retval None
+    279          */
+    280          #ifdef USE_USB_OTG_HS  
+    281          void OTG_HS_IRQHandler(void)
+    282          #else
+    283          void OTG_FS_IRQHandler(void)
+    284          #endif
+    285          {
+    286            USBD_OTG_ISR_Handler (&USB_OTG_dev);
+    287          }
+    288          
+    289          #ifdef USB_OTG_HS_DEDICATED_EP1_ENABLED 
+    290          /**
+    291          * @brief  This function handles EP1_IN Handler.
+    292          * @param  None
+    293          * @retval None
+    294          */
+    295          void OTG_HS_EP1_IN_IRQHandler(void)
+    296          {
+    297            USBD_OTG_EP1IN_ISR_Handler (&USB_OTG_dev);
+    298          }
+    299          
+    300          /**
+    301          * @brief  This function handles EP1_OUT Handler.
+    302          * @param  None
+    303          * @retval None
+    304          */
+    305          void OTG_HS_EP1_OUT_IRQHandler(void)
+    306          {
+    307            USBD_OTG_EP1OUT_ISR_Handler (&USB_OTG_dev);
+    308          }
+    309          #endif
+    310          
+    311          /**
+    312            * @brief  This function handles DMA1_Channel7_IRQHandler/trans I2C.
+    313            * @param  None
+    314            * @retval None
+    315            */
+    316          void I2C_DMA_TX_IRQHandler(void)
+    317          {
+    318              /* Check if the DMA transfer is complete */ 
+    319              if(DMA_GetFlagStatus(I2C_DMA_STREAM_TX,I2C_DMA_IT_TX_TC) != RESET) 
+    320              { 
+    321                /* Disable the DMA Tx Channel and Clear all its Flags */ 
+    322                DMA_Cmd(I2C_DMA_STREAM_TX, DISABLE);  
+    323                DMA_ClearFlag(I2C_DMA_STREAM_TX,I2C_TX_DMA_FLAG_TCIF); 
+    324                /*!< Wait till all data have been physically transferred on the bus */  
+    325                while(!I2C_GetFlagStatus(HMC5883_I2Cx, I2C_FLAG_BTF));
+    326                /*!< Send STOP condition */  
+    327                I2C_GenerateSTOP(HMC5883_I2Cx, ENABLE); 
+    328                /* Perform a read on SR1 and SR2 register to clear eventualaly pending flags */ 
+    329                (void)HMC5883_I2Cx->SR1; 
+    330                (void)HMC5883_I2Cx->SR2; 
+    331                /* Clear hmc5883 trans flag */ 
+    332                hmc5883_busy = 0;
+    333              }
+    334          }
+    335          
+    336          /**
+    337            * @brief  This function handles DMA1_Channel3_IRQHandler/READ I2C.
+    338            * @param  None
+    339            * @retval None
+    340            */
+    341          void I2C_DMA_RX_IRQHandler(void)
+    342          {
+    343              /* Check if the DMA transfer is complete */  
+    344              if(DMA_GetFlagStatus(I2C_DMA_STREAM_RX,I2C_DMA_IT_RX_TC) != RESET) 
+    345              {       
+    346          
+    347                   /* Disable the DMA Rx Channel and Clear all its Flags */ 
+    348                  DMA_Cmd(I2C_DMA_STREAM_RX, DISABLE); 
+    349                  DMA_ClearFlag(I2C_DMA_STREAM_RX,I2C_RX_DMA_FLAG_TCIF);   
+    350                  
+    351                  I2C_AcknowledgeConfig(HMC5883_I2Cx, DISABLE);
+    352                  /*!< Send STOP Condition */  
+    353                  I2C_GenerateSTOP(HMC5883_I2Cx, ENABLE); 
+    354                      
+    355                   /* Perform a read on SR1 and SR2 register to clear eventualaly pending flags */ 
+    356                  hmc5883_buf[1] = HMC5883_RX_BUF[0];
+    357                  hmc5883_buf[0] = HMC5883_RX_BUF[1];
+    358                  hmc5883_buf[3] = HMC5883_RX_BUF[2];
+    359                  hmc5883_buf[2] = HMC5883_RX_BUF[3];
+    360                  hmc5883_buf[5] = HMC5883_RX_BUF[4];
+    361                  hmc5883_buf[4] = HMC5883_RX_BUF[5];
+    362          
+    363                  /* Perform a read on SR1 and SR2 register to clear eventualaly pending flags */ 
+    364                  (void)HMC5883_I2Cx->SR1; 
+    365                  (void)HMC5883_I2Cx->SR2; 
+    366                  
+    367                  hmc5883_busy = 0;
+    368                  hmc5883_flush_flag = 1;
+    369               } 
+    370          }
+    371          
+    372          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   ADCx_DMA_IRQHandler
+       0   BusFault_Handler
+       8   DMA1_Stream3_IRQHandler
+         8   -> DMA_ClearFlag
+         8   -> DMA_Cmd
+         8   -> DMA_GetFlagStatus
+         8   -> I2C_AcknowledgeConfig
+         8   -> I2C_GenerateSTOP
+       8   DMA1_Stream7_IRQHandler
+         8   -> DMA_ClearFlag
+         8   -> DMA_Cmd
+         8   -> DMA_GetFlagStatus
+         8   -> I2C_GenerateSTOP
+         8   -> I2C_GetFlagStatus
+       0   DebugMon_Handler
+       0   EXTI15_10_IRQHandler
+       8   EXTI3_IRQHandler
+         8   -> EXTI_ClearITPendingBit
+         8   -> hz_30_timmer_sync
+         8   -> wireless_phase_control_sync
+       0   HardFault_Handler
+       0   MemManage_Handler
+       0   NMI_Handler
+       0   OTG_FS_IRQHandler
+         0   -> USBD_OTG_ISR_Handler
+       0   PendSV_Handler
+       0   SVC_Handler
+       0   SysTick_Handler
+      24   TIM2_IRQHandler
+        24   -- Indirect call
+         0   -> TIM_ClearFlag
+        24   -> TIM_ClearITPendingBit
+        24   -> TIM_Cmd
+        24   -> TIM_GetITStatus
+       0   UsageFault_Handler
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_10
+       4  ??DataTable5_11
+       4  ??DataTable5_12
+       4  ??DataTable5_13
+       4  ??DataTable5_14
+       4  ??DataTable5_15
+       4  ??DataTable5_16
+       4  ??DataTable5_17
+       4  ??DataTable5_18
+       4  ??DataTable5_19
+       4  ??DataTable5_2
+       4  ??DataTable5_3
+       4  ??DataTable5_4
+       4  ??DataTable5_5
+       4  ??DataTable5_6
+       4  ??DataTable5_7
+       4  ??DataTable5_8
+       4  ??DataTable5_9
+       2  ADCx_DMA_IRQHandler
+       2  BusFault_Handler
+      96  DMA1_Stream3_IRQHandler
+      66  DMA1_Stream7_IRQHandler
+       2  DebugMon_Handler
+       2  EXTI15_10_IRQHandler
+      46  EXTI3_IRQHandler
+       2  HardFault_Handler
+       2  MemManage_Handler
+       2  NMI_Handler
+       6  OTG_FS_IRQHandler
+       2  PendSV_Handler
+       2  SVC_Handler
+      56  SysTick_Handler
+     146  TIM2_IRQHandler
+       2  UsageFault_Handler
+       1  exti3_flag
+      16  systick_2ms_first_flag
+          systick_2ms_second_flag
+          s1_flag
+          s1_count
+          systick_flag
+          systick_count_l
+          systick_count_h
+
+ 
+  17 bytes in section .bss
+ 516 bytes in section .text
+ 
+ 516 bytes of CODE memory
+  17 bytes of DATA memory
+
+Errors: none
+Warnings: none

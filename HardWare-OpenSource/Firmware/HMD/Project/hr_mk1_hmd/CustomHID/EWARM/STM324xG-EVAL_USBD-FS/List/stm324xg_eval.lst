@@ -1,0 +1,985 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        22/Sep/2016  18:44:41
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Utilities\STM32_EVAL\STM3240_41_G_EVAL\stm324xg_eval.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Utilities\STM32_EVAL\STM3240_41_G_EVAL\stm324xg_eval.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm324xg_eval.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm324xg_eval.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\Firmware\f4_firmware\Utilities\STM32_EVAL\STM3240_41_G_EVAL\stm324xg_eval.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm324xg_eval.c
+      4            * @author  MCD Application Team
+      5            * @version V1.1.2
+      6            * @date    19-September-2013
+      7            * @brief   This file provides
+      8            *            - set of firmware functions to manage Leds, push-button and COM ports
+      9            *            - low level initialization functions for SD card (on SDIO) and
+     10            *              serial EEPROM (sEE)
+     11            *          available on STM324xG-EVAL evaluation board(MB786) RevB from
+     12            *          STMicroelectronics.
+     13            ******************************************************************************
+     14            * @attention
+     15            *
+     16            * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
+     17            *
+     18            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     19            * You may not use this file except in compliance with the License.
+     20            * You may obtain a copy of the License at:
+     21            *
+     22            *        http://www.st.com/software_license_agreement_liberty_v2
+     23            *
+     24            * Unless required by applicable law or agreed to in writing, software 
+     25            * distributed under the License is distributed on an "AS IS" BASIS, 
+     26            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     27            * See the License for the specific language governing permissions and
+     28            * limitations under the License.
+     29            *
+     30            ******************************************************************************
+     31            */ 
+     32            
+     33          /* Includes ------------------------------------------------------------------*/
+     34          #include "stm324xg_eval.h"
+     35          #include "stm32f4xx_sdio.h"
+     36          #include "stm32f4xx_dma.h"
+     37          #include "stm32f4xx_i2c.h"
+     38          #include "stm32f4xx_tim.h"
+     39          
+     40          /** @addtogroup Utilities
+     41            * @{
+     42            */ 
+     43          
+     44          /** @addtogroup STM32_EVAL
+     45            * @{
+     46            */ 
+     47          
+     48          /** @addtogroup STM324xG_EVAL
+     49            * @{
+     50            */   
+     51              
+     52          /** @defgroup STM324xG_EVAL_LOW_LEVEL 
+     53            * @brief This file provides firmware functions to manage Leds, push-buttons, 
+     54            *        COM ports, SD card on SDIO and serial EEPROM (sEE) available on 
+     55            *        STM324xG-EVAL evaluation board from STMicroelectronics.
+     56            * @{
+     57            */ 
+     58          
+     59          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_TypesDefinitions
+     60            * @{
+     61            */ 
+     62          /**
+     63            * @}
+     64            */ 
+     65          
+     66          
+     67          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_Defines
+     68            * @{
+     69            */ 
+     70          /**
+     71            * @}
+     72            */ 
+     73          
+     74          
+     75          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_Macros
+     76            * @{
+     77            */ 
+     78          /**
+     79            * @}
+     80            */ 
+     81          
+     82          
+     83          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_Variables
+     84            * @{
+     85            */ 
+     86          GPIO_TypeDef* GPIO_PORT[LEDn] = {LED1_GPIO_PORT, LED2_GPIO_PORT, LED3_GPIO_PORT,
+     87                                           LED4_GPIO_PORT};
+     88          const uint16_t GPIO_PIN[LEDn] = {LED1_PIN, LED2_PIN, LED3_PIN,
+     89                                           LED4_PIN};
+     90          const uint32_t GPIO_CLK[LEDn] = {LED1_GPIO_CLK, LED2_GPIO_CLK, LED3_GPIO_CLK,
+     91                                           LED4_GPIO_CLK};
+     92          
+     93          GPIO_TypeDef* BUTTON_PORT[BUTTONn] = {WAKEUP_BUTTON_GPIO_PORT, TAMPER_BUTTON_GPIO_PORT,
+     94                                                KEY_BUTTON_GPIO_PORT}; 
+     95          
+     96          const uint16_t BUTTON_PIN[BUTTONn] = {WAKEUP_BUTTON_PIN, TAMPER_BUTTON_PIN,
+     97                                                KEY_BUTTON_PIN}; 
+     98          
+     99          const uint32_t BUTTON_CLK[BUTTONn] = {WAKEUP_BUTTON_GPIO_CLK, TAMPER_BUTTON_GPIO_CLK,
+    100                                                KEY_BUTTON_GPIO_CLK};
+    101          
+    102          const uint16_t BUTTON_EXTI_LINE[BUTTONn] = {WAKEUP_BUTTON_EXTI_LINE,
+    103                                                      TAMPER_BUTTON_EXTI_LINE, 
+    104                                                      KEY_BUTTON_EXTI_LINE};
+    105          
+    106          const uint16_t BUTTON_PORT_SOURCE[BUTTONn] = {WAKEUP_BUTTON_EXTI_PORT_SOURCE,
+    107                                                        TAMPER_BUTTON_EXTI_PORT_SOURCE, 
+    108                                                        KEY_BUTTON_EXTI_PORT_SOURCE};
+    109          								 
+    110          const uint16_t BUTTON_PIN_SOURCE[BUTTONn] = {WAKEUP_BUTTON_EXTI_PIN_SOURCE,
+    111                                                       TAMPER_BUTTON_EXTI_PIN_SOURCE, 
+    112                                                       KEY_BUTTON_EXTI_PIN_SOURCE}; 
+    113          const uint16_t BUTTON_IRQn[BUTTONn] = {WAKEUP_BUTTON_EXTI_IRQn, TAMPER_BUTTON_EXTI_IRQn,
+    114                                                 KEY_BUTTON_EXTI_IRQn};
+    115          
+    116          USART_TypeDef* COM_USART[COMn] = {EVAL_COM1}; 
+    117          
+    118          GPIO_TypeDef* COM_TX_PORT[COMn] = {EVAL_COM1_TX_GPIO_PORT};
+    119           
+    120          GPIO_TypeDef* COM_RX_PORT[COMn] = {EVAL_COM1_RX_GPIO_PORT};
+    121          
+    122          const uint32_t COM_USART_CLK[COMn] = {EVAL_COM1_CLK};
+    123          
+    124          const uint32_t COM_TX_PORT_CLK[COMn] = {EVAL_COM1_TX_GPIO_CLK};
+    125           
+    126          const uint32_t COM_RX_PORT_CLK[COMn] = {EVAL_COM1_RX_GPIO_CLK};
+    127          
+    128          const uint16_t COM_TX_PIN[COMn] = {EVAL_COM1_TX_PIN};
+    129          
+    130          const uint16_t COM_RX_PIN[COMn] = {EVAL_COM1_RX_PIN};
+    131           
+    132          const uint16_t COM_TX_PIN_SOURCE[COMn] = {EVAL_COM1_TX_SOURCE};
+    133          
+    134          const uint16_t COM_RX_PIN_SOURCE[COMn] = {EVAL_COM1_RX_SOURCE};
+    135           
+    136          const uint16_t COM_TX_AF[COMn] = {EVAL_COM1_TX_AF};
+    137           
+    138          const uint16_t COM_RX_AF[COMn] = {EVAL_COM1_RX_AF};
+    139          
+    140          DMA_InitTypeDef    sEEDMA_InitStructure; 
+    141          NVIC_InitTypeDef   NVIC_InitStructure;
+    142          
+    143          /**
+    144            * @}
+    145            */ 
+    146          
+    147          
+    148          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_FunctionPrototypes
+    149            * @{
+    150            */ 
+    151          
+    152          /**
+    153            * @}
+    154            */ 
+    155          
+    156          /** @defgroup STM324xG_EVAL_LOW_LEVEL_Private_Functions
+    157            * @{
+    158            */ 
+    159          
+    160          /**
+    161            * @brief  Configures LED GPIO.
+    162            * @param  Led: Specifies the Led to be configured. 
+    163            *   This parameter can be one of following parameters:
+    164            *     @arg LED1
+    165            *     @arg LED2
+    166            *     @arg LED3
+    167            *     @arg LED4
+    168            * @retval None
+    169            */
+    170          void STM_EVAL_LEDInit(Led_TypeDef Led)
+    171          {
+    172            GPIO_InitTypeDef  GPIO_InitStructure;
+    173            
+    174            /* Enable the GPIO_LED Clock */
+    175            RCC_AHB1PeriphClockCmd(GPIO_CLK[Led], ENABLE);
+    176          
+    177          
+    178            /* Configure the GPIO_LED pin */
+    179            GPIO_InitStructure.GPIO_Pin = GPIO_PIN[Led];
+    180            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    181            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    182            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    183            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    184            GPIO_Init(GPIO_PORT[Led], &GPIO_InitStructure);
+    185          }
+    186          
+    187          /**
+    188            * @brief  Turns selected LED On.
+    189            * @param  Led: Specifies the Led to be set on. 
+    190            *   This parameter can be one of following parameters:
+    191            *     @arg LED1
+    192            *     @arg LED2
+    193            *     @arg LED3
+    194            *     @arg LED4  
+    195            * @retval None
+    196            */
+    197          void STM_EVAL_LEDOn(Led_TypeDef Led)
+    198          {
+    199            GPIO_PORT[Led]->BSRRL = GPIO_PIN[Led];
+    200          }
+    201          
+    202          /**
+    203            * @brief  Turns selected LED Off.
+    204            * @param  Led: Specifies the Led to be set off. 
+    205            *   This parameter can be one of following parameters:
+    206            *     @arg LED1
+    207            *     @arg LED2
+    208            *     @arg LED3
+    209            *     @arg LED4 
+    210            * @retval None
+    211            */
+    212          void STM_EVAL_LEDOff(Led_TypeDef Led)
+    213          {
+    214            GPIO_PORT[Led]->BSRRH = GPIO_PIN[Led];  
+    215          }
+    216          
+    217          /**
+    218            * @brief  Toggles the selected LED.
+    219            * @param  Led: Specifies the Led to be toggled. 
+    220            *   This parameter can be one of following parameters:
+    221            *     @arg LED1
+    222            *     @arg LED2
+    223            *     @arg LED3
+    224            *     @arg LED4  
+    225            * @retval None
+    226            */
+    227          void STM_EVAL_LEDToggle(Led_TypeDef Led)
+    228          {
+    229            GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];
+    230          }
+    231          
+    232          /**
+    233            * @brief  Configures Button GPIO and EXTI Line.
+    234            * @param  Button: Specifies the Button to be configured.
+    235            *   This parameter can be one of following parameters:   
+    236            *     @arg BUTTON_WAKEUP: Wakeup Push Button
+    237            *     @arg BUTTON_TAMPER: Tamper Push Button  
+    238            *     @arg BUTTON_KEY: Key Push Button 
+    239            *     @arg BUTTON_RIGHT: Joystick Right Push Button 
+    240            *     @arg BUTTON_LEFT: Joystick Left Push Button 
+    241            *     @arg BUTTON_UP: Joystick Up Push Button 
+    242            *     @arg BUTTON_DOWN: Joystick Down Push Button
+    243            *     @arg BUTTON_SEL: Joystick Sel Push Button
+    244            * @param  Button_Mode: Specifies Button mode.
+    245            *   This parameter can be one of following parameters:   
+    246            *     @arg BUTTON_MODE_GPIO: Button will be used as simple IO 
+    247            *     @arg BUTTON_MODE_EXTI: Button will be connected to EXTI line with interrupt
+    248            *                     generation capability  
+    249            * @retval None
+    250            */
+    251          void STM_EVAL_PBInit(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
+    252          {
+    253            GPIO_InitTypeDef GPIO_InitStructure;
+    254            EXTI_InitTypeDef EXTI_InitStructure;
+    255            NVIC_InitTypeDef NVIC_InitStructure;
+    256          
+    257          
+    258            /* Enable the BUTTON Clock */
+    259            RCC_AHB1PeriphClockCmd(BUTTON_CLK[Button], ENABLE);
+    260            RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+    261          
+    262            /* Configure Button pin as input */
+    263            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    264            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    265            GPIO_InitStructure.GPIO_Pin = BUTTON_PIN[Button];
+    266            GPIO_Init(BUTTON_PORT[Button], &GPIO_InitStructure);
+    267          
+    268          
+    269            if (Button_Mode == BUTTON_MODE_EXTI)
+    270            {
+    271              /* Connect Button EXTI Line to Button GPIO Pin */
+    272              SYSCFG_EXTILineConfig(BUTTON_PORT_SOURCE[Button], BUTTON_PIN_SOURCE[Button]);
+    273          
+    274              /* Configure Button EXTI line */
+    275              EXTI_InitStructure.EXTI_Line = BUTTON_EXTI_LINE[Button];
+    276              EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    277          
+    278              if(Button != BUTTON_WAKEUP)
+    279              {
+    280                EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
+    281              }
+    282              else
+    283              {
+    284                EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;  
+    285              }
+    286              EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    287              EXTI_Init(&EXTI_InitStructure);
+    288          
+    289              /* Enable and set Button EXTI Interrupt to the lowest priority */
+    290              NVIC_InitStructure.NVIC_IRQChannel = BUTTON_IRQn[Button];
+    291              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+    292              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+    293              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    294          
+    295              NVIC_Init(&NVIC_InitStructure); 
+    296            }
+    297          }
+    298          
+    299          /**
+    300            * @brief  Returns the selected Button state.
+    301            * @param  Button: Specifies the Button to be checked.
+    302            *   This parameter can be one of following parameters:    
+    303            *     @arg BUTTON_WAKEUP: Wakeup Push Button
+    304            *     @arg BUTTON_TAMPER: Tamper Push Button  
+    305            *     @arg BUTTON_KEY: Key Push Button 
+    306            *     @arg BUTTON_RIGHT: Joystick Right Push Button 
+    307            *     @arg BUTTON_LEFT: Joystick Left Push Button 
+    308            *     @arg BUTTON_UP: Joystick Up Push Button 
+    309            *     @arg BUTTON_DOWN: Joystick Down Push Button
+    310            *     @arg BUTTON_SEL: Joystick Sel Push Button    
+    311            * @retval The Button GPIO pin value.
+    312            */
+    313          uint32_t STM_EVAL_PBGetState(Button_TypeDef Button)
+    314          {
+    315            return GPIO_ReadInputDataBit(BUTTON_PORT[Button], BUTTON_PIN[Button]);
+    316          }
+    317          
+    318          
+    319          /**
+    320            * @brief  Configures COM port.
+    321            * @param  COM: Specifies the COM port to be configured.
+    322            *   This parameter can be one of following parameters:    
+    323            *     @arg COM1
+    324            *     @arg COM2  
+    325            * @param  USART_InitStruct: pointer to a USART_InitTypeDef structure that
+    326            *   contains the configuration information for the specified USART peripheral.
+    327            * @retval None
+    328            */
+    329          void STM_EVAL_COMInit(COM_TypeDef COM, USART_InitTypeDef* USART_InitStruct)
+    330          {
+    331            GPIO_InitTypeDef GPIO_InitStructure;
+    332          
+    333            /* Enable GPIO clock */
+    334            RCC_AHB1PeriphClockCmd(COM_TX_PORT_CLK[COM] | COM_RX_PORT_CLK[COM], ENABLE);
+    335          
+    336            if (COM == COM1)
+    337            {
+    338              /* Enable UART clock */
+    339              RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
+    340            }
+    341          
+    342            /* Connect PXx to USARTx_Tx*/
+    343            GPIO_PinAFConfig(COM_TX_PORT[COM], COM_TX_PIN_SOURCE[COM], COM_TX_AF[COM]);
+    344          
+    345            /* Connect PXx to USARTx_Rx*/
+    346            GPIO_PinAFConfig(COM_RX_PORT[COM], COM_RX_PIN_SOURCE[COM], COM_RX_AF[COM]);
+    347          
+    348            /* Configure USART Tx as alternate function  */
+    349            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    350            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    351            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    352          
+    353            GPIO_InitStructure.GPIO_Pin = COM_TX_PIN[COM];
+    354            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    355            GPIO_Init(COM_TX_PORT[COM], &GPIO_InitStructure);
+    356          
+    357            /* Configure USART Rx as alternate function  */
+    358            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    359            GPIO_InitStructure.GPIO_Pin = COM_RX_PIN[COM];
+    360            GPIO_Init(COM_RX_PORT[COM], &GPIO_InitStructure);
+    361          
+    362            /* USART configuration */
+    363            USART_Init(COM_USART[COM], USART_InitStruct);
+    364              
+    365            /* Enable USART */
+    366            USART_Cmd(COM_USART[COM], ENABLE);
+    367          }
+    368          
+    369          /**
+    370            * @brief  DeInitializes the SDIO interface.
+    371            * @param  None
+    372            * @retval None
+    373            */
+    374          void SD_LowLevel_DeInit(void)
+    375          {
+    376            GPIO_InitTypeDef  GPIO_InitStructure;
+    377            
+    378            /*!< Disable SDIO Clock */
+    379            SDIO_ClockCmd(DISABLE);
+    380            
+    381            /*!< Set Power State to OFF */
+    382            SDIO_SetPowerState(SDIO_PowerState_OFF);
+    383          
+    384            /*!< DeInitializes the SDIO peripheral */
+    385            SDIO_DeInit();
+    386            
+    387            /* Disable the SDIO APB2 Clock */
+    388            RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, DISABLE);
+    389          
+    390            GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_MCO);
+    391            GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_MCO);
+    392            GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_MCO);
+    393            GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_MCO);
+    394            GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_MCO);
+    395            GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_MCO);
+    396          
+    397            /* Configure PC.08, PC.09, PC.10, PC.11 pins: D0, D1, D2, D3 pins */
+    398            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
+    399            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    400            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    401            GPIO_Init(GPIOC, &GPIO_InitStructure);
+    402          
+    403            /* Configure PD.02 CMD line */
+    404            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    405            GPIO_Init(GPIOD, &GPIO_InitStructure);
+    406          
+    407            /* Configure PC.12 pin: CLK pin */
+    408            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+    409            GPIO_Init(GPIOC, &GPIO_InitStructure);
+    410          }
+    411          
+    412          /**
+    413            * @brief  Initializes the SD Card and put it into StandBy State (Ready for 
+    414            *         data transfer).
+    415            * @param  None
+    416            * @retval None
+    417            */
+    418          void SD_LowLevel_Init(void)
+    419          {
+    420            GPIO_InitTypeDef  GPIO_InitStructure;
+    421          
+    422            /* GPIOC and GPIOD Periph clock enable */
+    423            RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD | SD_DETECT_GPIO_CLK, ENABLE);
+    424          
+    425            GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_SDIO);
+    426            GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_SDIO);
+    427            GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SDIO);
+    428            GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_SDIO);
+    429            GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_SDIO);
+    430            GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_SDIO);
+    431          
+    432            /* Configure PC.08, PC.09, PC.10, PC.11 pins: D0, D1, D2, D3 pins */
+    433            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
+    434            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    435            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    436            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    437            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    438            GPIO_Init(GPIOC, &GPIO_InitStructure);
+    439          
+    440            /* Configure PD.02 CMD line */
+    441            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    442            GPIO_Init(GPIOD, &GPIO_InitStructure);
+    443          
+    444            /* Configure PC.12 pin: CLK pin */
+    445            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+    446            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    447            GPIO_Init(GPIOC, &GPIO_InitStructure);
+    448            
+    449            /*!< Configure SD_SPI_DETECT_PIN pin: SD Card detect pin */
+    450            GPIO_InitStructure.GPIO_Pin = SD_DETECT_PIN;
+    451            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    452            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    453            GPIO_Init(SD_DETECT_GPIO_PORT, &GPIO_InitStructure);
+    454          
+    455            /* Enable the SDIO APB2 Clock */
+    456            RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, ENABLE);
+    457          
+    458            /* Enable the DMA2 Clock */
+    459            RCC_AHB1PeriphClockCmd(SD_SDIO_DMA_CLK, ENABLE);
+    460          }
+    461          
+    462          /**
+    463            * @brief  Configures the DMA2 Channel4 for SDIO Tx request.
+    464            * @param  BufferSRC: pointer to the source buffer
+    465            * @param  BufferSize: buffer size
+    466            * @retval None
+    467            */
+    468          void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
+    469          {
+    470            DMA_InitTypeDef SDDMA_InitStructure;
+    471          
+    472            DMA_ClearFlag(SD_SDIO_DMA_STREAM, SD_SDIO_DMA_FLAG_FEIF | SD_SDIO_DMA_FLAG_DMEIF | SD_SDIO_DMA_FLAG_TEIF | SD_SDIO_DMA_FLAG_HTIF | SD_SDIO_DMA_FLAG_TCIF);
+    473          
+    474            /* DMA2 Stream3  or Stream6 disable */
+    475            DMA_Cmd(SD_SDIO_DMA_STREAM, DISABLE);
+    476          
+    477            /* DMA2 Stream3  or Stream6 Config */
+    478            DMA_DeInit(SD_SDIO_DMA_STREAM);
+    479          
+    480            SDDMA_InitStructure.DMA_Channel = SD_SDIO_DMA_CHANNEL;
+    481            SDDMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
+    482            SDDMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)BufferSRC;
+    483            SDDMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;
+    484            SDDMA_InitStructure.DMA_BufferSize = BufferSize;
+    485            SDDMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    486            SDDMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    487            SDDMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+    488            SDDMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+    489            SDDMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+    490            SDDMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
+    491            SDDMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    492            SDDMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    493            SDDMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_INC4;
+    494            SDDMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_INC4;
+    495            DMA_Init(SD_SDIO_DMA_STREAM, &SDDMA_InitStructure);
+    496            DMA_ITConfig(SD_SDIO_DMA_STREAM, DMA_IT_TC, ENABLE);
+    497            DMA_FlowControllerConfig(SD_SDIO_DMA_STREAM, DMA_FlowCtrl_Peripheral);
+    498          
+    499            /* DMA2 Stream3  or Stream6 enable */
+    500            DMA_Cmd(SD_SDIO_DMA_STREAM, ENABLE);
+    501              
+    502          }
+    503          
+    504          /**
+    505            * @brief  Configures the DMA2 Channel4 for SDIO Rx request.
+    506            * @param  BufferDST: pointer to the destination buffer
+    507            * @param  BufferSize: buffer size
+    508            * @retval None
+    509            */
+    510          void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)
+    511          {
+    512            DMA_InitTypeDef SDDMA_InitStructure;
+    513          
+    514            DMA_ClearFlag(SD_SDIO_DMA_STREAM, SD_SDIO_DMA_FLAG_FEIF | SD_SDIO_DMA_FLAG_DMEIF | SD_SDIO_DMA_FLAG_TEIF | SD_SDIO_DMA_FLAG_HTIF | SD_SDIO_DMA_FLAG_TCIF);
+    515          
+    516            /* DMA2 Stream3  or Stream6 disable */
+    517            DMA_Cmd(SD_SDIO_DMA_STREAM, DISABLE);
+    518          
+    519            /* DMA2 Stream3 or Stream6 Config */
+    520            DMA_DeInit(SD_SDIO_DMA_STREAM);
+    521          
+    522            SDDMA_InitStructure.DMA_Channel = SD_SDIO_DMA_CHANNEL;
+    523            SDDMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SDIO_FIFO_ADDRESS;
+    524            SDDMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)BufferDST;
+    525            SDDMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+    526            SDDMA_InitStructure.DMA_BufferSize = BufferSize;
+    527            SDDMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    528            SDDMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    529            SDDMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+    530            SDDMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+    531            SDDMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+    532            SDDMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
+    533            SDDMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    534            SDDMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    535            SDDMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_INC4;
+    536            SDDMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_INC4;
+    537            DMA_Init(SD_SDIO_DMA_STREAM, &SDDMA_InitStructure);
+    538            DMA_ITConfig(SD_SDIO_DMA_STREAM, DMA_IT_TC, ENABLE);
+    539            DMA_FlowControllerConfig(SD_SDIO_DMA_STREAM, DMA_FlowCtrl_Peripheral);
+    540          
+    541            /* DMA2 Stream3 or Stream6 enable */
+    542            DMA_Cmd(SD_SDIO_DMA_STREAM, ENABLE);
+    543          }
+    544          
+    545          /**
+    546            * @brief  DeInitializes peripherals used by the I2C EEPROM driver.
+    547            * @param  None
+    548            * @retval None
+    549            */
+    550          void sEE_LowLevel_DeInit(void)
+    551          {
+    552            GPIO_InitTypeDef  GPIO_InitStructure; 
+    553             
+    554            /* sEE_I2C Peripheral Disable */
+    555            I2C_Cmd(sEE_I2C, DISABLE);
+    556           
+    557            /* sEE_I2C DeInit */
+    558            I2C_DeInit(sEE_I2C);
+    559          
+    560            /*!< sEE_I2C Periph clock disable */
+    561            RCC_APB1PeriphClockCmd(sEE_I2C_CLK, DISABLE);
+    562              
+    563            /*!< GPIO configuration */  
+    564            /*!< Configure sEE_I2C pins: SCL */
+    565            GPIO_InitStructure.GPIO_Pin = sEE_I2C_SCL_PIN;
+    566            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    567            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    568            GPIO_Init(sEE_I2C_SCL_GPIO_PORT, &GPIO_InitStructure);
+    569          
+    570            /*!< Configure sEE_I2C pins: SDA */
+    571            GPIO_InitStructure.GPIO_Pin = sEE_I2C_SDA_PIN;
+    572            GPIO_Init(sEE_I2C_SDA_GPIO_PORT, &GPIO_InitStructure);
+    573          
+    574            /* Configure and enable I2C DMA TX Stream interrupt */
+    575            NVIC_InitStructure.NVIC_IRQChannel = sEE_I2C_DMA_TX_IRQn;
+    576            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = sEE_I2C_DMA_PREPRIO;
+    577            NVIC_InitStructure.NVIC_IRQChannelSubPriority = sEE_I2C_DMA_SUBPRIO;
+    578            NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+    579            NVIC_Init(&NVIC_InitStructure);
+    580          
+    581            /* Configure and enable I2C DMA RX Stream interrupt */
+    582            NVIC_InitStructure.NVIC_IRQChannel = sEE_I2C_DMA_RX_IRQn;
+    583            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = sEE_I2C_DMA_PREPRIO;
+    584            NVIC_InitStructure.NVIC_IRQChannelSubPriority = sEE_I2C_DMA_SUBPRIO;
+    585            NVIC_Init(&NVIC_InitStructure);   
+    586            
+    587            /* Disable and Deinitialize the DMA Streams */
+    588            DMA_Cmd(sEE_I2C_DMA_STREAM_TX, DISABLE);
+    589            DMA_Cmd(sEE_I2C_DMA_STREAM_RX, DISABLE);
+    590            DMA_DeInit(sEE_I2C_DMA_STREAM_TX);
+    591            DMA_DeInit(sEE_I2C_DMA_STREAM_RX);
+    592          }
+    593          
+    594          /**
+    595            * @brief  Initializes peripherals used by the I2C EEPROM driver.
+    596            * @param  None
+    597            * @retval None
+    598            */
+    599          void sEE_LowLevel_Init(void)
+    600          {
+    601            GPIO_InitTypeDef  GPIO_InitStructure; 
+    602             
+    603            /*!< sEE_I2C Periph clock enable */
+    604            RCC_APB1PeriphClockCmd(sEE_I2C_CLK, ENABLE);
+    605            
+    606            /*!< sEE_I2C_SCL_GPIO_CLK and sEE_I2C_SDA_GPIO_CLK Periph clock enable */
+    607            RCC_AHB1PeriphClockCmd(sEE_I2C_SCL_GPIO_CLK | sEE_I2C_SDA_GPIO_CLK, ENABLE);
+    608          
+    609            RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+    610            
+    611            /* Reset sEE_I2C IP */
+    612            RCC_APB1PeriphResetCmd(sEE_I2C_CLK, ENABLE);
+    613            
+    614            /* Release reset signal of sEE_I2C IP */
+    615            RCC_APB1PeriphResetCmd(sEE_I2C_CLK, DISABLE);
+    616           
+    617            /*!< GPIO configuration */
+    618            /* Connect PXx to I2C_SCL*/
+    619            GPIO_PinAFConfig(sEE_I2C_SCL_GPIO_PORT, sEE_I2C_SCL_SOURCE, sEE_I2C_SCL_AF);
+    620            /* Connect PXx to I2C_SDA*/
+    621            GPIO_PinAFConfig(sEE_I2C_SDA_GPIO_PORT, sEE_I2C_SDA_SOURCE, sEE_I2C_SDA_AF);  
+    622            
+    623            /*!< Configure sEE_I2C pins: SCL */   
+    624            GPIO_InitStructure.GPIO_Pin = sEE_I2C_SCL_PIN;
+    625            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    626            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    627            GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+    628            GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+    629            GPIO_Init(sEE_I2C_SCL_GPIO_PORT, &GPIO_InitStructure);
+    630          
+    631            /*!< Configure sEE_I2C pins: SDA */
+    632            GPIO_InitStructure.GPIO_Pin = sEE_I2C_SDA_PIN;
+    633            GPIO_Init(sEE_I2C_SDA_GPIO_PORT, &GPIO_InitStructure);
+    634          
+    635           
+    636            /* Configure and enable I2C DMA TX Channel interrupt */
+    637            NVIC_InitStructure.NVIC_IRQChannel = sEE_I2C_DMA_TX_IRQn;
+    638            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = sEE_I2C_DMA_PREPRIO;
+    639            NVIC_InitStructure.NVIC_IRQChannelSubPriority = sEE_I2C_DMA_SUBPRIO;
+    640            NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    641            NVIC_Init(&NVIC_InitStructure);
+    642          
+    643            /* Configure and enable I2C DMA RX Channel interrupt */
+    644            NVIC_InitStructure.NVIC_IRQChannel = sEE_I2C_DMA_RX_IRQn;
+    645            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = sEE_I2C_DMA_PREPRIO;
+    646            NVIC_InitStructure.NVIC_IRQChannelSubPriority = sEE_I2C_DMA_SUBPRIO;
+    647            NVIC_Init(&NVIC_InitStructure);  
+    648            
+    649            /*!< I2C DMA TX and RX channels configuration */
+    650            /* Enable the DMA clock */
+    651            RCC_AHB1PeriphClockCmd(sEE_I2C_DMA_CLK, ENABLE);
+    652            
+    653            /* Clear any pending flag on Rx Stream  */
+    654            DMA_ClearFlag(sEE_I2C_DMA_STREAM_TX, sEE_TX_DMA_FLAG_FEIF | sEE_TX_DMA_FLAG_DMEIF | sEE_TX_DMA_FLAG_TEIF | \
+    655                                                 sEE_TX_DMA_FLAG_HTIF | sEE_TX_DMA_FLAG_TCIF);
+    656            /* Disable the EE I2C Tx DMA stream */
+    657            DMA_Cmd(sEE_I2C_DMA_STREAM_TX, DISABLE);
+    658            /* Configure the DMA stream for the EE I2C peripheral TX direction */
+    659            DMA_DeInit(sEE_I2C_DMA_STREAM_TX);
+    660            sEEDMA_InitStructure.DMA_Channel = sEE_I2C_DMA_CHANNEL;
+    661            sEEDMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)sEE_I2C_DR_Address;
+    662            sEEDMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)0;    /* This parameter will be configured durig communication */;
+    663            sEEDMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral; /* This parameter will be configured durig communication */
+    664            sEEDMA_InitStructure.DMA_BufferSize = 0xFFFF;              /* This parameter will be configured durig communication */
+    665            sEEDMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    666            sEEDMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    667            sEEDMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+    668            sEEDMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+    669            sEEDMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+    670            sEEDMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
+    671            sEEDMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Enable;
+    672            sEEDMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+    673            sEEDMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+    674            sEEDMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+    675            DMA_Init(sEE_I2C_DMA_STREAM_TX, &sEEDMA_InitStructure);
+    676          
+    677            /* Clear any pending flag on Rx Stream */
+    678            DMA_ClearFlag(sEE_I2C_DMA_STREAM_RX, sEE_RX_DMA_FLAG_FEIF | sEE_RX_DMA_FLAG_DMEIF | sEE_RX_DMA_FLAG_TEIF | \
+    679                                                 sEE_RX_DMA_FLAG_HTIF | sEE_RX_DMA_FLAG_TCIF);
+    680            /* Disable the EE I2C DMA Rx stream */
+    681            DMA_Cmd(sEE_I2C_DMA_STREAM_RX, DISABLE);
+    682            /* Configure the DMA stream for the EE I2C peripheral RX direction */
+    683            DMA_DeInit(sEE_I2C_DMA_STREAM_RX);
+    684            DMA_Init(sEE_I2C_DMA_STREAM_RX, &sEEDMA_InitStructure);
+    685            
+    686            /* Enable the DMA Channels Interrupts */
+    687            DMA_ITConfig(sEE_I2C_DMA_STREAM_TX, DMA_IT_TC, ENABLE);
+    688            DMA_ITConfig(sEE_I2C_DMA_STREAM_RX, DMA_IT_TC, ENABLE);      
+    689          }
+    690          
+    691          /**
+    692            * @brief  Initializes DMA channel used by the I2C EEPROM driver.
+    693            * @param  None
+    694            * @retval None
+    695            */
+    696          void sEE_LowLevel_DMAConfig(uint32_t pBuffer, uint32_t BufferSize, uint32_t Direction)
+    697          { 
+    698            /* Initialize the DMA with the new parameters */
+    699            if (Direction == sEE_DIRECTION_TX)
+    700            {
+    701              /* Configure the DMA Tx Stream with the buffer address and the buffer size */
+    702              sEEDMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)pBuffer;
+    703              sEEDMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;    
+    704              sEEDMA_InitStructure.DMA_BufferSize = (uint32_t)BufferSize;  
+    705              DMA_Init(sEE_I2C_DMA_STREAM_TX, &sEEDMA_InitStructure);  
+    706            }
+    707            else
+    708            { 
+    709              /* Configure the DMA Rx Stream with the buffer address and the buffer size */
+    710              sEEDMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)pBuffer;
+    711              sEEDMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+    712              sEEDMA_InitStructure.DMA_BufferSize = (uint32_t)BufferSize;      
+    713              DMA_Init(sEE_I2C_DMA_STREAM_RX, &sEEDMA_InitStructure);    
+    714            }
+    715          }
+    716          
+    717          /**
+    718            * @}
+    719            */ 
+    720          void InitTimer2_TIM(void)
+    721          {
+    722              TIM_TimeBaseInitTypeDef TIM_InitStructure;
+    723              NVIC_InitTypeDef NVIC_InitStructure;
+    724          
+    725              NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQChannel;
+    726              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    727              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    728              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    729              NVIC_Init(&NVIC_InitStructure);
+    730          
+    731              //配置时钟
+    732              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    733              TIM_Cmd(TIM2, DISABLE);
+    734              TIM_InitStructure.TIM_Period = 114; //设置自动装载寄存器，0.1ms
+    735              TIM_InitStructure.TIM_CounterMode = TIM_CounterMode_Up; //向上计数
+    736              TIM_InitStructure.TIM_Prescaler = 72; //预分频
+    737              TIM_InitStructure.TIM_ClockDivision = TIM_CKD_DIV1;//输入内部时钟频率是否倍频
+    738              
+    739              //TIM_InitStructure.TIM_RepetitionCounter=0;
+    740              TIM_TimeBaseInit(TIM2, &TIM_InitStructure);
+    741          
+    742              TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); //开定时中断
+    743          
+    744              TIM_Cmd(TIM2, DISABLE); //使能timer2
+    745          
+    746          }
+    747          
+    748          
+    749          /**
+    750            * @}
+    751            */ 
+    752          
+    753          /**
+    754            * @}
+    755            */
+    756          
+    757          /**
+    758            * @}
+    759            */    
+    760          
+    761          /**
+    762            * @}
+    763            */ 
+    764              
+    765          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   InitTimer2_TIM
+        24   -> NVIC_Init
+        24   -> RCC_APB1PeriphClockCmd
+        24   -> TIM_Cmd
+        24   -> TIM_ITConfig
+        24   -> TIM_TimeBaseInit
+      80   SD_LowLevel_DMA_RxConfig
+        80   -> DMA_ClearFlag
+        80   -> DMA_Cmd
+        80   -> DMA_DeInit
+        80   -> DMA_FlowControllerConfig
+        80   -> DMA_ITConfig
+        80   -> DMA_Init
+      80   SD_LowLevel_DMA_TxConfig
+        80   -> DMA_ClearFlag
+        80   -> DMA_Cmd
+        80   -> DMA_DeInit
+        80   -> DMA_FlowControllerConfig
+        80   -> DMA_ITConfig
+        80   -> DMA_Init
+      24   SD_LowLevel_DeInit
+        24   -> GPIO_Init
+        24   -> GPIO_PinAFConfig
+        24   -> RCC_APB2PeriphClockCmd
+        24   -> SDIO_ClockCmd
+        24   -> SDIO_DeInit
+        24   -> SDIO_SetPowerState
+      24   SD_LowLevel_Init
+        24   -> GPIO_Init
+        24   -> GPIO_PinAFConfig
+        24   -> RCC_AHB1PeriphClockCmd
+        24   -> RCC_APB2PeriphClockCmd
+      32   STM_EVAL_COMInit
+        32   -> GPIO_Init
+        32   -> GPIO_PinAFConfig
+        32   -> RCC_AHB1PeriphClockCmd
+        32   -> RCC_APB1PeriphClockCmd
+        32   -> USART_Cmd
+        32   -> USART_Init
+      16   STM_EVAL_LEDInit
+        16   -> GPIO_Init
+        16   -> RCC_AHB1PeriphClockCmd
+       0   STM_EVAL_LEDOff
+       0   STM_EVAL_LEDOn
+       0   STM_EVAL_LEDToggle
+       0   STM_EVAL_PBGetState
+         0   -> GPIO_ReadInputDataBit
+      40   STM_EVAL_PBInit
+        40   -> EXTI_Init
+        40   -> GPIO_Init
+        40   -> NVIC_Init
+        40   -> RCC_AHB1PeriphClockCmd
+        40   -> RCC_APB2PeriphClockCmd
+        40   -> SYSCFG_EXTILineConfig
+       0   sEE_LowLevel_DMAConfig
+         0   -> DMA_Init
+      24   sEE_LowLevel_DeInit
+        24   -> DMA_Cmd
+        24   -> DMA_DeInit
+        24   -> GPIO_Init
+        24   -> I2C_Cmd
+        24   -> I2C_DeInit
+        24   -> NVIC_Init
+        24   -> RCC_APB1PeriphClockCmd
+      24   sEE_LowLevel_Init
+        24   -> DMA_ClearFlag
+        24   -> DMA_Cmd
+        24   -> DMA_DeInit
+        24   -> DMA_ITConfig
+        24   -> DMA_Init
+        24   -> GPIO_Init
+        24   -> GPIO_PinAFConfig
+        24   -> NVIC_Init
+        24   -> RCC_AHB1PeriphClockCmd
+        24   -> RCC_APB1PeriphClockCmd
+        24   -> RCC_APB1PeriphResetCmd
+        24   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable31
+       4  ??DataTable31_1
+       4  ??DataTable31_10
+       4  ??DataTable31_11
+       4  ??DataTable31_12
+       4  ??DataTable31_13
+       4  ??DataTable31_14
+       4  ??DataTable31_15
+       4  ??DataTable31_2
+       4  ??DataTable31_3
+       4  ??DataTable31_4
+       4  ??DataTable31_5
+       4  ??DataTable31_6
+       4  ??DataTable31_7
+       4  ??DataTable31_8
+       4  ??DataTable31_9
+      86  ?Subroutine0
+      14  ?Subroutine1
+      10  ?Subroutine10
+       8  ?Subroutine11
+       8  ?Subroutine12
+      10  ?Subroutine13
+      12  ?Subroutine14
+      10  ?Subroutine15
+      18  ?Subroutine2
+      18  ?Subroutine3
+      10  ?Subroutine4
+      10  ?Subroutine5
+      12  ?Subroutine6
+      12  ?Subroutine7
+      12  ?Subroutine8
+      16  ?Subroutine9
+      12  BUTTON_CLK
+       8  BUTTON_EXTI_LINE
+       8  BUTTON_IRQn
+       8  BUTTON_PIN
+       8  BUTTON_PIN_SOURCE
+      12  BUTTON_PORT
+       8  BUTTON_PORT_SOURCE
+       2  COM_RX_AF
+       2  COM_RX_PIN
+       2  COM_RX_PIN_SOURCE
+       4  COM_RX_PORT_CLK
+       2  COM_TX_AF
+       2  COM_TX_PIN
+       2  COM_TX_PIN_SOURCE
+       4  COM_TX_PORT_CLK
+      12  COM_USART
+          COM_TX_PORT
+          COM_RX_PORT
+       4  COM_USART_CLK
+      16  GPIO_CLK
+       8  GPIO_PIN
+      16  GPIO_PORT
+      90  InitTimer2_TIM
+      64  NVIC_InitStructure
+          sEEDMA_InitStructure
+      32  SD_LowLevel_DMA_RxConfig
+      36  SD_LowLevel_DMA_TxConfig
+     110  SD_LowLevel_DeInit
+     146  SD_LowLevel_Init
+     190  STM_EVAL_COMInit
+      50  STM_EVAL_LEDInit
+      20  STM_EVAL_LEDOff
+      20  STM_EVAL_LEDOn
+      24  STM_EVAL_LEDToggle
+      20  STM_EVAL_PBGetState
+     156  STM_EVAL_PBInit
+      34  sEE_LowLevel_DMAConfig
+     104  sEE_LowLevel_DeInit
+     268  sEE_LowLevel_Init
+
+ 
+    64 bytes in section .bss
+    40 bytes in section .data
+     4 bytes in section .rodata
+ 1 726 bytes in section .text
+ 
+ 1 726 bytes of CODE  memory
+     4 bytes of CONST memory
+   104 bytes of DATA  memory
+
+Errors: none
+Warnings: none

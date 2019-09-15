@@ -1,0 +1,968 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:38
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_qspi.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_qspi.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_qspi.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_qspi.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_qspi.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_qspi.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Serial peripheral interface (QSPI):
+      9            *           + Initialization and Configuration
+     10            *           + Indirect Data Read/Write functions
+     11            *           + Memory Mapped Mode Data Read functions  
+     12            *           + Automatic Polling functions
+     13            *           + DMA transfers management
+     14            *           + Interrupts and flags management 
+     15            *
+     16            *  @verbatim
+     17            *
+     18           ===============================================================================
+     19                                 ##### How to use this driver #####
+     20           ===============================================================================
+     21              [..]
+     22                  (#) Enable peripheral clock using   RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_QSPI,ENABLE);
+     23                      function.
+     24          
+     25                  (#) Enable CLK, BK1_IO0, BK1_IO1, BK1_IO2, BK1_IO3, BK1_NCS, BK2_IO0, 
+     26                      BK2_IO1, BK2_IO2, BK2_IO3 and BK2_NCS GPIO clocks using 
+     27                      RCC_AHB1PeriphClockCmd() function. 
+     28            
+     29                  (#) Peripherals alternate function: 
+     30                     (++) Connect the pin to the desired peripherals' Alternate 
+     31                           Function (AF) using GPIO_PinAFConfig() function.
+     32                     (++) Configure the desired pin in alternate function by:
+     33                           GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF.
+     34                     (++) Select the type, pull-up/pull-down and output speed via 
+     35                           GPIO_PuPd, GPIO_OType and GPIO_Speed members.
+     36                     (++) Call GPIO_Init() function.
+     37            
+     38                  (#) Program the Flash Size, CS High Time, Sample Shift, Prescaler, Clock Mode 
+     39                      values using the QSPI_Init() function.
+     40                      
+     41                  (#) Enable QSPI using  QSPI_Cmd() function.
+     42                  
+     43                  (#) Set QSPI Data Length using QSPI_SetDataLength() function.
+     44            
+     45                  (#) Configure the FIFO threshold using QSPI_SetFIFOThreshold() to select 
+     46                      at which threshold the FTF event is generated.
+     47          
+     48                  (#) Enable the NVIC and the corresponding interrupt using the function 
+     49                      QSPI_ITConfig() if you need to use interrupt mode. 
+     50            
+     51                  (#) When using the DMA mode 
+     52                     (++) Configure the DMA using DMA_Init() function.
+     53                     (++) Active the needed channel Request using SPI_I2S_DMACmd() function.
+     54             
+     55                  (#) Enable the SPI using the QSPI_DMACmd() function.
+     56             
+     57                  (#) Enable the DMA using the DMA_Cmd() function when using DMA mode.  
+     58            
+     59              @endverbatim 
+     60             *
+     61            ******************************************************************************
+     62            * @attention
+     63            *
+     64            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     65            *
+     66            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     67            * You may not use this file except in compliance with the License.
+     68            * You may obtain a copy of the License at:
+     69            *
+     70            *        http://www.st.com/software_license_agreement_liberty_v2
+     71            *
+     72            * Unless required by applicable law or agreed to in writing, software 
+     73            * distributed under the License is distributed on an "AS IS" BASIS, 
+     74            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     75            * See the License for the specific language governing permissions and
+     76            * limitations under the License.
+     77            *
+     78            ******************************************************************************
+     79            */
+     80          
+     81          /* Includes ------------------------------------------------------------------*/
+     82          #include "stm32f4xx_qspi.h"
+     83          
+     84          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     85            * @{
+     86            */
+     87          
+     88          /** @defgroup QSPI
+     89            * @brief QSPI driver modules
+     90            * @{
+     91            */
+     92          #if defined(STM32F446xx) || defined(STM32F469_479xx)
+     93          /* Private typedef -----------------------------------------------------------*/
+     94          /* Private define ------------------------------------------------------------*/
+     95          #define QSPI_CR_CLEAR_MASK                           0x00FFFFCF
+     96          #define QSPI_DCR_CLEAR_MASK                          0xFFE0F7FE
+     97          #define QSPI_CCR_CLEAR_MASK                          0x90800000
+     98          #define QSPI_PIR_CLEAR_MASK                          0xFFFF0000
+     99          #define QSPI_LPTR_CLEAR_MASK                         0xFFFF0000
+    100          #define QSPI_CCR_CLEAR_INSTRUCTION_MASK              0xFFFFFF00
+    101          #define QSPI_CCR_CLEAR_DCY_MASK                      0xFFC3FFFF
+    102          #define QSPI_CR_CLEAR_FIFOTHRESHOLD_MASK             0xFFFFF0FF
+    103          #define QSPI_CR_INTERRUPT_MASK                       0x001F0000
+    104          #define QSPI_SR_INTERRUPT_MASK                       0x0000001F
+    105          #define QSPI_FSR_INTERRUPT_MASK                      0x0000001B
+    106          /* Private macro -------------------------------------------------------------*/
+    107          /* Private variables ---------------------------------------------------------*/
+    108          /* Private function prototypes -----------------------------------------------*/
+    109          /* Private functions ---------------------------------------------------------*/
+    110          
+    111          
+    112          /* Initialization and Configuration functions *********************************/
+    113          
+    114          /** @defgroup <PPP>_Private_Functions 
+    115            * @{
+    116            */
+    117          
+    118          /** @defgroup <PPP>_Group1 Function Group1 Name
+    119           *  @brief   Function group1 name description (copied from the header file) 
+    120           *
+    121          @verbatim  
+    122           ===============================================================================
+    123               ##### < Function group1 name (copied from the header file)
+    124           Note: do not use "Peripheral" or "PPP" word in the function group name >  #####
+    125           ===============================================================================
+    126          
+    127                 [..] < OPTIONAL:
+    128                        Add here the most important information to know about the IP features
+    129                        covered by this group of function.
+    130                  
+    131                        For system IPs, this section contains how to use this group API.
+    132                      >
+    133          
+    134          @endverbatim
+    135            * @{
+    136            */   
+    137          
+    138          /**
+    139            * @brief  Deinitializes the QSPI peripheral registers to their default
+    140            *         reset values.
+    141            * @param  None
+    142            * @retval None
+    143            */
+    144          void QSPI_DeInit(void)
+    145          {
+    146            /* Enable QSPI reset state */
+    147            RCC_AHB3PeriphResetCmd(RCC_AHB3Periph_QSPI, ENABLE);
+    148            /* Release QSPI from reset state */
+    149            RCC_AHB3PeriphResetCmd(RCC_AHB3Periph_QSPI, DISABLE);
+    150          }
+    151          
+    152          /**
+    153            * @brief  Fills each QSPI_InitStruct member with its default value.
+    154            * @param  QSPI_InitStruct: pointer to a QSPI_InitTypeDef structure which will be initialized.
+    155            * @retval None
+    156            */
+    157          void QSPI_StructInit(QSPI_InitTypeDef* QSPI_InitStruct)
+    158          {
+    159          /*--------- Reset QSPI init structure parameters default values ------------*/
+    160            /* Initialize the QSPI_SShift member */
+    161            QSPI_InitStruct->QSPI_SShift = QSPI_SShift_NoShift ;
+    162            /* Initialize the QSPI_Prescaler member */  
+    163            QSPI_InitStruct->QSPI_Prescaler = 0 ;
+    164            /* Initialize the QSPI_CKMode member */
+    165            QSPI_InitStruct->QSPI_CKMode = QSPI_CKMode_Mode0 ;
+    166            /* Initialize the QSPI_CSHTime member */
+    167            QSPI_InitStruct->QSPI_CSHTime = QSPI_CSHTime_1Cycle ;
+    168            /* Initialize the QSPI_FSize member */
+    169            QSPI_InitStruct->QSPI_FSize = 0 ;
+    170            /* Initialize the QSPI_FSelect member */
+    171            QSPI_InitStruct->QSPI_FSelect = QSPI_FSelect_1 ;
+    172            /* Initialize the QSPI_DFlash member */
+    173            QSPI_InitStruct->QSPI_DFlash = QSPI_DFlash_Disable ;
+    174          }
+    175          
+    176          /**
+    177            * @brief  Fills each QSPI_ComConfig_InitStruct member with its default value.
+    178            * @param  QSPI_ComConfig_InitStruct: pointer to a QSPI_ComConfig_InitTypeDef structure which will be initialized.
+    179            * @retval None
+    180            */
+    181          void QSPI_ComConfig_StructInit(QSPI_ComConfig_InitTypeDef* QSPI_ComConfig_InitStruct)
+    182          {
+    183          /*--------- Reset QSPI ComConfig init structure parameters default values ------------*/
+    184              
+    185          /* Set QSPI Communication configuration structure parameters default values */
+    186            /* Initialize the QSPI_ComConfig_DDRMode member */
+    187            QSPI_ComConfig_InitStruct->QSPI_ComConfig_DDRMode = QSPI_ComConfig_DDRMode_Disable ;
+    188            /* Initialize the QSPI_ComConfig_DHHC member */
+    189            QSPI_ComConfig_InitStruct->QSPI_ComConfig_DHHC = QSPI_ComConfig_DHHC_Disable ;
+    190            /* Initialize the QSPI_ComConfig_SIOOMode member */
+    191            QSPI_ComConfig_InitStruct->QSPI_ComConfig_SIOOMode = QSPI_ComConfig_SIOOMode_Disable ;
+    192            /* Initialize the QSPI_ComConfig_FMode member */
+    193            QSPI_ComConfig_InitStruct->QSPI_ComConfig_FMode = QSPI_ComConfig_FMode_Indirect_Write ;
+    194            /* Initialize the QSPI_ComConfig_DMode member */
+    195            QSPI_ComConfig_InitStruct->QSPI_ComConfig_DMode = QSPI_ComConfig_DMode_NoData ;
+    196            /* Initialize the QSPI_ComConfig_DummyCycles member */
+    197            QSPI_ComConfig_InitStruct->QSPI_ComConfig_DummyCycles = 0 ;
+    198            /* Initialize the QSPI_ComConfig_ABSize member */
+    199            QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABSize = QSPI_ComConfig_ABSize_8bit ;
+    200            /* Initialize the QSPI_ComConfig_ABMode member */
+    201            QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABMode = QSPI_ComConfig_ABMode_NoAlternateByte ;
+    202            /* Initialize the QSPI_ComConfig_ADSize member */
+    203            QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADSize = QSPI_ComConfig_ADSize_8bit ;
+    204            /* Initialize the QSPI_ComConfig_ADMode member */
+    205            QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADMode = QSPI_ComConfig_ADMode_NoAddress ;
+    206            /* Initialize the QSPI_ComConfig_IMode member */
+    207            QSPI_ComConfig_InitStruct->QSPI_ComConfig_IMode = QSPI_ComConfig_IMode_NoInstruction ;
+    208            /* Initialize the QSPI_ComConfig_Ins member */
+    209            QSPI_ComConfig_InitStruct->QSPI_ComConfig_Ins = 0 ;
+    210          }
+    211          
+    212          /**
+    213            * @brief  Initializes the QSPI peripheral according to the specified 
+    214            *         parameters in the QSPI_InitStruct.
+    215            * @param  QSPI_InitStruct: pointer to a QSPI_InitTypeDef structure that
+    216            *         contains the configuration information for the specified QSPI peripheral.
+    217            * @retval None
+    218            */
+    219          void QSPI_Init(QSPI_InitTypeDef* QSPI_InitStruct)
+    220          {
+    221            uint32_t tmpreg = 0;
+    222            
+    223            /* Check the QSPI parameters */
+    224            assert_param(IS_QSPI_SSHIFT(QSPI_InitStruct->QSPI_SShift));
+    225            assert_param(IS_QSPI_PRESCALER(QSPI_InitStruct->QSPI_Prescaler));
+    226            assert_param(IS_QSPI_CKMODE(QSPI_InitStruct->QSPI_CKMode));
+    227            assert_param(IS_QSPI_CSHTIME(QSPI_InitStruct->QSPI_CSHTime));
+    228            assert_param(IS_QSPI_FSIZE(QSPI_InitStruct->QSPI_FSize));
+    229          	assert_param(IS_QSPI_FSEL(QSPI_InitStruct->QSPI_FSelect));
+    230          	assert_param(IS_QSPI_DFM(QSPI_InitStruct->QSPI_DFlash));
+    231            
+    232            /*------------------------ QSPI CR Configuration ------------------------*/
+    233            /* Get the QUADSPI CR1 value */
+    234            tmpreg = QUADSPI->CR;
+    235            /* Clear PRESCALER and SSHIFT bits */
+    236            tmpreg &= QSPI_CR_CLEAR_MASK;
+    237            /* Configure QUADSPI: Prescaler and Sample Shift */
+    238            tmpreg |= (uint32_t)(((QSPI_InitStruct->QSPI_Prescaler)<<24)
+    239                                  |(QSPI_InitStruct->QSPI_SShift)
+    240          	                      |(QSPI_InitStruct->QSPI_FSelect)
+    241          	                      |(QSPI_InitStruct->QSPI_DFlash));  
+    242            /* Write to QUADSPI CR */
+    243            QUADSPI->CR = tmpreg;
+    244            
+    245            /*------------------------ QUADSPI DCR Configuration ------------------------*/
+    246            /* Get the QUADSPI DCR value */
+    247            tmpreg = QUADSPI->DCR;
+    248            /* Clear FSIZE, CSHT and CKMODE bits */
+    249            tmpreg &= QSPI_DCR_CLEAR_MASK;
+    250            /* Configure QSPI: Flash Size, Chip Select High Time and Clock Mode */
+    251            tmpreg |= (uint32_t)(((QSPI_InitStruct->QSPI_FSize)<<16)
+    252                                  |(QSPI_InitStruct->QSPI_CSHTime)
+    253                                  |(QSPI_InitStruct->QSPI_CKMode));  
+    254            /* Write to QSPI DCR */
+    255            QUADSPI->DCR = tmpreg;  
+    256          }
+    257          
+    258          /**
+    259            * @brief  Initializes the QSPI CCR according to the specified 
+    260            *         parameters in the QSPI_ComConfig_InitStruct.
+    261            * @param  QSPI_ComConfig_InitStruct: pointer to a QSPI_ComConfig_InitTypeDef structure that
+    262            *         contains the communication configuration informations about QSPI peripheral.
+    263            * @retval None
+    264            */
+    265          void QSPI_ComConfig_Init(QSPI_ComConfig_InitTypeDef* QSPI_ComConfig_InitStruct)
+    266          {
+    267            uint32_t tmpreg = 0;
+    268          
+    269            /* Check the QSPI Communication Control parameters */
+    270            assert_param(IS_QSPI_FMODE       (QSPI_ComConfig_InitStruct->QSPI_ComConfig_FMode));
+    271            assert_param(IS_QSPI_SIOOMODE    (QSPI_ComConfig_InitStruct->QSPI_ComConfig_SIOOMode));
+    272            assert_param(IS_QSPI_DMODE       (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DMode));
+    273            assert_param(IS_QSPI_DCY         (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DummyCycles));
+    274            assert_param(IS_QSPI_ABSIZE      (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABSize));
+    275            assert_param(IS_QSPI_ABMODE      (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABMode));
+    276            assert_param(IS_QSPI_ADSIZE      (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADSize));
+    277            assert_param(IS_QSPI_ADMODE      (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADMode));
+    278            assert_param(IS_QSPI_IMODE       (QSPI_ComConfig_InitStruct->QSPI_ComConfig_IMode));
+    279            assert_param(IS_QSPI_INSTRUCTION (QSPI_ComConfig_InitStruct->QSPI_ComConfig_Ins));
+    280          	assert_param(IS_QSPI_DDRMODE     (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DDRMode));
+    281          	assert_param(IS_QSPI_DHHC        (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DHHC));
+    282            
+    283            /*------------------------ QUADSPI CCR Configuration ------------------------*/
+    284            /* Get the QUADSPI CCR value */
+    285            tmpreg = QUADSPI->CCR;
+    286            /* Clear FMODE Mode bits */
+    287            tmpreg &= QSPI_CCR_CLEAR_MASK;
+    288            /* Configure QUADSPI: CCR Configuration */
+    289            tmpreg |=  (uint32_t)( (QSPI_ComConfig_InitStruct->QSPI_ComConfig_FMode)
+    290                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DDRMode)
+    291          											 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DHHC)
+    292                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_SIOOMode)
+    293                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_DMode)
+    294                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABSize)
+    295                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ABMode)                                                                       
+    296                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADSize)
+    297                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_ADMode)
+    298                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_IMode)
+    299                                 | (QSPI_ComConfig_InitStruct->QSPI_ComConfig_Ins)
+    300                                 |((QSPI_ComConfig_InitStruct->QSPI_ComConfig_DummyCycles)<<18));    
+    301            /* Write to QUADSPI DCR */
+    302            QUADSPI->CCR = tmpreg;      
+    303          }
+    304          
+    305          /**
+    306            * @brief  Enables or disables QSPI peripheral.
+    307            * @param  NewState: new state of the QSPI peripheral. 
+    308            *          This parameter can be: ENABLE or DISABLE.
+    309            * @retval None
+    310            */
+    311          void QSPI_Cmd(FunctionalState NewState)
+    312          {
+    313            /* Check the parameters */
+    314            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    315          
+    316            if (NewState != DISABLE)
+    317            {
+    318              /* Enable QSPI peripheral */
+    319              QUADSPI->CR |= QUADSPI_CR_EN;
+    320            }
+    321            else
+    322            {
+    323              /* Disable QSPI peripheral */
+    324              QUADSPI->CR &= ~ QUADSPI_CR_EN;
+    325            }
+    326          }
+    327          
+    328          /**
+    329            * @brief  Configure the QSPI Automatic Polling Mode.
+    330            * @param  QSPI_Match: Value to be compared with the masked status register to get a match. 
+    331            *          This parameter can be any value between 0x00000000 and 0xFFFFFFFF.
+    332            * @param  QSPI_Mask: Mask to be applied to the status bytes received in polling mode.. 
+    333            *          This parameter can be any value between 0x00000000 and 0xFFFFFFFF.
+    334            * @param  QSPI_Match_Mode: indicates which method should be used for determining a “match” during
+    335            *         automatic polling mode. 
+    336            *          This parameter can be any value of :
+    337            *            @arg QSPI_PMM_AND: AND match mode- SMF is set if all the unmasked bits received from the flash match
+    338            *                 the corresponding bits in the match register
+    339            *            @arg QSPI_PMM_OR: OR match mode- SMF is set if any one of the unmasked bits received from the flash
+    340                              matches its corresponding bit in the match register.
+    341            * @note   This function is used only in Automatic Polling Mode
+    342            * @retval None
+    343            */
+    344          void QSPI_AutoPollingMode_Config(uint32_t QSPI_Match, uint32_t QSPI_Mask , uint32_t QSPI_Match_Mode)
+    345          {
+    346            /* Check the parameters */
+    347            assert_param(IS_QSPI_PMM(QSPI_Match_Mode));
+    348          
+    349            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    350            /* Device is not Busy */
+    351            {
+    352              /* Set the Match Register */
+    353              QUADSPI->PSMAR = QSPI_Match ;
+    354          
+    355              /* Set the Mask Register */
+    356              QUADSPI->PSMKR = QSPI_Mask ;
+    357              
+    358              /* Set the Polling Match Mode */
+    359              if(QSPI_Match_Mode)
+    360              /* OR Match Mode */
+    361              {
+    362                /* Set the PMM bit */
+    363                QUADSPI->CR |= QUADSPI_CR_PMM;
+    364              }
+    365              else
+    366              /* AND Match Mode */
+    367              {
+    368                /* Reset the PMM bit */
+    369                QUADSPI->CR &= ~ QUADSPI_CR_PMM;
+    370              }
+    371            }
+    372          }
+    373          
+    374          /**
+    375            * @brief  Sets the number of CLK cycle between two read during automatic polling phases.
+    376            * @param  QSPI_Interval: The number of CLK cycle between two read during automatic polling phases. 
+    377            *          This parameter can be any value of between 0x0000 and 0xFFFF
+    378            * @note   This function is used only in Automatic Polling Mode  
+    379            * @retval None
+    380            */
+    381          void QSPI_AutoPollingMode_SetInterval(uint32_t QSPI_Interval)
+    382          {
+    383            uint32_t tmpreg = 0;
+    384            
+    385            /* Check the parameters */
+    386            assert_param(IS_QSPI_PIR(QSPI_Interval));
+    387          
+    388            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    389            /* Device is not Busy */
+    390            {
+    391              /* Read the PIR Register */
+    392              tmpreg = QUADSPI->PIR ;
+    393              /* Clear Polling interval Bits */
+    394              tmpreg &= QSPI_PIR_CLEAR_MASK ;
+    395              /* Set the QSPI Polling Interval Bits */
+    396              tmpreg |= QSPI_Interval;
+    397              /* Write the PIR Register */
+    398              QUADSPI->PIR = tmpreg;
+    399            }
+    400          }
+    401          
+    402          /**
+    403            * @brief  Sets the value of the Timeout in Memory Mapped mode
+    404            * @param  QSPI_Timeout: This field indicates how many CLK cycles QSPI waits after the 
+    405            *         FIFO becomes full until it raises nCS, putting the flash memory 
+    406            *         in a lowerconsumption state. 
+    407            *         This parameter can be any value of between 0x0000 and 0xFFFF
+    408            * @note   This function is used only in Memory Mapped Mode  
+    409            * @retval None
+    410            */
+    411          void QSPI_MemoryMappedMode_SetTimeout(uint32_t QSPI_Timeout)
+    412          {
+    413            uint32_t tmpreg = 0;
+    414            
+    415            /* Check the parameters */
+    416            assert_param(IS_QSPI_TIMEOUT(QSPI_Timeout));
+    417          
+    418            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    419            /* Device is not Busy */
+    420            {
+    421              /* Read the LPTR Register */
+    422              tmpreg = QUADSPI->LPTR ;
+    423              /* Clear Timeout Bits */
+    424              tmpreg &= QSPI_LPTR_CLEAR_MASK ;
+    425              /* Set Timeout Bits */
+    426              tmpreg |= QSPI_Timeout;
+    427              /* Write the LPTR Register */
+    428              QUADSPI->LPTR = tmpreg;
+    429            }
+    430          }
+    431          
+    432          /**
+    433            * @brief  Sets the value of the Address
+    434            * @param  QSPI_Address: Address to be send to the external flash memory.  
+    435            *         This parameter can be any value of between 0x00000000 and 0xFFFFFFFF
+    436            * @note   This function is used only in Indirect Mode  
+    437            * @retval None
+    438            */
+    439          void QSPI_SetAddress(uint32_t QSPI_Address)
+    440          {
+    441            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    442            /* Device is not Busy */
+    443            {
+    444              /* Write the AR Register */
+    445              QUADSPI->AR = QSPI_Address;
+    446            }
+    447          }
+    448          
+    449          /**
+    450            * @brief  Sets the value of the Alternate Bytes
+    451            * @param  QSPI_AlternateByte: Optional data to be send to the external QSPI device right after the address. 
+    452            *         This parameter can be any value of between 0x00000000 and 0xFFFFFFFF
+    453            * @note   This function is used only in Indirect Mode  
+    454            * @retval None
+    455            */
+    456          void QSPI_SetAlternateByte(uint32_t QSPI_AlternateByte)
+    457          {
+    458            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    459            /* Device is not Busy */
+    460            {
+    461              /* Write the ABR Register */
+    462              QUADSPI->ABR = QSPI_AlternateByte;
+    463            }
+    464          }
+    465          
+    466          /**
+    467            * @brief  Sets the FIFO Threshold
+    468            * @param  QSPI_FIFOThres: Defines, in indirect mode, the threshold number 
+    469            *           of bytes in the FIFO which will cause the FIFO Threshold Flag 
+    470            *           FTF to be set.
+    471            *         This parameter can be any value of between 0x00 and 0x0F
+    472            * @retval None
+    473            */
+    474          void QSPI_SetFIFOThreshold(uint32_t QSPI_FIFOThreshold)
+    475          {
+    476            uint32_t tmpreg = 0;
+    477            
+    478            /* Check the parameters */
+    479            assert_param(IS_QSPI_FIFOTHRESHOLD(QSPI_FIFOThreshold));
+    480          
+    481            /* Read the CR Register */
+    482            tmpreg = QUADSPI->CR ;
+    483            /* Clear FIFO Threshold Bits */
+    484            tmpreg &= QSPI_CR_CLEAR_FIFOTHRESHOLD_MASK ;
+    485            /* Set FIFO Threshold Bits */
+    486            tmpreg |= (QSPI_FIFOThreshold << 8);
+    487            /* Write the CR Register */
+    488            QUADSPI->CR = tmpreg;
+    489          }
+    490          
+    491          /**
+    492            * @brief  Sets number of Bytes to be transferred 
+    493            * @param  QSPI_DataLength: Number of data to be retrieved (value+1) 
+    494            *         in indirect and status-polling modes. A value no greater than 3 
+    495            *         (indicating 4 bytes) should be used for status-polling mode. 
+    496            *         All 1s in indirect mode means undefined length, where QSPI will 
+    497            *         continue until the end of memory, as defined by FSIZE
+    498            *         This parameter can be any value of between 0x00000000 and 0xFFFFFFFF
+    499            *             0x0000_0000: 1 byte is to be transferred
+    500            *             0x0000_0001: 2 bytes are to be transferred
+    501            *             0x0000_0002: 3 bytes are to be transferred
+    502            *             0x0000_0003: 4 bytes are to be transferred
+    503            *             ...
+    504            *             0xFFFF_FFFD: 4,294,967,294 (4G-2) bytes are to be transferred
+    505            *             0xFFFF_FFFE: 4,294,967,295 (4G-1) bytes are to be transferred
+    506            *             0xFFFF_FFFF: undefined length -- all bytes until the end of flash memory (as defined
+    507            *             by FSIZE) are to be transferred
+    508            * @note   This function is not used in Memory Mapped Mode.
+    509            * @retval None
+    510            */
+    511          void QSPI_SetDataLength(uint32_t QSPI_DataLength)
+    512          {
+    513            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    514            /* Device is not Busy */
+    515            {
+    516              /* Write the DLR Register */
+    517              QUADSPI->DLR = QSPI_DataLength;
+    518            }
+    519          }
+    520          
+    521          /**
+    522            * @brief  Enables or disables The Timeout Counter.
+    523            * @param  NewState: new state of the Timeout Counter. 
+    524            *          This parameter can be: ENABLE or DISABLE.
+    525            * @note   This function is used only in Memory Mapped Mode.
+    526            * @retval None
+    527            */
+    528          void QSPI_TimeoutCounterCmd(FunctionalState NewState)
+    529          {
+    530            /* Check the parameters */
+    531            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    532          
+    533            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    534            /* Device is not Busy */
+    535            {
+    536              if (NewState != DISABLE)
+    537              {
+    538                /* Enable Timeout Counter */
+    539                QUADSPI->CR |= QUADSPI_CR_TCEN;
+    540              }
+    541              else
+    542              {
+    543                /* Disable Timeout Counter */
+    544                QUADSPI->CR &= ~ QUADSPI_CR_TCEN;
+    545              }
+    546            }
+    547          }
+    548          
+    549          /**
+    550            * @brief  Enables or disables Automatic Polling Mode Stop when a match occurs.
+    551            * @param  NewState: new state of the Automatic Polling Mode Stop. 
+    552            *          This parameter can be: ENABLE or DISABLE.
+    553            * @note   This function is used only in Automatic Polling Mode.    
+    554            * @retval None
+    555            */
+    556          void QSPI_AutoPollingModeStopCmd(FunctionalState NewState)
+    557          {
+    558            /* Check the parameters */
+    559            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    560          
+    561            if (!(QUADSPI->SR & QUADSPI_SR_BUSY))
+    562            /* Device is not Busy */
+    563            {
+    564              if (NewState != DISABLE)
+    565              {
+    566                /* Enable Automatic Polling Mode Stop */
+    567                QUADSPI->CR |= QUADSPI_CR_APMS;
+    568              }
+    569              else
+    570              {
+    571                /* Disable Automatic Polling Mode Stop */
+    572                QUADSPI->CR &= ~ QUADSPI_CR_APMS;
+    573              }
+    574            }
+    575          }
+    576          
+    577          /**
+    578            * @brief  Abort the on-going command sequence.
+    579            * @param  None
+    580            * @retval None
+    581            */
+    582          void QSPI_AbortRequest(void)
+    583          {
+    584            /* Enable the ABORT request bit in CR */
+    585            QUADSPI->CR |= QUADSPI_CR_ABORT;
+    586          }
+    587          
+    588          /* Data transfers functions ***************************************************/
+    589          
+    590          /**
+    591            * @brief  Transmits a 8bit Data through the QSPI peripheral.
+    592            * @param  Data: Data to be transmitted.
+    593            * @retval None
+    594            */
+    595          void QSPI_SendData8(uint8_t Data)
+    596          {
+    597            uint32_t quadspibase = 0;
+    598          
+    599            quadspibase = (uint32_t)QUADSPI; 
+    600            quadspibase += 0x20;
+    601            
+    602            *(__IO uint8_t *) quadspibase = Data;
+    603          }
+    604          
+    605          /**
+    606            * @brief  Transmits a 16bit Data through the QSPI peripheral.
+    607            * @param  Data: Data to be transmitted.
+    608            * @retval None
+    609            */
+    610          void QSPI_SendData16(uint16_t Data)
+    611          {
+    612            uint32_t quadspibase = 0;
+    613          
+    614            quadspibase = (uint32_t)QUADSPI; 
+    615            quadspibase += 0x20;
+    616            
+    617            *(__IO uint16_t *) quadspibase = Data;
+    618          }
+    619          
+    620          /**
+    621            * @brief  Transmits a 32bit Data through the QSPI peripheral.
+    622            * @param  Data: Data to be transmitted.
+    623            * @retval None
+    624            */
+    625          void QSPI_SendData32(uint32_t Data)
+    626          {
+    627            QUADSPI->DR = Data;
+    628          }
+    629          
+    630          /**
+    631            * @brief  Returns the most recent received 8bit data by the QSPI peripheral. 
+    632            * @retval The value of the received data.
+    633            */
+    634          uint8_t QSPI_ReceiveData8(void)
+    635          {
+    636            uint32_t quadspibase = 0;
+    637            
+    638            quadspibase = (uint32_t)QUADSPI; 
+    639            quadspibase += 0x20;
+    640            
+    641            return *(__IO uint8_t *) quadspibase;
+    642          }
+    643          
+    644          /**
+    645            * @brief  Returns the most recent received 16bit data by the QSPI peripheral. 
+    646            * @retval The value of the received data.
+    647            */
+    648          uint16_t QSPI_ReceiveData16(void)
+    649          {
+    650            uint32_t quadspibase = 0;
+    651            
+    652            quadspibase = (uint32_t)QUADSPI; 
+    653            quadspibase += 0x20;
+    654            
+    655            return *(__IO uint16_t *) quadspibase;
+    656          }
+    657          
+    658          /**
+    659            * @brief  Returns the most recent received 32bit data by the QSPI peripheral. 
+    660            * @retval The value of the received data.
+    661            */
+    662          uint32_t QSPI_ReceiveData32(void)
+    663          {
+    664            return QUADSPI->DR;
+    665          }
+    666          
+    667          /* DMA transfers management functions *****************************************/
+    668          
+    669          /**
+    670            * @brief  Enables or disables DMA for Indirect Mode.
+    671            * @param  NewState: new state of the Timeout Counter. 
+    672            *          This parameter can be: ENABLE or DISABLE.
+    673            * @retval None
+    674            */
+    675          void QSPI_DMACmd(FunctionalState NewState)
+    676          {
+    677            /* Check the parameters */
+    678            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    679          
+    680            if (NewState != DISABLE)
+    681            {
+    682              /* Enable DMA */
+    683              QUADSPI->CR |= QUADSPI_CR_DMAEN;
+    684            }
+    685            else
+    686            {
+    687              /* Disable DMA */
+    688              QUADSPI->CR &= ~ QUADSPI_CR_DMAEN;
+    689            }
+    690          }
+    691          
+    692          /* Interrupts and flags management functions **********************************/
+    693          
+    694          /**
+    695            * @brief  Enables or disables the specified QSPI interrupts.
+    696            * @param  QSPI_IT: specifies the QSPI interrupt source to be enabled or disabled. 
+    697            *          This parameter can be one of the following values:
+    698            *            @arg QSPI_IT_TO: Timeout interrupt
+    699            *            @arg QSPI_IT_SM: Status Match interrupt
+    700            *            @arg QSPI_IT_FT: FIFO Threshold
+    701            *            @arg QSPI_IT_TC: Transfer Complete
+    702            *            @arg QSPI_IT_TE: Transfer Error      
+    703            * @param  NewState: new state of the specified QSPI interrupt.
+    704            *          This parameter can be: ENABLE or DISABLE.
+    705            * @retval None
+    706            */
+    707          void QSPI_ITConfig(uint32_t QSPI_IT, FunctionalState NewState)
+    708          {
+    709            uint32_t tmpreg = 0;
+    710          
+    711            /* Check the parameters */
+    712            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    713            assert_param(IS_QSPI_IT(QSPI_IT));
+    714          
+    715            /* Read the CR Register */
+    716            tmpreg = QUADSPI->CR ;
+    717            
+    718            if(NewState != DISABLE)
+    719            {
+    720              /* Enable the selected QSPI interrupt */
+    721              tmpreg |= (uint32_t)(QSPI_IT & QSPI_CR_INTERRUPT_MASK);
+    722            }
+    723            else
+    724            {
+    725              /* Disable the selected QSPI interrupt */
+    726              tmpreg &= ~(uint32_t)(QSPI_IT & QSPI_CR_INTERRUPT_MASK);
+    727            }
+    728            /* Write the CR Register */
+    729            QUADSPI->CR = tmpreg ;  
+    730          }
+    731          
+    732          /**
+    733            * @brief  Returns the current QSPI FIFO filled level.
+    734            * @retval Number of valid bytes which are being held in the FIFO.
+    735            *         0x00 : FIFO is empty
+    736            *         0x1F : FIFO is full    
+    737            */
+    738          uint32_t QSPI_GetFIFOLevel(void)
+    739          {
+    740            /* Get the QSPI FIFO level bits */
+    741            return ((QUADSPI->SR & QUADSPI_SR_FLEVEL)>> 8);
+    742          }
+    743          
+    744          /**
+    745            * @brief  Returns the QSPI functional mode.  
+    746            * @param  None 
+    747            * @retval QSPI Functional Mode .The returned value can be one of the following:
+    748            *              - 0x00000000: QSPI_FMode_Indirect_Write
+    749            *              - 0x04000000: QSPI_FMode_Indirect_Read
+    750            *              - 0x08000000: QSPI_FMode_AutoPolling
+    751            *              - 0x0C000000: QSPI_FMode_MemoryMapped
+    752            */
+    753          uint32_t QSPI_GetFMode(void)
+    754          {
+    755            /* Return the QSPI_FMode */
+    756            return  (QUADSPI->CCR & QUADSPI_CCR_FMODE);
+    757          }
+    758          
+    759          /**
+    760            * @brief  Checks whether the specified QSPI flag is set or not.  
+    761            * @param  QSPI_FLAG: specifies the QSPI flag to check. 
+    762            *          This parameter can be one of the following values:
+    763            *            @arg QSPI_FLAG_TO: Timeout interrupt flag
+    764            *            @arg QSPI_FLAG_SM: Status Match interrupt flag
+    765            *            @arg QSPI_FLAG_FT: FIFO Threshold flag
+    766            *            @arg QSPI_FLAG_TC: Transfer Complete flag
+    767            *            @arg QSPI_FLAG_TE: Transfer Error flag
+    768            *            @arg QSPI_FLAG_BUSY: Busy flag      
+    769            * @retval The new state of QSPI_FLAG (SET or RESET).
+    770            */
+    771          FlagStatus QSPI_GetFlagStatus(uint32_t QSPI_FLAG)
+    772          {
+    773            FlagStatus bitstatus = RESET;
+    774            /* Check the parameters */
+    775            assert_param(IS_QSPI_GET_FLAG(QSPI_FLAG));
+    776          
+    777            /* Check the status of the specified QSPI flag */
+    778            if (QUADSPI->SR & QSPI_FLAG)
+    779            {
+    780              /* QSPI_FLAG is set */
+    781              bitstatus = SET;
+    782            }
+    783            else
+    784            {
+    785              /* QSPI_FLAG is reset */
+    786              bitstatus = RESET;
+    787            }
+    788            /* Return the QSPI_FLAG status */
+    789            return  bitstatus;
+    790          }
+    791          
+    792          /**
+    793            * @brief  Clears the QSPI flag.
+    794            * @param  QSPI_FLAG: specifies the QSPI flag to clear. 
+    795            *          This parameter can be one of the following values:
+    796            *            @arg QSPI_FLAG_TO: Timeout interrupt flag
+    797            *            @arg QSPI_FLAG_SM: Status Match interrupt flag
+    798            *            @arg QSPI_FLAG_TC: Transfer Complete flag
+    799            *            @arg QSPI_FLAG_TE: Transfer Error flag
+    800            * @retval None
+    801            */
+    802          void QSPI_ClearFlag(uint32_t QSPI_FLAG)
+    803          {
+    804            /* Check the parameters */
+    805            assert_param(IS_QSPI_CLEAR_FLAG(QSPI_FLAG));
+    806          
+    807            /* Clear the selected QSPI flags */
+    808            QUADSPI->FCR = QSPI_FLAG;
+    809          }
+    810          
+    811          /**
+    812            * @brief  Checks whether the specified QSPI interrupt has occurred or not.
+    813            * @param  QSPI_IT: specifies the QSPI interrupt source to check. 
+    814            *          This parameter can be one of the following values:
+    815            *            @arg QSPI_IT_TO: Timeout interrupt 
+    816            *            @arg QSPI_IT_SM: Status Match interrupt
+    817            *            @arg QSPI_IT_FT: FIFO Threshold
+    818            *            @arg QSPI_IT_TC: Transfer Complete
+    819            *            @arg QSPI_IT_TE: Transfer Error    
+    820            * @retval The new state of QSPI_IT (SET or RESET).
+    821            */
+    822          ITStatus QSPI_GetITStatus(uint32_t QSPI_IT)
+    823          {
+    824            ITStatus bitstatus = RESET;
+    825            __IO uint32_t tmpcreg = 0, tmpsreg = 0; 
+    826          
+    827            /* Check the parameters */
+    828            assert_param(IS_QSPI_IT(QSPI_IT));
+    829          
+    830            /* Read the QUADSPI CR */
+    831            tmpcreg = QUADSPI->CR;  
+    832            tmpcreg &= (uint32_t)(QSPI_IT & QSPI_CR_INTERRUPT_MASK);
+    833            
+    834            /* Read the QUADSPI SR */
+    835            tmpsreg = QUADSPI->SR;  
+    836            tmpsreg &= (uint32_t)(QSPI_IT & QSPI_SR_INTERRUPT_MASK);
+    837          
+    838            /* Check the status of the specified QSPI interrupt */
+    839            if((tmpcreg != RESET) && (tmpsreg != RESET))
+    840            {
+    841              /* QSPI_IT is set */
+    842              bitstatus = SET;
+    843            }
+    844            else
+    845            {
+    846              /* QSPI_IT is reset */
+    847              bitstatus = RESET;
+    848            }
+    849            /* Return the QSPI_IT status */
+    850            return bitstatus;
+    851          }
+    852          
+    853          /**
+    854            * @brief  Clears the QSPI's interrupt pending bits.
+    855            * @param  QSPI_IT: specifies the QSPI pending bit to clear. 
+    856            *          This parameter can be one of the following values:
+    857            *            @arg QSPI_IT_TO: Timeout interrupt 
+    858            *            @arg QSPI_IT_SM: Status Match interrupt
+    859            *            @arg QSPI_IT_TC: Transfer Complete
+    860            *            @arg QSPI_IT_TE: Transfer Error 
+    861            * @retval None
+    862            */
+    863          void QSPI_ClearITPendingBit(uint32_t QSPI_IT)
+    864          {
+    865            /* Check the parameters */
+    866            assert_param(IS_QSPI_CLEAR_IT(QSPI_IT));  
+    867          
+    868            QUADSPI->FCR = (uint32_t)(QSPI_IT & QSPI_FSR_INTERRUPT_MASK);
+    869          }
+    870          
+    871          /**
+    872            * @brief  Enables or disables QSPI Dual Flash Mode.
+    873            * @param  NewState: new state of the QSPI Dual Flash Mode. 
+    874            *          This parameter can be: ENABLE or DISABLE.
+    875            * @retval None
+    876            */
+    877          void QSPI_DualFlashMode_Cmd(FunctionalState NewState)
+    878          {
+    879            /* Check the parameters */
+    880            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    881          
+    882            if (NewState != DISABLE)
+    883            {
+    884              /* Enable QSPI Dual Flash Mode */
+    885              QUADSPI->CR |= QUADSPI_CR_DFM;
+    886            }
+    887            else
+    888            {
+    889              /* Disable QSPI Dual Flash Mode */
+    890              QUADSPI->CR &= ~ QUADSPI_CR_DFM;
+    891            }
+    892          }
+    893          
+    894          /**
+    895            * @}
+    896            */
+    897          
+    898          /**
+    899            * @}
+    900            */
+    901          #endif /* STM32F446xx || STM32F469_479xx */
+    902          
+    903          /**
+    904            * @}
+    905            */
+    906          
+    907          /**
+    908            * @}
+    909            */
+    910          
+    911          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none

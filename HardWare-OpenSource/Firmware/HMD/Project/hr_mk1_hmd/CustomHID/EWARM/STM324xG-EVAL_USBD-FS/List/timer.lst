@@ -1,0 +1,200 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        21/Sep/2016  17:28:52
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\timer.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\timer.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\timer.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\timer.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\f4_firmware\Project\hr_mk1_hmd\CustomHID\src\timer.c
+      1          #include "stm32f4xx.h"
+      2          #include "haptic.h"
+      3          
+      4          void haptic_timer_init()
+      5          {
+      6              GPIO_InitTypeDef GPIO_InitStructure;
+      7              TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+      8              NVIC_InitTypeDef NVIC_InitStructure;
+      9          
+     10              /* Time Base configuration */
+     11              TIM_TimeBaseStructure.TIM_Prescaler = ClockDivsion;
+     12              TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+     13              TIM_TimeBaseStructure.TIM_Period = TimerPeriod;
+     14              TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+     15              TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+     16              
+     17              RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB , ENABLE);
+     18              RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4 , ENABLE);
+     19              TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+     20              TIM_Cmd(TIM4, ENABLE);
+     21              TIM_CtrlPWMOutputs(TIM4, ENABLE);
+     22              
+     23              TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+     24              
+     25              NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
+     26              NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+     27              NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+     28              NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+     29              NVIC_Init(&NVIC_InitStructure);
+     30              
+     31              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+     32              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+     33              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+     34              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+     35              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP ;
+     36              GPIO_Init(GPIOB, &GPIO_InitStructure);
+     37              
+     38              GPIO_PinAFConfig(GPIOB, GPIO_PinSource6, GPIO_AF_TIM4);
+     39          
+     40          }
+     41          
+     42          #ifdef USE_IPHONE
+     43          void timer_set(double duty_cycle, uint32_t ms)
+     44          {
+     45              TIM_OCInitTypeDef  TIM_OCInitStructure;
+     46              
+     47              uint16_t ChannelPulse = duty_cycle * (TimerPeriod - 1);
+     48              
+     49              TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+     50              TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+     51              TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
+     52              TIM_OCInitStructure.TIM_Pulse = ChannelPulse;
+     53              TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+     54              TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
+     55              TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
+     56              TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+     57              
+     58              tim_cnt = ms * 20;
+     59              
+     60              TIM_OC1Init(TIM4, &TIM_OCInitStructure);
+     61          }
+     62          #endif
+     63          
+     64          #ifdef USE_ALPS
+     65          //freq == 0 STOP
+     66          //freq == 1 160Hz
+     67          //freq == 2 320Hz
+     68          //ms == 0 continuous
+     69          void freq_set(int freq, uint32_t ms)
+     70          {
+     71              TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+     72              TIM_OCInitTypeDef  TIM_OCInitStructure;
+     73              
+     74              uint16_t ChannelPulse;
+     75              uint16_t pwm;
+     76              switch(freq)
+     77              {
+     78              case 0:
+     79                  ChannelPulse = 4999;
+     80                  pwm = 0;
+     81                  tim_cnt = ms * 2 / 25;
+     82                  break;
+     83              case 1:
+     84                  ChannelPulse = 4999;
+     85                  pwm = 2499;
+     86                  tim_cnt = ms * 2 / 25;
+     87                  break;
+     88              case 2:
+     89                  ChannelPulse = 2499;
+     90                  pwm = 1249;
+     91                  tim_cnt = ms * 4 / 25;
+     92                  break;
+     93              }
+     94          
+     95              /* Time Base configuration */
+     96              TIM_TimeBaseStructure.TIM_Prescaler = ClockDivsion;
+     97              TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+     98              TIM_TimeBaseStructure.TIM_Period = ChannelPulse;
+     99              TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+    100              TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+    101              
+    102              TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
+    103              TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+    104              TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
+    105              TIM_OCInitStructure.TIM_Pulse = pwm;
+    106              TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+    107              TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
+    108              TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;
+    109              TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+    110              
+    111          
+    112              TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+    113              TIM_OC1Init(TIM4, &TIM_OCInitStructure);
+    114          }
+    115          #endif
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      48   freq_set
+        48   -> TIM_OC1Init
+        48   -> TIM_TimeBaseInit
+      32   haptic_timer_init
+        32   -> GPIO_Init
+        32   -> GPIO_PinAFConfig
+        32   -> NVIC_Init
+        32   -> RCC_AHB1PeriphClockCmd
+        32   -> RCC_APB1PeriphClockCmd
+        32   -> TIM_Cmd
+        32   -> TIM_CtrlPWMOutputs
+        32   -> TIM_ITConfig
+        32   -> TIM_TimeBaseInit
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_2
+     148  freq_set
+     164  haptic_timer_init
+
+ 
+ 324 bytes in section .text
+ 
+ 324 bytes of CODE memory
+
+Errors: none
+Warnings: none

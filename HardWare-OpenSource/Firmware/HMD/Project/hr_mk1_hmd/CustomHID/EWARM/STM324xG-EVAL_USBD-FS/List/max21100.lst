@@ -1,0 +1,347 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:47:59
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\max21100.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\max21100.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\max21100.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\max21100.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\max21100.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    fpga_coprocesser.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides firmware functions to manage the following 
+     30            *          functionalities of the SPI3 peripheral:
+     31            *            + SPI3 Interface configuration
+     32            *            + configure max21100
+     33            *            + measure acce and gyro  
+     34            ******************************************************************************
+     35          
+     36            ******************************************************************************
+     37            */ 
+     38          
+     39          /* Includes ------------------------------------------------------------------*/
+     40          #include "max21100.h"
+     41          /* Private define ------------------------------------------------------------*/
+     42          #define SPIX SPI3
+     43          
+     44          /* Private macro -------------------------------------------------------------*/
+     45          #define MAX21100_CS_HIGH()      GPIO_SetBits(GPIOA,GPIO_Pin_15);
+     46          #define MAX21100_CS_LOW()       GPIO_ResetBits(GPIOA,GPIO_Pin_15);
+     47          
+     48          /* Private function prototypes -----------------------------------------------*/
+     49          
+     50          /**
+     51            * @brief  Configure delay time for SPI3 .
+     52            * @param  None
+     53            * @retval None
+     54            */
+     55          void spi_delay(uint32_t nCount)
+     56          {
+     57            while(nCount)
+     58              nCount--;
+     59          }
+     60          
+     61          /**
+     62            * @brief  send and receive a byte by SPI3 .
+     63            * @param  None
+     64            * @retval None
+     65            */
+     66          unsigned char SPIx_ReadWriteByte(unsigned char data)
+     67          {
+     68            while (SPI_I2S_GetFlagStatus(SPIX, SPI_I2S_FLAG_TXE) == RESET);
+     69              SPI_I2S_SendData(SPIX, data); 
+     70            while (SPI_I2S_GetFlagStatus(SPIX, SPI_I2S_FLAG_RXNE) == RESET); 
+     71              return SPI_I2S_ReceiveData(SPIX); 
+     72          }
+     73          
+     74          /**
+     75            * @brief  Configure MAX21100 .
+     76            * @param  None
+     77            * @retval None
+     78            */
+     79          void max21100_init()
+     80          {
+     81            max21100_hardware_init();
+     82          
+     83            max21100_write_register(0x3f, 0xff); 
+     84            
+     85            max21100_write_register(0x22,0x00);
+     86            max21100_write_register(0x00,0x7f);
+     87            max21100_write_register(0x16,(0x01<<1)|0x01); //endian
+     88            
+     89            max21100_write_register(0x02,0x03); // gyro 1khz
+     90            max21100_write_register(0x04,0x07); // set pwr_acc_cfg
+     91            max21100_write_register(0x05,0x01); // acc 1khz
+     92            
+     93            
+     94            max21100_write_register(0x3f,0xff); // RST_REG
+     95            return;
+     96          }
+     97          
+     98          /**
+     99            * @brief  Configure SPI3 Interface configuration.
+    100            * @param  None
+    101            * @retval None
+    102            */
+    103          void max21100_hardware_init()
+    104          {
+    105            GPIO_InitTypeDef GPIO_InitStructure;
+    106            SPI_InitTypeDef  SPI_InitStructure;
+    107            
+    108            RCC_APB1PeriphClockCmd( RCC_APB1Periph_SPI3, ENABLE );
+    109            
+    110            GPIO_SetBits(GPIOA,GPIO_Pin_15);
+    111            GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_15;
+    112            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    113            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    114            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    115            GPIO_Init(GPIOA, &GPIO_InitStructure);
+    116            
+    117            GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10|GPIO_Pin_11 | GPIO_Pin_12;
+    118            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF; 
+    119            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    120            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    121            GPIO_Init(GPIOC, &GPIO_InitStructure);
+    122          
+    123          	
+    124            GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SPI3); 
+    125            GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_SPI3); 
+    126            GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_SPI3); 
+    127            
+    128            SPI_Cmd(SPIX, DISABLE);
+    129          	
+    130            SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  
+    131            SPI_InitStructure.SPI_Mode = SPI_Mode_Master; 
+    132            SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b; 
+    133            SPI_InitStructure.SPI_CPOL = SPI_CPOL_High; 
+    134            SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge; 
+    135            SPI_InitStructure.SPI_NSS = SPI_NSS_Soft; 
+    136            SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8; 
+    137            SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB; 
+    138            SPI_InitStructure.SPI_CRCPolynomial = 7; 
+    139            SPI_Init(SPIX, &SPI_InitStructure);  
+    140           
+    141            SPI_Cmd(SPIX, ENABLE); 
+    142            
+    143            return;
+    144          }
+    145          
+    146          /**
+    147            * @brief  Read a byte from max21100.
+    148            * @param  None
+    149            * @retval None
+    150            */
+    151          unsigned char max21100_read_register(unsigned char addr)
+    152          {
+    153            unsigned char data;
+    154            
+    155            MAX21100_CS_LOW();
+    156            
+    157            spi_delay(10);
+    158            
+    159            SPIx_ReadWriteByte(0x80 | addr);
+    160          
+    161            data = SPIx_ReadWriteByte(0x00);
+    162            
+    163            spi_delay(10);
+    164            
+    165            MAX21100_CS_HIGH();
+    166            
+    167            return data;
+    168          }
+    169          
+    170          /**
+    171            * @brief  Read Indefinite length byte from max21100.
+    172            * @param  None
+    173            * @retval None
+    174            */
+    175          void max21100_read_register_n(unsigned char addr,unsigned char length,unsigned char *dist)
+    176          {
+    177            MAX21100_CS_LOW();
+    178            
+    179            spi_delay(10);
+    180            
+    181            SPIx_ReadWriteByte(0x80 | addr);
+    182            
+    183            while(length)
+    184            {
+    185              dist[0] = SPIx_ReadWriteByte(0x00);
+    186              dist++;
+    187              length--;
+    188            }
+    189            
+    190            spi_delay(10);
+    191            
+    192            MAX21100_CS_HIGH();
+    193          
+    194            return;
+    195          }
+    196          
+    197          /**
+    198            * @brief  Write a byte from max21100.
+    199            * @param  None
+    200            * @retval None
+    201            */
+    202          void max21100_write_register(unsigned char addr,unsigned char data)
+    203          {
+    204            MAX21100_CS_LOW();
+    205            
+    206            spi_delay(10);
+    207            
+    208            SPIx_ReadWriteByte(addr);
+    209            
+    210            spi_delay(10);
+    211            
+    212            SPIx_ReadWriteByte(data);
+    213            
+    214            spi_delay(10);
+    215            
+    216            MAX21100_CS_HIGH();
+    217            
+    218            return;
+    219          }
+    220          
+    221          /**
+    222            * @brief  measure acce and gyro from max21100.
+    223            * @param  None
+    224            * @retval None
+    225            */
+    226          void max21100_read_out(unsigned char *dst)
+    227          {
+    228              max21100_read_register_n(0x24, 12, dst);	// (gx_L,gx_H),(gy_L,gy_H),(gz_L,gz_H),(ax_L,ax_H),(ay_L,ay_H),(az_L,az_H)
+    229              
+    230              return;
+    231          }
+    232          
+    233          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+    234          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   SPIx_ReadWriteByte
+        16   -> SPI_I2S_GetFlagStatus
+        16   -> SPI_I2S_ReceiveData
+        16   -> SPI_I2S_SendData
+      40   max21100_hardware_init
+        40   -> GPIO_Init
+        40   -> GPIO_PinAFConfig
+        40   -> GPIO_SetBits
+        40   -> RCC_APB1PeriphClockCmd
+        40   -> SPI_Cmd
+        40   -> SPI_Init
+       8   max21100_init
+         8   -> max21100_hardware_init
+         0   -> max21100_write_register
+         8   -> max21100_write_register
+       0   max21100_read_out
+         0   -> max21100_read_register_n
+      16   max21100_read_register
+        16   -> GPIO_ResetBits
+        16   -> GPIO_SetBits
+        16   -> SPIx_ReadWriteByte
+        16   -> spi_delay
+      24   max21100_read_register_n
+        24   -> GPIO_ResetBits
+         0   -> GPIO_SetBits
+        24   -> SPIx_ReadWriteByte
+        24   -> spi_delay
+      16   max21100_write_register
+        16   -> GPIO_ResetBits
+         0   -> GPIO_SetBits
+        16   -> SPIx_ReadWriteByte
+        16   -> spi_delay
+       0   spi_delay
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable3
+       4  ??DataTable3_1
+       4  ??DataTable3_2
+       8  ?Subroutine0
+       4  ?Subroutine1
+      48  SPIx_ReadWriteByte
+     210  max21100_hardware_init
+      72  max21100_init
+       8  max21100_read_out
+      54  max21100_read_register
+      64  max21100_read_register_n
+      56  max21100_write_register
+      10  spi_delay
+
+ 
+ 546 bytes in section .text
+ 
+ 546 bytes of CODE memory
+
+Errors: none
+Warnings: none

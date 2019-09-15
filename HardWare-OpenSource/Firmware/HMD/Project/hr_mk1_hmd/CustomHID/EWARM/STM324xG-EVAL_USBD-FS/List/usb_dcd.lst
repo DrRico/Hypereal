@@ -1,0 +1,607 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:42
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_OTG_Driver\src\usb_dcd.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_OTG_Driver\src\usb_dcd.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\usb_dcd.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\usb_dcd.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32_USB_OTG_Driver\src\usb_dcd.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    usb_dcd.c
+      4            * @author  MCD Application Team
+      5            * @version V2.2.0
+      6            * @date    09-November-2015
+      7            * @brief   Peripheral Device Interface Layer
+      8            ******************************************************************************
+      9            * @attention
+     10            *
+     11            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     12            *
+     13            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     14            * You may not use this file except in compliance with the License.
+     15            * You may obtain a copy of the License at:
+     16            *
+     17            *        http://www.st.com/software_license_agreement_liberty_v2
+     18            *
+     19            * Unless required by applicable law or agreed to in writing, software 
+     20            * distributed under the License is distributed on an "AS IS" BASIS, 
+     21            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     22            * See the License for the specific language governing permissions and
+     23            * limitations under the License.
+     24            *
+     25            ******************************************************************************
+     26            */
+     27          
+     28          /* Includes ------------------------------------------------------------------*/
+     29          #include "usb_dcd.h"
+     30          #include "usb_bsp.h"
+     31          
+     32          
+     33          /** @addtogroup USB_OTG_DRIVER
+     34          * @{
+     35          */
+     36          
+     37          /** @defgroup USB_DCD 
+     38          * @brief This file is the interface between EFSL ans Host mass-storage class
+     39          * @{
+     40          */
+     41          
+     42          
+     43          /** @defgroup USB_DCD_Private_Defines
+     44          * @{
+     45          */ 
+     46          /**
+     47          * @}
+     48          */ 
+     49          
+     50          
+     51          /** @defgroup USB_DCD_Private_TypesDefinitions
+     52          * @{
+     53          */ 
+     54          /**
+     55          * @}
+     56          */ 
+     57          
+     58          
+     59          
+     60          /** @defgroup USB_DCD_Private_Macros
+     61          * @{
+     62          */ 
+     63          /**
+     64          * @}
+     65          */ 
+     66          
+     67          
+     68          /** @defgroup USB_DCD_Private_Variables
+     69          * @{
+     70          */ 
+     71          /**
+     72          * @}
+     73          */ 
+     74          
+     75          
+     76          /** @defgroup USB_DCD_Private_FunctionPrototypes
+     77          * @{
+     78          */ 
+     79          
+     80          /**
+     81          * @}
+     82          */ 
+     83          
+     84          
+     85          /** @defgroup USB_DCD_Private_Functions
+     86          * @{
+     87          */ 
+     88          
+     89          
+     90          
+     91          void DCD_Init(USB_OTG_CORE_HANDLE *pdev , 
+     92                        USB_OTG_CORE_ID_TypeDef coreID)
+     93          {
+     94            uint32_t i;
+     95            USB_OTG_EP *ep;
+     96            
+     97            USB_OTG_SelectCore (pdev , coreID);
+     98            
+     99            pdev->dev.device_status = USB_OTG_DEFAULT;
+    100            pdev->dev.device_address = 0;
+    101            
+    102            /* Init ep structure */
+    103            for (i = 0; i < pdev->cfg.dev_endpoints ; i++)
+    104            {
+    105              ep = &pdev->dev.in_ep[i];
+    106              /* Init ep structure */
+    107              ep->is_in = 1;
+    108              ep->num = i;
+    109              ep->tx_fifo_num = i;
+    110              /* Control until ep is activated */
+    111              ep->type = EP_TYPE_CTRL;
+    112              ep->maxpacket =  USB_OTG_MAX_EP0_SIZE;
+    113              ep->xfer_buff = 0;
+    114              ep->xfer_len = 0;
+    115            }
+    116            
+    117            for (i = 0; i < pdev->cfg.dev_endpoints; i++)
+    118            {
+    119              ep = &pdev->dev.out_ep[i];
+    120              /* Init ep structure */
+    121              ep->is_in = 0;
+    122              ep->num = i;
+    123              ep->tx_fifo_num = i;
+    124              /* Control until ep is activated */
+    125              ep->type = EP_TYPE_CTRL;
+    126              ep->maxpacket = USB_OTG_MAX_EP0_SIZE;
+    127              ep->xfer_buff = 0;
+    128              ep->xfer_len = 0;
+    129            }
+    130            
+    131            USB_OTG_DisableGlobalInt(pdev);
+    132          
+    133          #if defined (STM32F446xx) || defined (STM32F469_479xx)
+    134            
+    135            /* Force Device Mode*/
+    136            USB_OTG_SetCurrentMode(pdev, DEVICE_MODE);
+    137            
+    138            /*Init the Core (common init.) */
+    139            USB_OTG_CoreInit(pdev);
+    140          
+    141          #else
+    142            
+    143              /*Init the Core (common init.) */
+    144            USB_OTG_CoreInit(pdev);
+    145          
+    146            /* Force Device Mode*/
+    147            USB_OTG_SetCurrentMode(pdev, DEVICE_MODE);
+    148          
+    149          #endif
+    150            
+    151            /* Init Device */
+    152            USB_OTG_CoreInitDev(pdev);
+    153            
+    154            /* Enable USB Global interrupt */
+    155            USB_OTG_EnableGlobalInt(pdev);
+    156          }
+    157          
+    158          
+    159          /**
+    160          * @brief  Configure an EP
+    161          * @param pdev : Device instance
+    162          * @param epdesc : Endpoint Descriptor
+    163          * @retval : status
+    164          */
+    165          uint32_t DCD_EP_Open(USB_OTG_CORE_HANDLE *pdev , 
+    166                               uint8_t ep_addr,
+    167                               uint16_t ep_mps,
+    168                               uint8_t ep_type)
+    169          {
+    170            USB_OTG_EP *ep;
+    171            
+    172            if ((ep_addr & 0x80) == 0x80)
+    173            {
+    174              ep = &pdev->dev.in_ep[ep_addr & 0x7F];
+    175            }
+    176            else
+    177            {
+    178              ep = &pdev->dev.out_ep[ep_addr & 0x7F];
+    179            }
+    180            ep->num   = ep_addr & 0x7F;
+    181            
+    182            ep->is_in = (0x80 & ep_addr) != 0;
+    183            ep->maxpacket = ep_mps;
+    184            ep->type = ep_type;
+    185            if (ep->is_in)
+    186            {
+    187              /* Assign a Tx FIFO */
+    188              ep->tx_fifo_num = ep->num;
+    189            }
+    190            /* Set initial data PID. */
+    191            if (ep_type == USB_OTG_EP_BULK )
+    192            {
+    193              ep->data_pid_start = 0;
+    194            }
+    195            USB_OTG_EPActivate(pdev , ep );
+    196            return 0;
+    197          }
+    198          /**
+    199          * @brief  called when an EP is disabled
+    200          * @param pdev: device instance
+    201          * @param ep_addr: endpoint address
+    202          * @retval : status
+    203          */
+    204          uint32_t DCD_EP_Close(USB_OTG_CORE_HANDLE *pdev , uint8_t  ep_addr)
+    205          {
+    206            USB_OTG_EP *ep;
+    207            
+    208            if ((ep_addr&0x80) == 0x80)
+    209            {
+    210              ep = &pdev->dev.in_ep[ep_addr & 0x7F];
+    211            }
+    212            else
+    213            {
+    214              ep = &pdev->dev.out_ep[ep_addr & 0x7F];
+    215            }
+    216            ep->num   = ep_addr & 0x7F;
+    217            ep->is_in = (0x80 & ep_addr) != 0;
+    218            USB_OTG_EPDeactivate(pdev , ep );
+    219            return 0;
+    220          }
+    221          
+    222          
+    223          /**
+    224          * @brief  DCD_EP_PrepareRx
+    225          * @param pdev: device instance
+    226          * @param ep_addr: endpoint address
+    227          * @param pbuf: pointer to Rx buffer
+    228          * @param buf_len: data length
+    229          * @retval : status
+    230          */
+    231          uint32_t   DCD_EP_PrepareRx( USB_OTG_CORE_HANDLE *pdev,
+    232                                      uint8_t   ep_addr,
+    233                                      uint8_t *pbuf,                        
+    234                                      uint16_t  buf_len)
+    235          {
+    236            USB_OTG_EP *ep;
+    237            
+    238            ep = &pdev->dev.out_ep[ep_addr & 0x7F];
+    239            
+    240            /*setup and start the Xfer */
+    241            ep->xfer_buff = pbuf;  
+    242            ep->xfer_len = buf_len;
+    243            ep->xfer_count = 0;
+    244            ep->is_in = 0;
+    245            ep->num = ep_addr & 0x7F;
+    246            
+    247            if (pdev->cfg.dma_enable == 1)
+    248            {
+    249              ep->dma_addr = (uint32_t)pbuf;  
+    250            }
+    251            
+    252            if ( ep->num == 0 )
+    253            {
+    254              USB_OTG_EP0StartXfer(pdev , ep);
+    255            }
+    256            else
+    257            {
+    258              USB_OTG_EPStartXfer(pdev, ep );
+    259            }
+    260            return 0;
+    261          }
+    262          
+    263          /**
+    264          * @brief  Transmit data over USB
+    265          * @param pdev: device instance
+    266          * @param ep_addr: endpoint address
+    267          * @param pbuf: pointer to Tx buffer
+    268          * @param buf_len: data length
+    269          * @retval : status
+    270          */
+    271          uint32_t  DCD_EP_Tx ( USB_OTG_CORE_HANDLE *pdev,
+    272                               uint8_t   ep_addr,
+    273                               uint8_t   *pbuf,
+    274                               uint32_t   buf_len)
+    275          {
+    276            USB_OTG_EP *ep;
+    277            
+    278            ep = &pdev->dev.in_ep[ep_addr & 0x7F];
+    279            
+    280            /* Setup and start the Transfer */
+    281            ep->is_in = 1;
+    282            ep->num = ep_addr & 0x7F;  
+    283            ep->xfer_buff = pbuf;
+    284            ep->dma_addr = (uint32_t)pbuf;  
+    285            ep->xfer_count = 0;
+    286            ep->xfer_len  = buf_len;
+    287            
+    288            if ( ep->num == 0 )
+    289            {
+    290              USB_OTG_EP0StartXfer(pdev , ep);
+    291            }
+    292            else
+    293            {
+    294              USB_OTG_EPStartXfer(pdev, ep );
+    295            }
+    296            return 0;
+    297          }
+    298          
+    299          
+    300          /**
+    301          * @brief  Stall an endpoint.
+    302          * @param pdev: device instance
+    303          * @param epnum: endpoint address
+    304          * @retval : status
+    305          */
+    306          uint32_t  DCD_EP_Stall (USB_OTG_CORE_HANDLE *pdev, uint8_t   epnum)
+    307          {
+    308            USB_OTG_EP *ep;
+    309            if ((0x80 & epnum) == 0x80)
+    310            {
+    311              ep = &pdev->dev.in_ep[epnum & 0x7F];
+    312            }
+    313            else
+    314            {
+    315              ep = &pdev->dev.out_ep[epnum];
+    316            }
+    317          
+    318            ep->is_stall = 1;
+    319            ep->num   = epnum & 0x7F;
+    320            ep->is_in = ((epnum & 0x80) == 0x80);
+    321            
+    322            USB_OTG_EPSetStall(pdev , ep);
+    323            return (0);
+    324          }
+    325          
+    326          
+    327          /**
+    328          * @brief  Clear stall condition on endpoints.
+    329          * @param pdev: device instance
+    330          * @param epnum: endpoint address
+    331          * @retval : status
+    332          */
+    333          uint32_t  DCD_EP_ClrStall (USB_OTG_CORE_HANDLE *pdev, uint8_t epnum)
+    334          {
+    335            USB_OTG_EP *ep;
+    336            if ((0x80 & epnum) == 0x80)
+    337            {
+    338              ep = &pdev->dev.in_ep[epnum & 0x7F];    
+    339            }
+    340            else
+    341            {
+    342              ep = &pdev->dev.out_ep[epnum];
+    343            }
+    344            
+    345            ep->is_stall = 0;  
+    346            ep->num   = epnum & 0x7F;
+    347            ep->is_in = ((epnum & 0x80) == 0x80);
+    348            
+    349            USB_OTG_EPClearStall(pdev , ep);
+    350            return (0);
+    351          }
+    352          
+    353          
+    354          /**
+    355          * @brief  This Function flushes the FIFOs.
+    356          * @param pdev: device instance
+    357          * @param epnum: endpoint address
+    358          * @retval : status
+    359          */
+    360          uint32_t  DCD_EP_Flush (USB_OTG_CORE_HANDLE *pdev , uint8_t epnum)
+    361          {
+    362          
+    363            if ((epnum & 0x80) == 0x80)
+    364            {
+    365              USB_OTG_FlushTxFifo(pdev, epnum & 0x7F);
+    366            }
+    367            else
+    368            {
+    369              USB_OTG_FlushRxFifo(pdev);
+    370            }
+    371          
+    372            return (0);
+    373          }
+    374          
+    375          
+    376          /**
+    377          * @brief  This Function set USB device address
+    378          * @param pdev: device instance
+    379          * @param address: new device address
+    380          * @retval : status
+    381          */
+    382          void  DCD_EP_SetAddress (USB_OTG_CORE_HANDLE *pdev, uint8_t address)
+    383          {
+    384            USB_OTG_DCFG_TypeDef  dcfg;
+    385            dcfg.d32 = 0;
+    386            dcfg.b.devaddr = address;
+    387            USB_OTG_MODIFY_REG32( &pdev->regs.DREGS->DCFG, 0, dcfg.d32);
+    388          }
+    389          
+    390          /**
+    391          * @brief  Connect device (enable internal pull-up)
+    392          * @param pdev: device instance
+    393          * @retval : None
+    394          */
+    395          void  DCD_DevConnect (USB_OTG_CORE_HANDLE *pdev)
+    396          {
+    397          #ifndef USE_OTG_MODE
+    398            USB_OTG_DCTL_TypeDef  dctl;
+    399            dctl.d32 = USB_OTG_READ_REG32(&pdev->regs.DREGS->DCTL);
+    400            /* Connect device */
+    401            dctl.b.sftdiscon  = 0;
+    402            USB_OTG_WRITE_REG32(&pdev->regs.DREGS->DCTL, dctl.d32);
+    403            USB_OTG_BSP_mDelay(3);
+    404          #endif
+    405          }
+    406          
+    407          
+    408          /**
+    409          * @brief  Disconnect device (disable internal pull-up)
+    410          * @param pdev: device instance
+    411          * @retval : None
+    412          */
+    413          void  DCD_DevDisconnect (USB_OTG_CORE_HANDLE *pdev)
+    414          {
+    415          #ifndef USE_OTG_MODE
+    416            USB_OTG_DCTL_TypeDef  dctl;
+    417            dctl.d32 = USB_OTG_READ_REG32(&pdev->regs.DREGS->DCTL);
+    418            /* Disconnect device for 3ms */
+    419            dctl.b.sftdiscon  = 1;
+    420            USB_OTG_WRITE_REG32(&pdev->regs.DREGS->DCTL, dctl.d32);
+    421            USB_OTG_BSP_mDelay(3);
+    422          #endif
+    423          }
+    424          
+    425          
+    426          /**
+    427          * @brief  returns the EP Status
+    428          * @param  pdev : Selected device
+    429          *         epnum : endpoint address
+    430          * @retval : EP status
+    431          */
+    432          
+    433          uint32_t DCD_GetEPStatus(USB_OTG_CORE_HANDLE *pdev ,uint8_t epnum)
+    434          {
+    435            USB_OTG_EP *ep;
+    436            uint32_t Status = 0;  
+    437            
+    438            if ((0x80 & epnum) == 0x80)
+    439            {
+    440              ep = &pdev->dev.in_ep[epnum & 0x7F];    
+    441            }
+    442            else
+    443            {
+    444              ep = &pdev->dev.out_ep[epnum];
+    445            }
+    446            
+    447            Status = USB_OTG_GetEPStatus(pdev ,ep);
+    448          
+    449            /* Return the current status */
+    450            return Status;
+    451          }
+    452          
+    453          /**
+    454          * @brief  Set the EP Status
+    455          * @param  pdev : Selected device
+    456          *         Status : new Status
+    457          *         epnum : EP address
+    458          * @retval : None
+    459          */
+    460          void DCD_SetEPStatus (USB_OTG_CORE_HANDLE *pdev , uint8_t epnum , uint32_t Status)
+    461          {
+    462            USB_OTG_EP *ep;
+    463            
+    464            if ((0x80 & epnum) == 0x80)
+    465            {
+    466              ep = &pdev->dev.in_ep[epnum & 0x7F];    
+    467            }
+    468            else
+    469            {
+    470              ep = &pdev->dev.out_ep[epnum];
+    471            }
+    472            
+    473             USB_OTG_SetEPStatus(pdev ,ep , Status);
+    474          }
+    475          
+    476          /**
+    477          * @}
+    478          */ 
+    479          
+    480          /**
+    481          * @}
+    482          */ 
+    483          
+    484          /**
+    485          * @}
+    486          */
+    487          
+    488          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   DCD_DevConnect
+         0   -> USB_OTG_BSP_mDelay
+       0   DCD_DevDisconnect
+         0   -> USB_OTG_BSP_mDelay
+       8   DCD_EP_Close
+         8   -> USB_OTG_EPDeactivate
+       8   DCD_EP_ClrStall
+         8   -> USB_OTG_EPClearStall
+       8   DCD_EP_Flush
+         8   -> USB_OTG_FlushRxFifo
+         8   -> USB_OTG_FlushTxFifo
+      16   DCD_EP_Open
+        16   -> USB_OTG_EPActivate
+      16   DCD_EP_PrepareRx
+        16   -> USB_OTG_EP0StartXfer
+        16   -> USB_OTG_EPStartXfer
+       0   DCD_EP_SetAddress
+       8   DCD_EP_Stall
+         8   -> USB_OTG_EPSetStall
+      16   DCD_EP_Tx
+        16   -> USB_OTG_EP0StartXfer
+        16   -> USB_OTG_EPStartXfer
+       0   DCD_GetEPStatus
+         0   -> USB_OTG_GetEPStatus
+       8   DCD_Init
+         8   -> USB_OTG_CoreInit
+         8   -> USB_OTG_CoreInitDev
+         8   -> USB_OTG_DisableGlobalInt
+         0   -> USB_OTG_EnableGlobalInt
+         8   -> USB_OTG_SelectCore
+         8   -> USB_OTG_SetCurrentMode
+       8   DCD_SetEPStatus
+         0   -> USB_OTG_SetEPStatus
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      22  ?Subroutine0
+       8  ?Subroutine1
+      32  ?Subroutine2
+      16  ?Subroutine3
+      12  ?Subroutine4
+      16  ?Subroutine5
+      10  DCD_DevConnect
+       8  DCD_DevDisconnect
+      36  DCD_EP_Close
+      20  DCD_EP_ClrStall
+      24  DCD_EP_Flush
+      58  DCD_EP_Open
+      36  DCD_EP_PrepareRx
+      16  DCD_EP_SetAddress
+      20  DCD_EP_Stall
+      30  DCD_EP_Tx
+      32  DCD_GetEPStatus
+     120  DCD_Init
+      38  DCD_SetEPStatus
+
+ 
+ 554 bytes in section .text
+ 
+ 554 bytes of CODE memory
+
+Errors: none
+Warnings: none

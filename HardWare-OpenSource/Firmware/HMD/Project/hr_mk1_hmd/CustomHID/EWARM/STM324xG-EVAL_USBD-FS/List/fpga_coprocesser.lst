@@ -1,0 +1,595 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        10/Feb/2017  19:47:58
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\fpga_coprocesser.c
+#    Command line =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\fpga_coprocesser.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\INC\c\DLib_Config_Full.h" -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\fpga_coprocesser.lst
+#    Object file  =  
+#        D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\fpga_coprocesser.o
+#
+###############################################################################
+
+D:\work\fpga\opensource_hardware\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\src\fpga_coprocesser.c
+      1          /*
+      2          * The MIT License (MIT)
+      3          * Copyright (c) 2017 Shanghai Chai Ming Huang Info&Tech Co£¬Ltd
+      4          *
+      5          * Permission is hereby granted, free of charge, to any person obtaining a
+      6          * copy of this software and associated documentation files (the "Software"),
+      7          * to deal in the Software without restriction, including without limitation
+      8          * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      9          * and/or sell copies of the Software, and to permit persons to whom the
+     10          * Software is furnished to do so, subject to the following conditions:
+     11          *
+     12          * The above copyright notice and this permission notice shall be included
+     13          * in all copies or substantial portions of the Software.
+     14          *
+     15          * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     16          * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     17          * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     18          * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     19          * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     20          * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+     21          * IN THE SOFTWARE.
+     22          */
+     23          /**
+     24            ******************************************************************************
+     25            * @file    fpga_coprocesser.c
+     26            * @author  Hypereal Team
+     27            * @version V1.2.0
+     28            * @date    19-September-2016
+     29            * @brief   This file provides firmware functions to manage the following 
+     30            *          functionalities of the FSMC peripheral:
+     31            *            + FSMC Interface configuration
+     32            *            + communicate with FPGA for measure light application time from lighthouses
+     33            ******************************************************************************
+     34          
+     35            ******************************************************************************
+     36            */ 
+     37          
+     38          /* Includes ------------------------------------------------------------------*/
+     39          #include "fpga_coprocesser.h"
+     40           
+     41          /* Private variables ---------------------------------------------------------*/
+     42          uint8_t measure_ch;
+     43          uint8_t measure_busy_flag = 0;
+     44          
+     45          uint8_t measure_done_flag = 0;
+     46          uint8_t measure_done_ch = 0;
+     47          
+     48          uint8_t wireless_phase_lowpass_en = 0;
+     49          
+     50          uint8_t measure_result_valid[4] = {0,0,0,0};    //0: X from lighthouse A,1: Y from lighthouse A,2: X from lighthouse B,3: Y from lighthouse B
+     51          
+     52          measure_result_type measure_result[4];  //0: X from lighthouse A,1: Y from lighthouse A,2: X from lighthouse B,3: Y from lighthouse B
+     53          measure_result_type measure_result_buf;
+     54          		
+     55          LightSensorData_type light_sensor_data_buf;
+     56          light_sync_package_type light_sync_package[2];	//0: light A; 1: lightB;
+     57          
+     58          
+     59          /* Private function prototypes -----------------------------------------------*/
+     60          
+     61          /**
+     62            * @brief  Configure the FSMC peripheral for FPGA .
+     63            * @param  None
+     64            * @retval None
+     65            */
+     66          static void fsmc_init(void)
+     67          {
+     68              GPIO_InitTypeDef  GPIO_InitStructure;
+     69              FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
+     70              FSMC_NORSRAMTimingInitTypeDef  readWriteTiming;
+     71          
+     72              RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC,ENABLE); 
+     73              
+     74              /* Configure GPIOD/GPIOE */
+     75              GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_7
+     76                                            |GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15;
+     77              
+     78              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+     79              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+     80              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+     81              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+     82              GPIO_Init(GPIOD, &GPIO_InitStructure);  
+     83          
+     84              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8
+     85                                           |GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15;
+     86          
+     87              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+     88              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+     89              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+     90              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+     91              GPIO_Init(GPIOE, &GPIO_InitStructure);
+     92          
+     93              GPIO_PinAFConfig(GPIOD,GPIO_PinSource0,GPIO_AF_FSMC);
+     94              GPIO_PinAFConfig(GPIOD,GPIO_PinSource1,GPIO_AF_FSMC);
+     95              GPIO_PinAFConfig(GPIOD,GPIO_PinSource4,GPIO_AF_FSMC);
+     96              GPIO_PinAFConfig(GPIOD,GPIO_PinSource5,GPIO_AF_FSMC); 
+     97              GPIO_PinAFConfig(GPIOD,GPIO_PinSource7,GPIO_AF_FSMC); 
+     98              GPIO_PinAFConfig(GPIOD,GPIO_PinSource8,GPIO_AF_FSMC);
+     99              GPIO_PinAFConfig(GPIOD,GPIO_PinSource9,GPIO_AF_FSMC);
+    100              GPIO_PinAFConfig(GPIOD,GPIO_PinSource10,GPIO_AF_FSMC);
+    101              GPIO_PinAFConfig(GPIOD,GPIO_PinSource11,GPIO_AF_FSMC);
+    102              GPIO_PinAFConfig(GPIOD,GPIO_PinSource12,GPIO_AF_FSMC);
+    103              GPIO_PinAFConfig(GPIOD,GPIO_PinSource13,GPIO_AF_FSMC);
+    104              GPIO_PinAFConfig(GPIOD,GPIO_PinSource14,GPIO_AF_FSMC);
+    105              GPIO_PinAFConfig(GPIOD,GPIO_PinSource15,GPIO_AF_FSMC);
+    106          
+    107              GPIO_PinAFConfig(GPIOE,GPIO_PinSource2,GPIO_AF_FSMC);
+    108              GPIO_PinAFConfig(GPIOE,GPIO_PinSource3,GPIO_AF_FSMC);
+    109              GPIO_PinAFConfig(GPIOE,GPIO_PinSource4,GPIO_AF_FSMC);
+    110              GPIO_PinAFConfig(GPIOE,GPIO_PinSource5,GPIO_AF_FSMC);
+    111              GPIO_PinAFConfig(GPIOE,GPIO_PinSource6,GPIO_AF_FSMC);
+    112              GPIO_PinAFConfig(GPIOE,GPIO_PinSource7,GPIO_AF_FSMC);
+    113              GPIO_PinAFConfig(GPIOE,GPIO_PinSource8,GPIO_AF_FSMC);
+    114              GPIO_PinAFConfig(GPIOE,GPIO_PinSource9,GPIO_AF_FSMC);
+    115              GPIO_PinAFConfig(GPIOE,GPIO_PinSource10,GPIO_AF_FSMC);
+    116              GPIO_PinAFConfig(GPIOE,GPIO_PinSource11,GPIO_AF_FSMC);
+    117              GPIO_PinAFConfig(GPIOE,GPIO_PinSource12,GPIO_AF_FSMC);
+    118              GPIO_PinAFConfig(GPIOE,GPIO_PinSource13,GPIO_AF_FSMC);
+    119              GPIO_PinAFConfig(GPIOE,GPIO_PinSource14,GPIO_AF_FSMC);
+    120              GPIO_PinAFConfig(GPIOE,GPIO_PinSource15,GPIO_AF_FSMC);
+    121          
+    122              /* Set setuptime 24ns, datasetuptime 24ns,mode A*/
+    123              readWriteTiming.FSMC_AddressSetupTime = 0x04;	
+    124              readWriteTiming.FSMC_AddressHoldTime = 0x04;	
+    125              readWriteTiming.FSMC_DataSetupTime = 0x04;	       	 
+    126              readWriteTiming.FSMC_BusTurnAroundDuration = 0x01;
+    127              readWriteTiming.FSMC_CLKDivision = 0x04;
+    128              readWriteTiming.FSMC_DataLatency = 0x00;
+    129              readWriteTiming.FSMC_AccessMode = FSMC_AccessMode_A; 
+    130          
+    131              FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM1;
+    132              FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;  
+    133              FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_SRAM;    
+    134              FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b; 
+    135              FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+    136              FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low; 
+    137              FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait= FSMC_AsynchronousWait_Disable;
+    138              FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;  
+    139              FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;  
+    140              FSMC_NORSRAMInitStructure.FSMC_WriteOperation = FSMC_WriteOperation_Enable;	
+    141              FSMC_NORSRAMInitStructure.FSMC_WaitSignal = FSMC_WaitSignal_Disable;  
+    142              FSMC_NORSRAMInitStructure.FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+    143              FSMC_NORSRAMInitStructure.FSMC_WriteBurst = FSMC_WriteBurst_Disable;  
+    144              FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &readWriteTiming;
+    145              FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &readWriteTiming; 
+    146          
+    147              FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure);  
+    148              FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM1, ENABLE);  
+    149          		
+    150              return;
+    151          }
+    152          
+    153          /**
+    154            * @brief  Configure the IO peripheral for FPGA .
+    155            * @param  None
+    156            * @retval None
+    157            */
+    158          void fpga_coprocesser_init()
+    159          {
+    160              GPIO_InitTypeDef  GPIO_InitStructure;
+    161              
+    162              fsmc_init();
+    163          
+    164              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+    165              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    166              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    167              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    168              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    169              GPIO_Init(GPIOC, &GPIO_InitStructure);
+    170              RCC_MCO2Config(RCC_MCO2Source_SYSCLK,RCC_MCO2Div_4);
+    171              
+    172              GPIO_PinAFConfig(GPIOC,GPIO_PinSource9,GPIO_AF_MCO);
+    173          
+    174              /* FPGA_CTL0 = RST_N */
+    175              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    176              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    177              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    178              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    179              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    180              GPIO_Init(GPIOD, &GPIO_InitStructure);
+    181          
+    182              /* FPGA_MEASURE_START */
+    183              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    184              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    185              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    186              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    187              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    188              GPIO_Init(GPIOD, &GPIO_InitStructure);
+    189          
+    190              /* FPGA_INT */
+    191              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    192              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    193              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    194              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    195              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+    196              GPIO_Init(GPIOD, &GPIO_InitStructure);
+    197          
+    198              /* 3.3V_S_EN */
+    199              GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+    200              GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    201              GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    202              GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    203              GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    204              GPIO_Init(GPIOC, &GPIO_InitStructure);
+    205              GPIO_SetBits(GPIOC,GPIO_Pin_15);
+    206          
+    207              /* control FPGA start measure */
+    208              FPGA_RESET(0);
+    209              FPGA_MEASURE(0);
+    210              
+    211              light_sync_package[0].flush_flag = 0;
+    212              light_sync_package[1].flush_flag = 0;
+    213              
+    214              
+    215              wireless_phase_lowpass_en = *(uint8_t *)NV_BYTE0_WIRELESS_PHASE_LOWPASS;
+    216              if (wireless_phase_lowpass_en != WIRELESS_LOWPASS)
+    217                wireless_phase_lowpass_en = 0;
+    218              
+    219              return;
+    220          }
+    221          
+    222          /**
+    223            * @brief  Put data from FPGA to result_buf.
+    224            * @param  None
+    225            * @retval None
+    226            */
+    227          void fpga_poll()
+    228          {
+    229            uint32_t calc_temp;
+    230            uint8_t valid_count = 0;
+    231            
+    232            if (measure_busy_flag)
+    233            {
+    234              if (FPGA_IF_INT())
+    235              {
+    236                        
+    237                for (int i =0 ;i<32;i++)
+    238                {
+    239                  calc_temp = FPGA_READ(i+128);
+    240                  
+    241                  if (calc_temp != 0) 
+    242                  {
+    243                    light_sensor_data_buf.MeasureResult = calc_temp;
+    244                    light_sensor_data_buf.SensorID = i;
+    245                    light_sensor_data_buf.TriggerCount = 1;
+    246                    
+    247                    measure_result_buf.LightSensor[valid_count] = light_sensor_data_buf;
+    248                    valid_count = valid_count + 1;
+    249                    LED1(0);
+    250                  }
+    251                  else
+    252                    LED1(1);
+    253                }
+    254                FPGA_RESET(0);
+    255                
+    256                measure_done_ch = measure_ch;
+    257                measure_result_buf.AxisScanned = measure_done_ch;
+    258                measure_result_buf.ScannedNumber = scan_num;
+    259                measure_result_buf.SensorCount = valid_count;
+    260                measure_busy_flag = 0;
+    261                measure_done_flag = 1;					
+    262              }
+    263            }	
+    264          }
+    265          
+    266          /**
+    267            * @brief  Put data from lighthouse to package.
+    268            * @param  None
+    269            * @retval None
+    270            */
+    271          void fpga_light_sync_package_process(uint8_t *buf, light_sync_package_type * package)
+    272          {
+    273            package->id = buf[0]>>7;
+    274            package->comp_x = ((signed char)(buf[0]<<1))/2;
+    275            package->comp_y = ((signed char)(buf[1]<<1))/2;
+    276            package->d_x = ((signed short)((((uint16_t)buf[2])<<8) + (buf[4]&0xf0)))/16;
+    277            package->d_y = ((signed short)((((uint16_t)buf[3])<<8) + ((buf[4]&0x0f)<<4)))/16;
+    278            package->flush_flag = 1;
+    279            
+    280            return;
+    281          }
+    282          
+    283          /**
+    284            * @brief  calculate fix from FPGA .
+    285            * @param  None
+    286            * @retval None
+    287            */
+    288          void fpga_fix_calc(uint8_t tower_id)
+    289          {
+    290            uint32_t result_temp;	
+    291          		
+    292            /* deal with x-axis */
+    293            if (light_sync_package[tower_id].comp_x >60 || light_sync_package[tower_id].comp_x < -60)
+    294            {
+    295                    measure_result[tower_id<<1].SensorCount = 0;
+    296            }
+    297            else
+    298            {
+    299                for (int i = 0;i< measure_result[tower_id<<1].SensorCount;i++)
+    300                {
+    301                    result_temp = measure_result[tower_id<<1].LightSensor[i].MeasureResult ;
+    302                    result_temp += light_sync_package[tower_id].d_x * RESULT_DIV_TOWER_SCALE;
+    303                    result_temp -= (result_temp-SPEED_CALC_SCALE1) * light_sync_package[tower_id].comp_x / SPEED_CALC_SCALE2;
+    304                    
+    305                    if (wireless_phase_lowpass_en)
+    306                    {
+    307                            result_temp = result_temp - tim5_diff/2;
+    308                    }
+    309                    
+    310                    measure_result[tower_id<<1].LightSensor[i].MeasureResult = (uint16_t)result_temp;
+    311          
+    312                }
+    313            }
+    314          
+    315            /* deal with y-axis */
+    316            if (light_sync_package[tower_id].comp_y >60 || light_sync_package[tower_id].comp_y < -60)
+    317            {
+    318                    measure_result[(tower_id<<1)+1].SensorCount = 0;
+    319            }
+    320            else
+    321            {
+    322          
+    323              for (int i = 0;i< measure_result[(tower_id<<1)+1].SensorCount;i++)
+    324              {
+    325                  result_temp = measure_result[(tower_id<<1)+1].LightSensor[i].MeasureResult ;
+    326                  result_temp += light_sync_package[tower_id].d_y * RESULT_DIV_TOWER_SCALE;
+    327                  result_temp -= (result_temp-SPEED_CALC_SCALE1) * light_sync_package[tower_id].comp_y / SPEED_CALC_SCALE2;
+    328                      
+    329                  if (wireless_phase_lowpass_en)
+    330                  {
+    331                          result_temp = result_temp - tim5_diff/2;
+    332                  }
+    333          
+    334                  measure_result[(tower_id<<1)+1].LightSensor[i].MeasureResult = (uint16_t)result_temp;
+    335              }
+    336            }
+    337            
+    338            return;
+    339          }
+    340          
+    341          /**
+    342            * @brief  control FPGA to measure x-axis from lighthouse A .
+    343            * @param  None
+    344            * @retval None
+    345            */
+    346          #pragma optimize=none
+    347          void wp_callback_ax() 
+    348          {
+    349              LED1(1);
+    350              FPGA_RESET(1);
+    351              asm("nop");asm("nop");asm("nop");asm("nop");
+    352              asm("nop");asm("nop");asm("nop");asm("nop");
+    353              
+    354              FPGA_MEASURE(1);
+    355              asm("nop");asm("nop");asm("nop");asm("nop");
+    356              FPGA_MEASURE(0);
+    357                              
+    358              measure_ch = 1;
+    359          
+    360              measure_busy_flag = 1;
+    361              
+    362              if (!light_b_sync_flag && light_b_sync_flag_last)
+    363              {
+    364                  light_sync_package[1].d_x -= 2*light_sync_package[1].comp_x;
+    365                  light_sync_package[1].d_y -= 2*light_sync_package[1].comp_y;
+    366                  light_sync_package[1].flush_flag = 1;
+    367              }
+    368          }
+    369          
+    370          /**
+    371            * @brief  control FPGA to measure y-axis from lighthouse A .
+    372            * @param  None
+    373            * @retval None
+    374            */
+    375          #pragma optimize=none
+    376          void wp_callback_ay() 
+    377          {
+    378              LED1(1);
+    379              FPGA_RESET(1);
+    380              asm("nop");asm("nop");asm("nop");asm("nop");
+    381              asm("nop");asm("nop");asm("nop");asm("nop");
+    382          
+    383              FPGA_MEASURE(1);
+    384              asm("nop");asm("nop");asm("nop");asm("nop");
+    385              FPGA_MEASURE(0);
+    386                              
+    387              measure_ch = 2;
+    388          
+    389              measure_busy_flag = 1;
+    390          }
+    391          
+    392          /**
+    393            * @brief  control FPGA to measure x-axis from lighthouse b .
+    394            * @param  None
+    395            * @retval None
+    396            */
+    397          #pragma optimize=none
+    398          void wp_callback_bx() 
+    399          {
+    400              LED1(1);
+    401              FPGA_RESET(1);
+    402              asm("nop");asm("nop");asm("nop");asm("nop");
+    403              asm("nop");asm("nop");asm("nop");asm("nop");
+    404          
+    405              FPGA_MEASURE(1);
+    406              asm("nop");asm("nop");asm("nop");asm("nop");
+    407              FPGA_MEASURE(0);
+    408                              
+    409              measure_ch = 3;
+    410          
+    411              measure_busy_flag = 1;
+    412              
+    413              if (!light_a_sync_flag && light_a_sync_flag_last)
+    414              {
+    415                      scan_num +=1;
+    416                      
+    417                      light_sync_package[0].d_x -= 2*light_sync_package[0].comp_x;
+    418                      light_sync_package[0].d_y -= 2*light_sync_package[0].comp_y;
+    419                      light_sync_package[0].flush_flag = 1;
+    420              }
+    421          }
+    422          
+    423          /**
+    424            * @brief  control FPGA to measure y-axis from lighthouse B .
+    425            * @param  None
+    426            * @retval None
+    427            */
+    428          #pragma optimize=none
+    429          void wp_callback_by() 
+    430          {
+    431              LED1(1);
+    432              FPGA_RESET(1);
+    433              asm("nop");asm("nop");asm("nop");asm("nop");
+    434              asm("nop");asm("nop");asm("nop");asm("nop");
+    435          
+    436              FPGA_MEASURE(1);
+    437              asm("nop");asm("nop");asm("nop");asm("nop");
+    438              FPGA_MEASURE(0);
+    439                              
+    440              measure_ch = 4;
+    441          
+    442              measure_busy_flag = 1;
+    443          }
+    444          
+    445          /************************ (C) COPYRIGHT Hypereal *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   fpga_coprocesser_init
+        24   -> GPIO_Init
+        24   -> GPIO_PinAFConfig
+        24   -> GPIO_ResetBits
+        24   -> GPIO_SetBits
+        24   -> RCC_MCO2Config
+        24   -> fsmc_init
+      48   fpga_fix_calc
+        48   -> __aeabi_f2uiz
+        48   -> __aeabi_fadd
+        48   -> __aeabi_fdiv
+        48   -> __aeabi_fmul
+        48   -> __aeabi_fsub
+        48   -> __aeabi_i2f
+        48   -> __aeabi_ui2f
+       0   fpga_light_sync_package_process
+      24   fpga_poll
+        24   -> GPIO_ReadInputDataBit
+        24   -> GPIO_ResetBits
+        24   -> GPIO_SetBits
+     112   fsmc_init
+       112   -> FSMC_NORSRAMCmd
+       112   -> FSMC_NORSRAMInit
+       112   -> GPIO_Init
+       112   -> GPIO_PinAFConfig
+       112   -> RCC_AHB3PeriphClockCmd
+       8   wp_callback_ax
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+       8   wp_callback_ay
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+       8   wp_callback_bx
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+       8   wp_callback_by
+         8   -> GPIO_ResetBits
+         8   -> GPIO_SetBits
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable7
+       4  ??DataTable7_1
+       4  ??DataTable7_10
+       4  ??DataTable7_11
+       4  ??DataTable7_12
+       4  ??DataTable7_13
+       4  ??DataTable7_14
+       4  ??DataTable7_15
+       4  ??DataTable7_16
+       4  ??DataTable7_17
+       4  ??DataTable7_18
+       4  ??DataTable7_2
+       4  ??DataTable7_3
+       4  ??DataTable7_4
+       4  ??DataTable7_5
+       4  ??DataTable7_6
+       4  ??DataTable7_7
+       4  ??DataTable7_8
+       4  ??DataTable7_9
+      30  ?Subroutine0
+       8  ?Subroutine1
+      30  ?Subroutine2
+       6  ?Subroutine3
+       6  ?Subroutine4
+     168  fpga_coprocesser_init
+     300  fpga_fix_calc
+      98  fpga_light_sync_package_process
+     144  fpga_poll
+     342  fsmc_init
+      17  light_sync_package
+          wireless_phase_lowpass_en
+     528  measure_result
+     140  measure_result_buf
+          light_sensor_data_buf
+          measure_ch
+          measure_busy_flag
+          measure_done_flag
+          measure_done_ch
+       4  measure_result_valid
+     138  wp_callback_ax
+      72  wp_callback_ay
+     148  wp_callback_bx
+      72  wp_callback_by
+
+ 
+   689 bytes in section .bss
+ 1 638 bytes in section .text
+ 
+ 1 638 bytes of CODE memory
+   689 bytes of DATA memory
+
+Errors: none
+Warnings: none

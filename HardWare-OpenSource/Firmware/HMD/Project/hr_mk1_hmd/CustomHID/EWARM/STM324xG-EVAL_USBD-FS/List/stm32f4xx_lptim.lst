@@ -1,0 +1,1008 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.20.2.7424/W32 for ARM        11/Oct/2016  09:24:37
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_lptim.c
+#    Command line =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_lptim.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F40_41xxx -D USE_STM324xG_EVAL -D
+#        USE_USB_OTG_FS -lcN
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\
+#        -o
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\
+#        --debug --endian=little --cpu=Cortex-M4F -e --fpu=None --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0\arm\INC\c\DLib_Config_Full.h" -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_OTG_Driver\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Libraries\STM32_USB_Device_Library\Class\customhid\inc\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\Common\
+#        -I
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\..\..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL\
+#        -Ohz --use_c++_inline -I "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 7.0\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\List\stm32f4xx_lptim.lst
+#    Object file  =  
+#        C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Project\hr_mk1_hmd\CustomHID\EWARM\STM324xG-EVAL_USBD-FS\Obj\stm32f4xx_lptim.o
+#
+###############################################################################
+
+C:\Users\yfjiang\Desktop\Repo\HR-MK1\Firmware\HMD\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_lptim.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_lptim.c
+      4            * @author  MCD Application Team
+      5            * @version V1.6.0
+      6            * @date    10-July-2015
+      7            * @brief   This file provides firmware functions to manage the following
+      8            *          functionalities of the Low Power Timer (LPT) peripheral:
+      9            *           + Initialization functions.
+     10            *           + Configuration functions.
+     11            *           + Interrupts and flags management functions.
+     12            *
+     13            *  @verbatim
+     14            *
+     15          ================================================================================
+     16                             ##### How to use this driver #####
+     17          ================================================================================
+     18          
+     19                     Basic configuration:
+     20                     --------------------
+     21                     - Configure the clock source, the prescaler, the waveform shape and
+     22                       the output polarity by filling the "LPTIM_InitTypeDef" structure and
+     23                       calling LPTIM_Init.
+     24                     - If the ULPTIM source is selected as clock source, configure the digital
+     25                       Glitch filter by setting the number of consecutive samples
+     26                       to be detected by using LPTIM_ConfigClockGlitchFilter.
+     27                     - To select a software start use LPTIM_SelectSoftwareStart.
+     28                     - To select an external trigger for the start of the counter, configure
+     29                       the source and its active edge polarity by calling
+     30                       LPTIM_ConfigExternalTrigger. Configure the Digital Glitch filter for
+     31                       the external triggers by setting the number of consecutive samples
+     32                       to be detected by using LPTIM_ConfigTriggerGlitchFilter.
+     33                     - Select the operating mode of the peripheral by using
+     34                       LPTIM_SelectOperatingMode, 2 modes can be selected:
+     35                         + Continuous mode: the timer is free running, the timer is started
+     36                           from a trigger event and never stops until the timer is disabled
+     37                         + One shot mode: the timer is started from a trigger event and
+     38                           stops when reaching the auto-reload value.
+     39                     - Use LPTIM_SetAutoreloadValue to set the auto-reload value and
+     40                       LPTIM_SetCompareValue to set the compare value.
+     41                     - Configure the preload mode by using LPTIM_ConfigUpdate function. 2 modes
+     42                       are available:
+     43                         + The Autoreload and compare registers are updated immediately after
+     44                           APB write.
+     45                         + The Autoreload and compare registers are updated at the end of
+     46                           counter period.
+     47                      - Enable the peripheral by calling LPTIM_Cmd.
+     48          
+     49                     Encoder mode:
+     50                     -------------
+     51                     - To select the encoder feature, use the function: LPTIM_SelectEncoderMode.
+     52                     - To select on which edge (Rising edge, falling edge or both edges)
+     53                       the counter is incremented, use LPTIM_SelectClockPolarity.
+     54          
+     55                     Counter mode:
+     56                     -------------
+     57                     - Use LPTIM_SelectCounterMode to select the counting mode. In this mode
+     58                       the counter is incremented on each valid event on ULPTIM.
+     59          
+     60                     Timeout function:
+     61                     -----------------
+     62                     In this case, the trigger will reset the timer. The first trigger event
+     63                     will start the timer, any successive trigger event will reset the counter
+     64                     and the timer restarts.
+     65                     - To active this feature use LPTIM_TimoutCmd.
+     66          
+     67                     Interrupt configuration:
+     68                     ------------------------
+     69                     - Use LPTIM_ITConfig to configure an interruption.
+     70                     - Call LPTIM_GetFlagStatus to get a flag status.
+     71                     - Call LPTIM_GetITStatus to get an interrupt status.
+     72                     - Use LPTIM_ClearFlag to clear a flag.
+     73            @endverbatim
+     74            *
+     75            ******************************************************************************
+     76            * @attention
+     77            *
+     78            * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+     79            *
+     80            * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+     81            * You may not use this file except in compliance with the License.
+     82            * You may obtain a copy of the License at:
+     83            *
+     84            *        http://www.st.com/software_license_agreement_liberty_v2
+     85            *
+     86            * Unless required by applicable law or agreed to in writing, software 
+     87            * distributed under the License is distributed on an "AS IS" BASIS, 
+     88            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     89            * See the License for the specific language governing permissions and
+     90            * limitations under the License.
+     91            *
+     92            ******************************************************************************
+     93            */
+     94          
+     95          /* Includes ------------------------------------------------------------------*/
+     96          #include "stm32f4xx_lptim.h"
+     97          
+     98          
+     99          /** @addtogroup STM32F4xx_StdPeriph_Driver
+    100            * @{
+    101            */
+    102          
+    103          /** @defgroup LPTIM
+    104            * @brief LPTIM driver modules
+    105            * @{
+    106            */
+    107          #if defined(STM32F410xx)
+    108          /* External variables --------------------------------------------------------*/
+    109          /* Private typedef -----------------------------------------------------------*/
+    110          /* Private defines -----------------------------------------------------------*/
+    111          
+    112          #define CFGR_INIT_CLEAR_MASK                 ((uint32_t) 0xFFCFF1FE)
+    113          #define CFGR_TRIG_AND_POL_CLEAR_MASK         ((uint32_t) 0xFFF91FFF)
+    114          /* Private macros ------------------------------------------------------------*/
+    115          /* Private variables ---------------------------------------------------------*/
+    116          /* Private function prototypes -----------------------------------------------*/
+    117          /* Private functions ---------------------------------------------------------*/
+    118          
+    119          /** @defgroup LPTIM_Private_Functions
+    120            * @{
+    121            */
+    122          
+    123          /** @defgroup LPTIM_Group1 Initialization functions
+    124            *  @brief   Initialization functions
+    125            *
+    126          @verbatim
+    127           ===============================================================================
+    128                                       Initialization functions
+    129           ===============================================================================
+    130            This section provides functions allowing to:
+    131             - Deinitialize  the LPTimer
+    132             - Initialize the Clock source, the Prescaler, the Ouput Waveform shape and Polarity
+    133             - Initialize the member of LPTIM_InitStruct structer with default value
+    134          
+    135          @endverbatim
+    136            * @{
+    137            */
+    138          
+    139          /**
+    140            * @brief  Deinitializes the LPTIMx peripheral registers to their default reset values.
+    141            * @param  LPTIMx: where x can be 1.
+    142            * @retval None
+    143            *
+    144            */
+    145          void LPTIM_DeInit(LPTIM_TypeDef* LPTIMx)
+    146          {
+    147            /* Check the parameters */
+    148            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    149            
+    150            /* Deinitializes the LPTIM1 peripheral */
+    151            if(LPTIMx == LPTIM1)
+    152            {
+    153              RCC_APB1PeriphResetCmd(RCC_APB1Periph_LPTIM1, ENABLE);
+    154              RCC_APB1PeriphResetCmd(RCC_APB1Periph_LPTIM1, DISABLE);
+    155            }
+    156          }
+    157          
+    158          /**
+    159            * @brief  Initializes the LPTIMx peripheral according to the specified parameters
+    160            *         in the LPTIM_InitStruct.
+    161            * @param  LPTIMx: where x can be 1.
+    162            * @param  LPTIM_InitStruct: pointer to an LPTIM_InitTypeDef structure that contains
+    163            *         the configuration information for the specified LPTIM peripheral.
+    164            * @retval None
+    165            *
+    166            * @note   It is mandatory to disable the peripheral to use this function.
+    167            */
+    168          void LPTIM_Init(LPTIM_TypeDef* LPTIMx, LPTIM_InitTypeDef* LPTIM_InitStruct)
+    169          {
+    170            uint32_t tmpreg1 = 0;
+    171            
+    172            /* Check the parameters */
+    173            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    174            assert_param(IS_LPTIM_CLOCK_SOURCE(LPTIM_InitStruct->LPTIM_ClockSource));
+    175            assert_param(IS_LPTIM_CLOCK_PRESCALER(LPTIM_InitStruct->LPTIM_Prescaler));
+    176            assert_param(IS_LPTIM_WAVEFORM(LPTIM_InitStruct->LPTIM_Waveform));
+    177            assert_param(IS_LPTIM_OUTPUT_POLARITY(LPTIM_InitStruct->LPTIM_OutputPolarity));
+    178            
+    179            /* Get the LPTIMx CFGR value */
+    180            tmpreg1 = LPTIMx->CFGR;
+    181            
+    182            /* Clear CKSEL, PRESC, WAVE and WAVEPOL bits */
+    183            tmpreg1 &= CFGR_INIT_CLEAR_MASK;
+    184            
+    185            /* Set or Reset CKSEL bit according to LPTIM_ClockSource value */
+    186            /* Set or Reset PRESC bits according to LPTIM_Prescaler value */
+    187            /* Set or Reset WAVE bit according to LPTIM_Waveform value */
+    188            /* Set or Reset WAVEPOL bit according to LPTIM_OutputPolarity value */
+    189            tmpreg1 |= (LPTIM_InitStruct->LPTIM_ClockSource | LPTIM_InitStruct->LPTIM_Prescaler
+    190                        |LPTIM_InitStruct->LPTIM_Waveform | LPTIM_InitStruct->LPTIM_OutputPolarity);
+    191            
+    192            /* Write to LPTIMx CFGR */
+    193            LPTIMx->CFGR = tmpreg1;
+    194          }
+    195          
+    196          /**
+    197            * @brief  Fills each LPTIM_InitStruct member with its default value.
+    198            * @param  LPTIM_InitStruct : pointer to a LPTIM_InitTypeDef structure which will be initialized.
+    199            * @retval None
+    200            */
+    201          void LPTIM_StructInit(LPTIM_InitTypeDef* LPTIM_InitStruct)
+    202          {
+    203            /* APB Clock/Low Power oscillators is selected as default Clock source*/
+    204            LPTIM_InitStruct->LPTIM_ClockSource = LPTIM_ClockSource_APBClock_LPosc;
+    205            
+    206            /* High Polarity is selected as default polarity */
+    207            LPTIM_InitStruct->LPTIM_OutputPolarity = LPTIM_OutputPolarity_High;
+    208            
+    209            /* DIV=1 is selected as default prescaler */
+    210            LPTIM_InitStruct->LPTIM_Prescaler = LPTIM_Prescaler_DIV1;
+    211            
+    212            /* PWM/One pulse mode is selected as default Waveform shape */
+    213            LPTIM_InitStruct->LPTIM_Waveform = LPTIM_Waveform_PWM_OnePulse;
+    214          }
+    215          
+    216          /**
+    217            * @}
+    218            */
+    219          
+    220          /** @defgroup LPTIM_Group2 Configuration functions
+    221            *  @brief   Configuration functions
+    222            *
+    223          @verbatim
+    224           ===============================================================================
+    225                                 Configuration functions
+    226           ===============================================================================
+    227              This section provides functions allowing to configure the Low Power Timer:
+    228              - Select the Clock source.
+    229              - Configure the Glitch filter for the external clock and the external clock.
+    230              - Configure the prescaler of the counter.
+    231              - Select the Trigger source of the counter.
+    232              - Configure the operating mode (Single or Continuous mode).
+    233              - Select the Waveform shape (PWM/One Pulse or Set once) and polarity.
+    234              - Enable or disable the Encoder mode and the Timeout function.
+    235              - Write on the Autoreload and the Compare registers and configure the
+    236                preload mode.
+    237              - Get the Counter value.
+    238              - Enable or disable the peripheral.
+    239          
+    240          @endverbatim
+    241            * @{
+    242            */
+    243          
+    244          /**
+    245            * @brief  Enables or disables the specified LPTIM peripheral.
+    246            * @param  LPTIMx: where x can be 1.
+    247            * @param  NewState: new state of the LPTIMx peripheral.
+    248            *         This parameter can be: ENABLE or DISABLE.
+    249            * @retval None
+    250            */
+    251          void LPTIM_Cmd(LPTIM_TypeDef* LPTIMx, FunctionalState NewState)
+    252          {
+    253            /* Check the parameters */
+    254            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    255            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    256          
+    257            if(NewState != DISABLE)
+    258            {
+    259              /* Set the ENABLE bit */
+    260              LPTIMx->CR |= LPTIM_CR_ENABLE;
+    261            }
+    262            else
+    263            {
+    264              /* Reset the ENABLE bit */
+    265              LPTIMx->CR &= ~(LPTIM_CR_ENABLE);
+    266            }
+    267          }
+    268          
+    269          /**
+    270            * @brief  Selects the Clock source of the LPTIM counter.
+    271            * @param  LPTIMx: where x can be 1.
+    272            * @param  LPTIM_ClockSource: the selected clock source.
+    273            *         This parameter can be:
+    274            *         @arg LPTIM_ClockSource_APBClock_LPosc : APB clock/LP oscillators selected
+    275            *         @arg LPTIM_ClockSource_ULPTIM: ULPTIM (external input) selected
+    276            * @retval None
+    277            *
+    278            * @note   It is mandatory to disable the peripheral to use this function.
+    279            */
+    280          void LPTIM_SelectClockSource(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_ClockSource)
+    281          {
+    282            /* Check the parameters */
+    283            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    284            assert_param(IS_LPTIM_CLOCK_SOURCE(LPTIM_ClockSource));
+    285            
+    286            /* Clear the CKSEL bit */
+    287            LPTIMx->CFGR &= ~(LPTIM_CFGR_CKSEL);
+    288            
+    289            /* Set or Reset the CKSEL bit */
+    290            LPTIMx->CFGR |= LPTIM_ClockSource;
+    291          }
+    292          
+    293          /**
+    294            * @brief  Configures the polarity of the edge to be used to count
+    295            *         if the ULPTIM input is selected.
+    296            * @param  LPTIMx: where x can be 1.
+    297            * @param  LPTIM_ClockPolarity: the selected clock polarity.
+    298            * This parameter can be:
+    299            *     @arg LPTIM_ClockPolarity_RisingEdge : Counter Clock = LPTIM Clock / 1
+    300            *     @arg LPTIM_ClockPolarity_FallingEdge : Counter Clock = LPTIM Clock / 2
+    301            *     @arg LPTIM_ClockPolarity_BothEdges : Counter Clock = LPTIM Clock / 4
+    302            * @retval None
+    303            *
+    304            * @note   It is mandatory to disable the peripheral to use this function.
+    305            */
+    306          void LPTIM_SelectULPTIMClockPolarity(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_ClockPolarity)
+    307          {
+    308            uint32_t tmpreg1 = 0;
+    309            
+    310            /* Check the parameters */
+    311            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    312            assert_param(IS_LPTIM_CLOCK_POLARITY(LPTIM_ClockPolarity));
+    313            
+    314            /* Get the LPTIMx CFGR value */
+    315            tmpreg1 = LPTIMx->CFGR;
+    316            
+    317            /* Clear the CKPOL bits */
+    318            tmpreg1 &= ~(LPTIM_CFGR_CKPOL);
+    319            
+    320            /* Set or Reset the PRESC bits */
+    321            tmpreg1 |= LPTIM_ClockPolarity;
+    322            
+    323            /* Write to LPTIMx CFGR */
+    324            LPTIMx->CFGR = tmpreg1;
+    325          }
+    326          
+    327          /**
+    328            * @brief  Configures the Clock Prescaler.
+    329            * @param  LPTIMx: where x can be 1.
+    330            * @param  LPTIM_Prescaler: the selected clock prescaler.
+    331            * This parameter can be:
+    332            *     @arg LPTIM_Prescaler_DIV1 : Counter Clock = LPTIM Clock / 1
+    333            *     @arg LPTIM_Prescaler_DIV2 : Counter Clock = LPTIM Clock / 2
+    334            *     @arg LPTIM_Prescaler_DIV4 : Counter Clock = LPTIM Clock / 4
+    335            *     @arg LPTIM_Prescaler_DIV8 : Counter Clock = LPTIM Clock / 8
+    336            *     @arg LPTIM_Prescaler_DIV16 : Counter Clock = LPTIM Clock / 16
+    337            *     @arg LPTIM_Prescaler_DIV32 : Counter Clock = LPTIM Clock / 32
+    338            *     @arg LPTIM_Prescaler_DIV64 : Counter Clock = LPTIM Clock / 64
+    339            *     @arg LPTIM_Prescaler_DIV128 : Counter Clock = LPTIM Clock / 128
+    340            * @retval None
+    341            *
+    342            * @note   It is mandatory to disable the peripheral to use this function.
+    343            */
+    344          void LPTIM_ConfigPrescaler(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Prescaler)
+    345          {
+    346            uint32_t tmpreg1 = 0;
+    347            
+    348            /* Check the parameters */
+    349            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    350            assert_param(IS_LPTIM_CLOCK_PRESCALER(LPTIM_Prescaler));
+    351            
+    352            /* Get the LPTIMx CFGR value */
+    353            tmpreg1 = LPTIMx->CFGR;
+    354            
+    355            /* Clear the PRESC bits */
+    356            tmpreg1 &= ~(LPTIM_CFGR_PRESC);
+    357            
+    358            /* Set or Reset the PRESC bits */
+    359            tmpreg1 |= LPTIM_Prescaler;
+    360            
+    361            /* Write to LPTIMx CFGR */
+    362            LPTIMx->CFGR = tmpreg1;
+    363          }
+    364          
+    365          /**
+    366            * @brief  Selects the trigger source for the counter and its polarity.
+    367            * @param  LPTIMx: where x can be 1.
+    368            * @param  LPTIM_ExtTRGSource: the selected external trigger.
+    369            * This parameter can be:
+    370            *     @arg LPTIM_ExtTRGSource_Trig0 : ext_trig0
+    371            *     @arg LPTIM_ExtTRGSource_Trig1 : ext_trig1
+    372            *     @arg LPTIM_ExtTRGSource_Trig2 : ext_trig2
+    373            *     @arg LPTIM_ExtTRGSource_Trig3 : ext_trig3
+    374            *     @arg LPTIM_ExtTRGSource_Trig4 : ext_trig4
+    375            *     @arg LPTIM_ExtTRGSource_Trig5 : ext_trig5
+    376            *     @arg LPTIM_ExtTRGSource_Trig6 : ext_trig6
+    377            *     @arg LPTIM_ExtTRGSource_Trig7 : ext_trig7
+    378            * @param  LPTIM_ExtTRGPolarity: the selected external trigger.
+    379            * This parameter can be:
+    380            *     @arg LPTIM_ExtTRGPolarity_RisingEdge : Rising edge polarity selected
+    381            *     @arg LPTIM_ExtTRGPolarity_FallingEdge : Falling edge polarity selected
+    382            *     @arg LPTIM_ExtTRGPolarity_BothEdges : Both edges polarity selected
+    383            * @retval None
+    384            *
+    385            * @note   It is mandatory to disable the peripheral to use this function.
+    386            */
+    387          void LPTIM_ConfigExternalTrigger(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_ExtTRGSource, uint32_t LPTIM_ExtTRGPolarity)
+    388          {
+    389            uint32_t tmpreg1 = 0;
+    390            
+    391            /* Check the parameters */
+    392            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    393            assert_param(IS_LPTIM_EXT_TRG_SOURCE(LPTIM_ExtTRGSource));
+    394            assert_param(IS_LPTIM_EXT_TRG_POLARITY(LPTIM_ExtTRGPolarity));
+    395            
+    396            /* Get the LPTIMx CFGR value */
+    397            tmpreg1 = LPTIMx->CFGR;
+    398            
+    399            /* Clear the TRIGEN and TRIGSEL bits */
+    400            tmpreg1 &= CFGR_TRIG_AND_POL_CLEAR_MASK;
+    401            
+    402            /* Set or Reset the TRIGEN and TRIGSEL bits */
+    403            tmpreg1 |= (LPTIM_ExtTRGSource | LPTIM_ExtTRGPolarity);
+    404            
+    405            /* Write to LPTIMx CFGR */
+    406            LPTIMx->CFGR = tmpreg1;
+    407          }
+    408          
+    409          /**
+    410            * @brief  Selects a software start of the counter.
+    411            * @param  LPTIMx: where x can be 1.
+    412            * @retval None
+    413            *
+    414            * @note   It is mandatory to disable the peripheral to use this function.
+    415            */
+    416          void LPTIM_SelectSoftwareStart(LPTIM_TypeDef* LPTIMx)
+    417          {
+    418            /* Check the parameters */
+    419            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    420            
+    421            /* Reset the TRIGEN bits to allow a software start */
+    422            LPTIMx->CFGR &= ~(LPTIM_CFGR_TRIGEN);
+    423          }
+    424          
+    425          /**
+    426            * @brief  Configures the digital filter for trigger by determining the number of consecutive
+    427            *         samples at the specified level to detect a correct transition.
+    428            * @param  LPTIMx: where x can be 1.
+    429            * @param  LPTIM_TrigSampleTime: the number of samples to detect a valid transition.
+    430            * This parameter can be:
+    431            *     @arg LPTIM_TrigSampleTime_DirectTransistion : Event is detected on input transitions
+    432            *     @arg LPTIM_TrigSampleTime_2Transistions : Event is detected after 2 consecutive samples at the active level
+    433            *     @arg LPTIM_TrigSampleTime_4Transistions : Event is detected after 4 consecutive samples at the active level
+    434            *     @arg LPTIM_TrigSampleTime_8Transistions : Event is detected after 8 consecutive samples at the active level
+    435            * @retval None
+    436            *
+    437            * @note   It is mandatory to disable the peripheral to use this function.
+    438            * @note   An auxiliary clock must be present to use this feature.
+    439            */
+    440          void LPTIM_ConfigTriggerGlitchFilter(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_TrigSampleTime)
+    441          {
+    442            uint32_t tmpreg1 = 0;
+    443            
+    444            /* Check the parameters */
+    445            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    446            assert_param(IS_LPTIM_TRIG_SAMPLE_TIME(LPTIM_TrigSampleTime));
+    447            
+    448            /* Get the LPTIMx CFGR value */
+    449            tmpreg1 = LPTIMx->CFGR;
+    450            
+    451            /* Clear the TRGFLT bits */
+    452            tmpreg1 &= ~(LPTIM_CFGR_TRGFLT);
+    453            
+    454            /* Set or Reset the TRGFLT bits according to LPTIM_TrigSampleTime */
+    455            tmpreg1 |= (LPTIM_TrigSampleTime);
+    456            
+    457            /* Write to LPTIMx CFGR */
+    458            LPTIMx->CFGR = tmpreg1;
+    459          }
+    460          
+    461          /**
+    462            * @brief  Configures the digital filter for  the external clock by determining the number
+    463                      of consecutive samples at the specified level to detect a correct transition.
+    464            * @param  LPTIMx: where x can be 1.
+    465            * @param  LPTIM_ClockSampleTime: the number of samples to detect a valid transition.
+    466            * This parameter can be:
+    467            *     @arg LPTIM_ClockSampleTime_DirectTransistion : Event is detected on input transitions
+    468            *     @arg LPTIM_ClockSampleTime_2Transistions : Event is detected after 2 consecutive samples at the active level
+    469            *     @arg LPTIM_ClockSampleTime_4Transistions : Event is detected after 4 consecutive samples at the active level
+    470            *     @arg LPTIM_ClockSampleTime_8Transistions : Event is detected after 8 consecutive samples at the active level
+    471            * @retval None
+    472            *
+    473            * @note   It is mandatory to disable the peripheral to use this function.
+    474            * @note   An auxiliary clock must be present to use this feature.
+    475            */
+    476          void LPTIM_ConfigClockGlitchFilter(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_ClockSampleTime)
+    477          {
+    478            uint32_t tmpreg1 = 0;
+    479            
+    480            /* Check the parameters */
+    481            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    482            assert_param(IS_LPTIM_CLOCK_SAMPLE_TIME(LPTIM_ClockSampleTime));
+    483            
+    484            /* Get the LPTIMx CFGR value */
+    485            tmpreg1 = LPTIMx->CFGR;
+    486            
+    487            /* Clear the CKFLT bits */
+    488            tmpreg1 &= ~(LPTIM_CFGR_CKFLT);
+    489            
+    490            /* Set or Reset the CKFLT bits according to LPTIM_ClockSampleTime */
+    491            tmpreg1 |= LPTIM_ClockSampleTime;
+    492            
+    493            /* Write to LPTIMx CFGR */
+    494            LPTIMx->CFGR = tmpreg1;
+    495          }
+    496          
+    497          /**
+    498            * @brief  Selects an operating mode.
+    499            * @param  LPTIMx: where x can be 1.
+    500            * @param  LPTIM_Mode: the selected mode.
+    501            * This parameter can be:
+    502            *     @arg LPTIM_Mode_Continuous : Timer starts in Continuous mode
+    503            *     @arg LPTIM_Mode_Single : Timer will starts in Single mode
+    504            * @retval None
+    505            */
+    506          void LPTIM_SelectOperatingMode(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Mode)
+    507          {
+    508            /* Check the parameters */
+    509            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    510            assert_param(IS_LPTIM_MODE(LPTIM_Mode));
+    511            
+    512            
+    513            if(LPTIM_Mode == LPTIM_Mode_Continuous)
+    514            {
+    515              /* Set the CNTSTRT to select the continuous start*/
+    516              LPTIMx->CR |= LPTIM_Mode_Continuous;
+    517            }
+    518            else if(LPTIM_Mode == LPTIM_Mode_Single)
+    519            {
+    520              /* Set the SNGSTRT to select the continuous start*/
+    521              LPTIMx->CR |= LPTIM_Mode_Single;
+    522            }
+    523          }
+    524          
+    525          /**
+    526            * @brief  Enables or disables the Timeout function.
+    527            * @param  LPTIMx: where x can be 1.
+    528            * @param  NewState: new state of the Timeout function.
+    529            *         This parameter can be: ENABLE or DISABLE.
+    530            * @retval None
+    531            *
+    532            * @note   It is mandatory to disable the peripheral to use this function.
+    533            */
+    534          void LPTIM_TimoutCmd(LPTIM_TypeDef* LPTIMx, FunctionalState NewState)
+    535          {
+    536            /* Check the parameters */
+    537            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    538            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    539          
+    540            if(NewState != DISABLE)
+    541            {
+    542              /* Set the TIMOUT bit */
+    543              LPTIMx->CFGR |= LPTIM_CFGR_TIMOUT;
+    544            }
+    545            else
+    546            {
+    547              /* Reset the TIMOUT bit */
+    548              LPTIMx->CFGR &= ~(LPTIM_CFGR_TIMOUT);
+    549            }
+    550          }
+    551          
+    552          /**
+    553            * @brief  Configures the Waveform shape.
+    554            * @param  LPTIMx: where x can be 1.
+    555            * @param  LPTIM_Waveform: the selected waveform shape.
+    556            * This parameter can be:
+    557            *     @arg LPTIM_Waveform_PWM_OnePulse : PWM/One Pulse is selected
+    558            *     @arg LPTIM_Waveform_SetOnce : Set once is selected
+    559            * @retval None
+    560            *
+    561            * @note   It is mandatory to disable the peripheral to use this function.
+    562            */
+    563          void LPTIM_ConfigWaveform(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Waveform)
+    564          {
+    565            /* Check the parameters */
+    566            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    567            assert_param(IS_LPTIM_WAVEFORM(LPTIM_Waveform));
+    568            
+    569            /* Clear the WAVE bit */
+    570            LPTIMx->CFGR &= ~(LPTIM_CFGR_CKFLT);
+    571            
+    572            /* Set or Reset the WAVE bit according to LPTIM_Waveform */
+    573            LPTIMx->CFGR |= (LPTIM_Waveform);
+    574          }
+    575          
+    576          /**
+    577            * @brief  Configures the Autoreload and Compare registers update mode.
+    578            * @param  LPTIMx: where x can be 1.
+    579            * @param  LPTIM_Update: The selected update mode.
+    580            * This parameter can be:
+    581            *     @arg LPTIM_Update_Immediate : Registers updated after APB write
+    582            *     @arg LPTIM_Update_EndOfPeriod : Registers updated at the end of current timer preload
+    583            * @retval None
+    584            *
+    585            * @note   It is mandatory to disable the peripheral to use this function.
+    586            */
+    587          void LPTIM_ConfigUpdate(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Update)
+    588          {
+    589            /* Check the parameters */
+    590            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    591            assert_param(IS_LPTIM_UPDATE(LPTIM_Update));
+    592            
+    593            /* Clear the PRELOAD bit */
+    594            LPTIMx->CFGR &= ~(LPTIM_CFGR_PRELOAD);
+    595            
+    596            /* Set or Reset the PRELOAD bit according to LPTIM_Update */
+    597            LPTIMx->CFGR |= (LPTIM_Update);
+    598          }
+    599          
+    600          /**
+    601            * @brief  Writes the passed parameter in the Autoreload register.
+    602            * @param  LPTIMx: where x can be 1.
+    603            * @param  LPTIM_Autoreload: The Autoreload value.
+    604            *         This parameter must be a value between 0x0000 and 0xFFFF
+    605            * @retval None
+    606            */
+    607          void LPTIM_SetAutoreloadValue(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Autoreload)
+    608          {
+    609            /* Check the parameters */
+    610            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    611            assert_param(IS_LPTIM_AUTORELOAD(LPTIM_Autoreload));
+    612            
+    613            /* Write LPTIM_Autoreload in Autoreload register */
+    614            LPTIMx->ARR = LPTIM_Autoreload;
+    615          }
+    616          
+    617          /**
+    618            * @brief  Writes the passed parameter in the Compare register.
+    619            * @param  LPTIMx: where x can be 1.
+    620            * @param  LPTIM_Compare: The Compare value.
+    621            *         This parameter must be a value between 0x0000 and 0xFFFF
+    622            * @retval None
+    623            */
+    624          void LPTIM_SetCompareValue(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_Compare)
+    625          {
+    626            /* Check the parameters */
+    627            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    628            assert_param(IS_LPTIM_COMPARE(LPTIM_Compare));
+    629            
+    630            /* Write LPTIM_Compare in Compare register */
+    631            LPTIMx->CMP = LPTIM_Compare;
+    632          }
+    633          
+    634          /**
+    635            * @brief  Enables or disables the Counter mode. When the Counter mode is enabled,
+    636            *         the counter is incremented each valid event on ULPTIM
+    637            * @param  LPTIMx: where x can be 1.
+    638            * @param  NewState: new state of the Counter mode.
+    639            *         This parameter can be: ENABLE or DISABLE.
+    640            * @retval None
+    641            *
+    642            * @note   It is mandatory to disable the peripheral to use this function.
+    643            */
+    644          void LPTIM_SelectCounterMode(LPTIM_TypeDef* LPTIMx, FunctionalState NewState)
+    645          {
+    646            /* Check the parameters */
+    647            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    648            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    649          
+    650            if(NewState != DISABLE)
+    651            {
+    652              /* Set the COUNTMODE bit */
+    653              LPTIMx->CFGR |= LPTIM_CFGR_COUNTMODE;
+    654            }
+    655            else
+    656            {
+    657              /* Reset the COUNTMODE bit */
+    658              LPTIMx->CFGR &= ~(LPTIM_CFGR_COUNTMODE);
+    659            }
+    660          }
+    661          
+    662          /**
+    663            * @brief  Enables or disables the Encoder mode.
+    664            * @param  LPTIMx: where x can be 1.
+    665            * @param  NewState: New state of the encoder mode.
+    666            *         This parameter can be: ENABLE or DISABLE.
+    667            * @retval None
+    668            *
+    669            * @note   It is mandatory to disable the peripheral to use this function.
+    670            */
+    671          void LPTIM_SelectEncoderMode(LPTIM_TypeDef* LPTIMx, FunctionalState NewState)
+    672          {
+    673            /* Check the parameters */
+    674            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    675            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    676          
+    677            if(NewState != DISABLE)
+    678            {
+    679              /* Set the ENC bit */
+    680              LPTIMx->CFGR |= LPTIM_CFGR_ENC;
+    681            }
+    682            else
+    683            {
+    684              /* Reset the ENC bit */
+    685              LPTIMx->CFGR &= ~(LPTIM_CFGR_ENC);
+    686            }
+    687          }
+    688          
+    689          /**
+    690            * @brief  Gets the LPTIMx counter value.
+    691            * @param  LPTIMx: where x can be 1.
+    692            * @retval Counter Register value
+    693            */
+    694          uint32_t LPTIM_GetCounterValue(LPTIM_TypeDef* LPTIMx)
+    695          {
+    696            /* Check the parameters */
+    697            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    698            
+    699            /* Get the Counter Register value */
+    700            return LPTIMx->CNT;
+    701          }
+    702          
+    703          /**
+    704            * @brief  Gets the LPTIMx Autoreload value.
+    705            * @param  LPTIMx: where x can be 1.
+    706            * @retval Counter Register value
+    707            */
+    708          uint32_t LPTIM_GetAutoreloadValue(LPTIM_TypeDef* LPTIMx)
+    709          {
+    710            /* Check the parameters */
+    711            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    712            
+    713            /* Get the Counter Register value */
+    714            return LPTIMx->ARR;
+    715          }
+    716          
+    717          /**
+    718            * @brief  Gets the LPTIMx Compare value.
+    719            * @param  LPTIMx: where x can be 1.
+    720            * @retval Counter Register value
+    721            */
+    722          uint32_t LPTIM_GetCompareValue(LPTIM_TypeDef* LPTIMx)
+    723          {
+    724            /* Check the parameters */
+    725            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    726            
+    727            /* Get the Counter Register value */
+    728            return LPTIMx->CMP;
+    729          }
+    730          
+    731          /**
+    732            * @brief  LPTIM Input 1 Remap.
+    733            * @param  LPTIMx: where x can be 1.
+    734            * @param  LPTIM_OPTR :
+    735            * This Parameter can be :
+    736            *    @arg LPTIM_OP_PAD_AF  : Port B5 on AF1 or Port C0 on AF1 for input timer
+    737            *    @arg LPTIM_OP_PAD_PA4 : Input remapped to Port A4
+    738            *    @arg RCC_LPTIM1CLKSOURCE_LSI : Input remapped to Port B9
+    739            *    @arg LPTIM_OP_TIM_DAC : Input coming from timer 6 output (for encoder mode)
+    740            * @retval Counter Register value
+    741            */
+    742          void LPTIM_RemapConfig(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_OPTR)
+    743          {
+    744            /* Check the parameters */
+    745            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    746            
+    747            /* Get the Counter Register value */
+    748            LPTIMx->OR = LPTIM_OPTR;
+    749          }
+    750          
+    751          /**
+    752            * @}
+    753            */
+    754          
+    755          /** @defgroup LPTIM_Group3 Interrupts and flags management functions
+    756            *  @brief    Interrupts and flags management functions
+    757            *
+    758          @verbatim
+    759           ===============================================================================
+    760                            Interrupts and flags management functions
+    761           ===============================================================================
+    762            This section provides functions allowing to configure the LPTIM Interrupts, get
+    763            the status and clear flags bits.
+    764          
+    765            The LPTIM provides 7 Flags and Interrupts sources (2 flags and Interrupt sources
+    766            are available only on LPTIM peripherals equipped with encoder mode interface)
+    767          
+    768            Flags and Interrupts sources:
+    769            =============================
+    770            1. Compare match.
+    771            2. Auto-reload match.
+    772            3. External trigger event.
+    773            4. Autoreloaded register write completed.
+    774            5. Compare register write completed.
+    775            6. Direction change: from up to down [Available only for LPTIM peripheral with
+    776               encoder mode module]
+    777            7. Direction change: from down to up [Available only for LPTIM peripheral with
+    778               encoder mode module]
+    779          
+    780            - To enable a specific interrupt source, use "LPTIM_ITConfig" function.
+    781            - To check if an interrupt was occurred, call "LPTIM_GetITStatus" function and read
+    782              the returned value.
+    783            - To get a flag status, call the "LPTIM_GetFlagStatus" function and read the returned
+    784              value.
+    785            - To clear a flag or an interrupt, use LPTIM_ClearFlag function with the
+    786              corresponding flag (interrupt).
+    787          
+    788          @endverbatim
+    789            * @{
+    790            */
+    791          
+    792          /**
+    793            * @brief  Enables or disables the specified LPTIM interrupts.
+    794            * @param  LPTIMx: where x can be 1.
+    795            * @param  LPTIM_IT: specifies the TIM interrupts sources to be enabled or disabled.
+    796            *         This parameter can be any combination of the following values:
+    797            *            @arg LPTIM_IT_DOWN: Counter direction change up to down Interrupt source
+    798            *            @arg LPTIM_IT_UP: Counter direction change down to up Interrupt source
+    799            *            @arg LPTIM_IT_ARROK: Autoreload register update OK Interrupt source
+    800            *            @arg LPTIM_IT_CMPOK: Compare register update OK Interrupt source
+    801            *            @arg LPTIM_IT_EXTTRIG: External trigger edge event Interrupt source
+    802            *            @arg LPTIM_IT_ARRM: Autoreload match Interrupt source
+    803            *            @arg LPTIM_IT_CMPM: Compare match Interrupt source
+    804            * @note   LPTIM_IT_DOWN is available only for LPTIM1.
+    805            * @note   LPTIM_IT_UP is available only for LPTIM1.
+    806            * @param  NewState: new state of the TIM interrupts.
+    807            *         This parameter can be: ENABLE or DISABLE.
+    808            * @retval None
+    809            *
+    810            * @note   It is mandatory to disable the peripheral to use this function.
+    811            */
+    812          void LPTIM_ITConfig(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_IT, FunctionalState NewState)
+    813           {
+    814            /* Check the parameters */
+    815            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    816            assert_param(IS_LPTIM_IT(LPTIM_IT));
+    817            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    818          
+    819            if(NewState != DISABLE)
+    820            {
+    821              /* Enable the Interrupt sources */
+    822              LPTIMx->IER |= LPTIM_IT;
+    823            }
+    824            else
+    825            {
+    826              /* Disable the Interrupt sources */
+    827              LPTIMx->IER &= ~(LPTIM_IT);
+    828            }
+    829          }
+    830          
+    831          /**
+    832            * @brief  Checks whether the specified LPTIM flag is set or not.
+    833            * @param  LPTIMx: where x can be 1.
+    834            * @param  LPTIM_FLAG: specifies the flag to check.
+    835            *         This parameter can be any combination of the following values:
+    836            *            @arg LPTIM_FLAG_DOWN: Counter direction change up Flag
+    837            *            @arg LPTIM_FLAG_UP: Counter direction change down to up Flag
+    838            *            @arg LPTIM_FLAG_ARROK: Autoreload register update OK Flag
+    839            *            @arg LPTIM_FLAG_CMPOK: Compare register update OK Flag
+    840            *            @arg LPTIM_FLAG_EXTTRIG: External trigger edge event Flag
+    841            *            @arg LPTIM_FLAG_ARRM: Autoreload match Flag
+    842            *            @arg LPTIM_FLAG_CMPM: Compare match Flag
+    843            * @note   LPTIM_Flag_DOWN is generated only for LPTIM1.
+    844            * @note   LPTIM_Flag_UP is generated only for LPTIM1.
+    845            * @param  NewState: new state of the TIM interrupts.
+    846            *         This parameter can be: ENABLE or DISABLE.
+    847            * @retval None
+    848            */
+    849          FlagStatus LPTIM_GetFlagStatus(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_FLAG)
+    850          {
+    851            ITStatus bitstatus = RESET;
+    852          
+    853            /* Check the parameters */
+    854            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    855            assert_param(IS_LPTIM_GET_FLAG(LPTIM_FLAG));
+    856          
+    857            if((LPTIMx->ISR & LPTIM_FLAG) != (RESET))
+    858            {
+    859              bitstatus = SET;
+    860            }
+    861            else
+    862            {
+    863              bitstatus = RESET;
+    864            }
+    865            return bitstatus;
+    866          }
+    867          
+    868          /**
+    869            * @brief  Clears the LPTIMx's pending flag.
+    870            * @param  LPTIMx: where x can be 1.
+    871            * @param  LPTIM_CLEARF: specifies the pending bit to clear.
+    872            *         This parameter can be any combination of the following values:
+    873            *            @arg LPTIM_CLEARF_DOWN: Counter direction change up Clear Flag
+    874            *            @arg LPTIM_CLEARF_UP: Counter direction change down to up Clear Flag
+    875            *            @arg LPTIM_CLEARF_ARROK: Autoreload register update OK Clear Flag
+    876            *            @arg LPTIM_CLEARF_CMPOK: Compare register update OK Clear Flag
+    877            *            @arg LPTIM_CLEARF_EXTTRIG: External trigger edge event Clear Flag
+    878            *            @arg LPTIM_CLEARF_ARRM: Autoreload match Clear Flag
+    879            *            @arg LPTIM_CLEARF_CMPM: Compare match Clear Flag
+    880            * @note   LPTIM_Flag_DOWN is generated only for LPTIM1.
+    881            * @note   LPTIM_Flag_UP is generated only for LPTIM1.
+    882            * @retval None
+    883            */
+    884          void LPTIM_ClearFlag(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_CLEARF)
+    885          {
+    886            /* Check the parameters */
+    887            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    888            assert_param(IS_LPTIM_CLEAR_FLAG(LPTIM_CLEARF));
+    889          
+    890            /* Clear the IT pending Bit */
+    891            LPTIMx->ICR |= LPTIM_CLEARF;
+    892          }
+    893          
+    894          /**
+    895            * @brief  Check whether the specified LPTIM interrupt has occurred or not.
+    896            * @param  LPTIMx: where x can be 1.
+    897            * @param  LPTIM_IT: specifies the LPTIM interrupt source to check.
+    898            *            @arg LPTIM_IT_DOWN: Counter direction change up to down Interrupt source
+    899            *            @arg LPTIM_IT_UP: Counter direction change down to up Interrupt source
+    900            *            @arg LPTIM_IT_ARROK: Autoreload register update OK Interrupt source
+    901            *            @arg LPTIM_IT_CMPOK: Compare register update OK Interrupt source
+    902            *            @arg LPTIM_IT_EXTTRIG: External trigger edge event Interrupt source
+    903            *            @arg LPTIM_IT_ARRM: Autoreload match Interrupt source
+    904            *            @arg LPTIM_IT_CMPM: Compare match Interrupt source
+    905            * @retval The new state of LPTIM_IT (SET or RESET).
+    906            */
+    907          ITStatus LPTIM_GetITStatus(LPTIM_TypeDef* LPTIMx, uint32_t LPTIM_IT)
+    908          {
+    909            ITStatus bitstatus = RESET;
+    910            uint32_t itstatus = 0x0, itenable = 0x0;
+    911          
+    912            /* Check the parameters */
+    913            assert_param(IS_LPTIM_ALL_PERIPH(LPTIMx));
+    914            assert_param(IS_LPTIM_IT(LPTIM_IT));
+    915          
+    916            /* Get the Interrupt Status bit value */
+    917            itstatus = LPTIMx->ISR & LPTIM_IT;
+    918          
+    919            /* Check if the Interrupt is enabled */
+    920            itenable = LPTIMx->IER & LPTIM_IT;
+    921          
+    922            if((itstatus != RESET) && (itenable != RESET))
+    923            {
+    924              bitstatus = SET;
+    925            }
+    926            else
+    927            {
+    928              bitstatus = RESET;
+    929            }
+    930            return bitstatus;
+    931          }
+    932          
+    933          /**
+    934            * @}
+    935            */
+    936          
+    937          /**
+    938            * @}
+    939            */
+    940          #endif /* STM32F410xx */
+    941          
+    942          /**
+    943            * @}
+    944            */
+    945          
+    946          /**
+    947            * @}
+    948            */
+    949          
+    950          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+    951          
+
+
+ 
+
+ 
+
+
+Errors: none
+Warnings: none
